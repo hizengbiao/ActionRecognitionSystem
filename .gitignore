@@ -61,3 +61,8 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
+
+#视频等
+*.avi
+*.gradientdata
+*.mp4
