@@ -24,6 +24,10 @@ public class Start {
 		String videoFile = "data/2.avi";
 
 		VideoCapture capture = new VideoCapture();
+		
+		//		 capture.open(0);//调取电脑的摄像头
+		capture.open(videoFile);//读取本地文件
+
 		if (!capture.isOpened()) {
 			System.out.println("could not load video data...");
 			return;
