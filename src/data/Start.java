@@ -24,7 +24,6 @@ public class Start {
 		String videoFile = "data/2.avi";
 
 		VideoCapture capture = new VideoCapture();
-		capture.open(videoFile);
 		if (!capture.isOpened()) {
 			System.out.println("could not load video data...");
 			return;
