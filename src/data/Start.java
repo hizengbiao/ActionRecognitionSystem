@@ -1,20 +1,25 @@
 package data;
 
+import java.awt.Dimension;
 import java.util.Vector;
 
 import org.opencv.core.Core;
 import org.opencv.core.CvType;
 import org.opencv.core.Mat;
+import org.opencv.core.Point;
 import org.opencv.highgui.Highgui;
 import org.opencv.highgui.VideoCapture;
 import org.opencv.video.Video;
 import org.opencv.imgproc.Imgproc;
 import org.opencv.core.Scalar;
+//import org.opencv.core.Core;
 
 import Jama.Matrix;
 
 public class Start {
 	public static void main(String args[]) {
+		
+		
 		System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
 		String videoFile = "data/1.avi";
 
@@ -32,14 +37,20 @@ public class Start {
 
 		int frame_width = (int) capture.get(3);
 		int frame_height = (int) capture.get(4);
+		
+		ImageGUI gui = new ImageGUI();
+		gui.createWin("OpenCV + Java视频读与播放演示", new Dimension(frame_width,
+				frame_height));
+		
+		
 		double frameCount = capture.get(7);
 //		System.out.println(frameCount);
 		int i = 0;
 		while (true) {
 
 			// System.out.println(i++);
-			if (++i == 3)
-				break;
+			/*if (++i == 3)
+				break;*/
 			// prev=next;
 			/*capture.read(frame);
 			capture.read(frame);
@@ -92,15 +103,27 @@ public class Start {
 
 				}
 				System.out.println(max + "  " + min);
-				double max_border = max * 0.2;
-				double min_border = min * 0.2;
+				double max_border = max * 0.01;
+				double min_border = min * 0.01;
+				
+
+				
+				Vector<Point>  v1= new Vector<Point> (); 
 
 				for (int ii = 0; ii < frame_height; ii++) {
 					for (int jj = 0; jj < frame_width; jj++) {
 						if((result.get(jj, ii)>max_border)||(result.get(jj, ii)<min_border))
-							System.out.println(ii+"  "+jj);
+							
+						v1.addElement(new Point(ii,jj)); 
+						System.out.println(ii+"  "+jj);
 					}
 				}
+				
+				for(int m=0;m<v1.size();m++){
+					 Core.circle(next,v1.get(m),(int) 8,new Scalar(0, 0, 255),2);
+				}
+				gui.imshow(MyVideo.conver2Image(next));
+				gui.repaint();
 
 				// System.out.println(flow.width());
 				// System.out.println(flow.height());
@@ -118,7 +141,6 @@ public class Start {
 		}
 
 	}
-
 	/*
 	 * private static void motionToColor(Mat flow, Mat color) { // TODO
 	 * Auto-generated method stub if (color.empty()) color.create(flow.rows(),

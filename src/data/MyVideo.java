@@ -24,12 +24,12 @@ public class MyVideo {
 		int frame_width = (int) capture.get(3);
 		int frame_height = (int) capture.get(4);
 		ImageGUI gui = new ImageGUI();
-		gui.createWin("OpenCV + JavaÊÓÆµ¶ÁÓë²¥·ÅÑİÊ¾", new Dimension(frame_width,
+		gui.createWin("OpenCV + Javaè§†é¢‘è¯»ä¸æ’­æ”¾æ¼”ç¤º", new Dimension(frame_width,
 				frame_height));
 		Mat frame = new Mat();
 		while (true) {
 			boolean have = capture.read(frame);
-//			Core.flip(frame, frame, 1);// ·­×ªÍ¼Ïñ
+//			Core.flip(frame, frame, 1);// ç¿»è½¬å›¾åƒ
 			if (!have)
 				break;
 			if (!frame.empty()) {
