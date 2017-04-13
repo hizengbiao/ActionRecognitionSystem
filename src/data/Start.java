@@ -21,7 +21,7 @@ public class Start {
 		
 		
 		System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
-		String videoFile = "data/1.avi";
+		String videoFile = "data/2.avi";
 
 		VideoCapture capture = new VideoCapture();
 		capture.open(videoFile);
@@ -52,7 +52,6 @@ public class Start {
 			/*if (++i == 3)
 				break;*/
 			// prev=next;
-			/*capture.read(frame);
 			capture.read(frame);
 			capture.read(frame);
 			capture.read(frame);
@@ -60,7 +59,8 @@ public class Start {
 			capture.read(frame);
 			capture.read(frame);
 			capture.read(frame);
-			capture.read(frame);*/
+			capture.read(frame);
+			capture.read(frame);
 			boolean have = capture.read(frame);
 
 			// cvtColor(frame, next,CV_BGR2GRAY);
@@ -103,8 +103,8 @@ public class Start {
 
 				}
 				System.out.println(max + "  " + min);
-				double max_border = max * 0.01;
-				double min_border = min * 0.01;
+				double max_border = max * 0.5;
+				double min_border = min * 0.5;
 				
 
 				
@@ -114,15 +114,15 @@ public class Start {
 					for (int jj = 0; jj < frame_width; jj++) {
 						if((result.get(jj, ii)>max_border)||(result.get(jj, ii)<min_border))
 							
-						v1.addElement(new Point(ii,jj)); 
+						v1.addElement(new Point(jj,ii)); 
 						System.out.println(ii+"  "+jj);
 					}
 				}
-				
+				Mat paintPoint=next.clone();
 				for(int m=0;m<v1.size();m++){
-					 Core.circle(next,v1.get(m),(int) 8,new Scalar(0, 0, 255),2);
+					 Core.circle(paintPoint,v1.get(m),(int) 1,new Scalar(0, 0, 255),2);
 				}
-				gui.imshow(MyVideo.conver2Image(next));
+				gui.imshow(MyVideo.conver2Image(paintPoint));
 				gui.repaint();
 
 				// System.out.println(flow.width());
@@ -132,7 +132,7 @@ public class Start {
 				// Highgui.imwrite("data/delete/"+i+".jpg", flow);
 
 			}
-			prev = next;
+			prev = next.clone();
 			try {
 				Thread.sleep(100);
 			} catch (InterruptedException e) {
