@@ -79,7 +79,7 @@ public class Start {
 						7, 1.5, 1);
 				// prevImg(y,x)=nextImg(y+flow(y,x)[1]，x+fow(y,x)[0]);
 				Matrix result = new Matrix(frame_width, frame_height);
-				double max = 0, min = 0;
+				double max = 50, min = -50;
 				for (int ii = 0; ii < frame_height; ii++) {
 					for (int jj = 0; jj < frame_width; jj++) {
 						double[] data;
@@ -102,10 +102,13 @@ public class Start {
 					}
 
 				}
-				System.out.println(max + "  " + min);
+//				System.out.println(max + "  " + min);
 				double max_border = max * 0.5;
 				double min_border = min * 0.5;
 				
+				
+				
+				System.out.println("max_border:"+max_border+"  min_border:"+min_border);
 
 				
 				Vector<Point>  v1= new Vector<Point> (); 
@@ -115,10 +118,10 @@ public class Start {
 						if((result.get(jj, ii)>max_border)||(result.get(jj, ii)<min_border))
 							
 						v1.addElement(new Point(jj,ii)); 
-						System.out.println(ii+"  "+jj);
+//						System.out.println(ii+"  "+jj);
 					}
 				}
-				Mat paintPoint=next.clone();
+				Mat paintPoint=frame.clone();
 				for(int m=0;m<v1.size();m++){
 					 Core.circle(paintPoint,v1.get(m),(int) 1,new Scalar(0, 0, 255),2);
 				}
@@ -134,7 +137,7 @@ public class Start {
 			}
 			prev = next.clone();
 			try {
-				Thread.sleep(100);
+				Thread.sleep(1);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
