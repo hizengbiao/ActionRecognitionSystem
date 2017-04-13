@@ -52,6 +52,7 @@ public class Start {
 			/*if (++i == 3)
 				break;*/
 			// prev=next;
+			/*capture.read(frame);
 			capture.read(frame);
 			capture.read(frame);
 			capture.read(frame);
@@ -59,8 +60,7 @@ public class Start {
 			capture.read(frame);
 			capture.read(frame);
 			capture.read(frame);
-			capture.read(frame);
-			capture.read(frame);
+			capture.read(frame);*/
 			boolean have = capture.read(frame);
 
 			// cvtColor(frame, next,CV_BGR2GRAY);
