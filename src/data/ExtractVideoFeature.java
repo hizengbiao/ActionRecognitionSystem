@@ -22,6 +22,7 @@ public class ExtractVideoFeature {
 	double xuandu_max = 50;// 旋度最大值，若为正，则最小为50
 	double xuandu_min = -50;// 旋度最小值
 	double xuandu_fazhi = 0.2;// 旋度阀值
+	int featurePointNumberBorder=5;//特征点数量的阀值
 
 	public ExtractVideoFeature() {
 		capture = new VideoCapture();
@@ -29,8 +30,8 @@ public class ExtractVideoFeature {
 
 	public void exe(String videoFile) {
 
-		 capture.open(videoFile);//读取本地文件
-//		capture.open(0);// 调取电脑的摄像头
+		capture.open(videoFile);// 读取本地文件
+		// capture.open(0);// 调取电脑的摄像头
 
 		if (!capture.isOpened()) {
 			System.out.println("could not load video data...");
@@ -42,6 +43,9 @@ public class ExtractVideoFeature {
 		Mat prev = new Mat();
 		Mat next = new Mat();
 		Mat frame = new Mat();
+
+		int spaceSize = 0;// 时空立方体帧数
+		int start_extract = 0;// 开始提取时空体特征
 		ImageGUI gui = new ImageGUI();
 		gui.createWin("OpenCV + Java视频读与播放演示", new Dimension(frame_width,
 				frame_height));
@@ -73,25 +77,26 @@ public class ExtractVideoFeature {
 							xuandu_min = xuandu;
 					}
 				}
-				
+
 				double max_border = xuandu_max * xuandu_fazhi;
 				double min_border = xuandu_min * xuandu_fazhi;
 
-//				System.out.println("max_border:" + max_border + "  min_border:"
-//						+ min_border);
+				// System.out.println("max_border:" + max_border +
+				// "  min_border:"
+				// + min_border);
 
 				Vector<Point> v1 = new Vector<Point>();
 
 				for (int ii = 0; ii < frame_height; ii++) {
 					for (int jj = 0; jj < frame_width; jj++) {
-						//保存关键点
+						// 保存关键点
 						if ((result.get(jj, ii) > max_border)
 								|| (result.get(jj, ii) < min_border))
 							v1.addElement(new Point(jj, ii));
 						// System.out.println(ii+"  "+jj);
 					}
 				}
-				double meanX = 0;//所有关键点的平均x值
+				double meanX = 0;// 所有关键点的平均x值
 				double meanY = 0;
 				for (int ii = 0; ii < v1.size(); ii++) {
 					meanX += v1.get(ii).x;
@@ -101,10 +106,19 @@ public class ExtractVideoFeature {
 				meanY /= v1.size();
 
 				Mat paintPoint = frame.clone();
-				int scale = 56;
-				Rect fanwei = new Rect((int) (meanX - scale / 2),
-						(int) (meanY - scale / 2), scale, scale);
-				if (v1.size() > 10) {
+				int scale = 56;// 矩形框尺寸
+				int ltx=(int) (meanX - scale / 2);//leftTopX
+				int lty=(int) (meanY - scale / 2);//左上角顶点的Y值
+				if(ltx<0)
+					ltx=0;
+				if(lty<0)
+					lty=0;
+				if((ltx+scale)>frame_width)
+					ltx=frame_width-scale;
+				if((lty+scale)>frame_height)
+					lty=frame_height-scale;
+				Rect fanwei = new Rect(ltx,lty, scale, scale);
+				if (v1.size() > featurePointNumberBorder) {
 					Core.rectangle(paintPoint, fanwei.tl(), fanwei.br(),
 							new Scalar(255, 0, 0), 2);
 					Core.circle(paintPoint, new Point(meanX, meanY), (int) 1,
@@ -118,16 +132,26 @@ public class ExtractVideoFeature {
 				gui.imshow(MyVideo.conver2Image(paintPoint));
 				gui.repaint();
 
-				// System.out.println(flow.width());
-				// System.out.println(flow.height());
-				// Mat motion2color = new Mat();
-				// motionToColor(flow, motion2color);
-				// Highgui.imwrite("data/delete/"+i+".jpg", flow);
+				if (v1.size() > featurePointNumberBorder && spaceSize == 0) {
+					start_extract = 1;
+				}
+				if (start_extract == 1) {
+					//提取HOG特征：
+					
+					
+					
+					spaceSize++;
+					if (spaceSize == 10){
+						start_extract = 0;
+						spaceSize = 0;
+					}
+						
+				}
 
 			}
 			prev = next.clone();
 			try {
-				Thread.sleep(50);
+				Thread.sleep(500);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
