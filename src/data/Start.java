@@ -7,6 +7,7 @@ import org.opencv.core.Core;
 import org.opencv.core.CvType;
 import org.opencv.core.Mat;
 import org.opencv.core.Point;
+import org.opencv.core.Rect;
 import org.opencv.highgui.Highgui;
 import org.opencv.highgui.VideoCapture;
 import org.opencv.video.Video;
@@ -24,7 +25,10 @@ public class Start {
 		String videoFile = "data/2.avi";
 
 		VideoCapture capture = new VideoCapture();
-		capture.open(videoFile);
+		
+//				 capture.open(0);//调取电脑的摄像头
+		capture.open(videoFile);//读取本地文件
+
 		if (!capture.isOpened()) {
 			System.out.println("could not load video data...");
 			return;
@@ -79,7 +83,7 @@ public class Start {
 						7, 1.5, 1);
 				// prevImg(y,x)=nextImg(y+flow(y,x)[1]，x+fow(y,x)[0]);
 				Matrix result = new Matrix(frame_width, frame_height);
-				double max = 0, min = 0;
+				double max = 50, min = -50;
 				for (int ii = 0; ii < frame_height; ii++) {
 					for (int jj = 0; jj < frame_width; jj++) {
 						double[] data;
@@ -102,23 +106,46 @@ public class Start {
 					}
 
 				}
-				System.out.println(max + "  " + min);
+//				System.out.println(max + "  " + min);
 				double max_border = max * 0.5;
 				double min_border = min * 0.5;
 				
+				
+				
+				System.out.println("max_border:"+max_border+"  min_border:"+min_border);
 
 				
-				Vector<Point>  v1= new Vector<Point> (); 
+				Vector<Point>  v1= new Vector<Point> ();
+				
+				
 
 				for (int ii = 0; ii < frame_height; ii++) {
 					for (int jj = 0; jj < frame_width; jj++) {
 						if((result.get(jj, ii)>max_border)||(result.get(jj, ii)<min_border))
 							
 						v1.addElement(new Point(jj,ii)); 
-						System.out.println(ii+"  "+jj);
+//						System.out.println(ii+"  "+jj);
 					}
 				}
-				Mat paintPoint=next.clone();
+				double meanX=0;
+				double meanY=0;
+				for(int ii=0;ii<v1.size();ii++){
+					meanX+=v1.get(ii).x;
+					meanY+=v1.get(ii).y;
+				}
+				meanX/=v1.size();
+				meanY/=v1.size();
+				
+				
+				
+				Mat paintPoint=frame.clone();
+				int scale=56;
+				Rect fanwei=new Rect((int)(meanX-scale/2),(int)(meanY-scale/2),scale,scale);
+				if(v1.size()>10){
+				Core.rectangle(paintPoint, fanwei.tl(), fanwei.br(),  new Scalar(255, 0, 0),2);
+				Core.circle(paintPoint, new Point(meanX,meanY), (int)1, new Scalar(0, 255, 0),2);
+				}
+//				System.out.println(v1.size());
 				for(int m=0;m<v1.size();m++){
 					 Core.circle(paintPoint,v1.get(m),(int) 1,new Scalar(0, 0, 255),2);
 				}
@@ -134,7 +161,7 @@ public class Start {
 			}
 			prev = next.clone();
 			try {
-				Thread.sleep(100);
+				Thread.sleep(1);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
