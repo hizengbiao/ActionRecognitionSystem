@@ -30,7 +30,7 @@ public class ImageGUI extends JComponent {
             g2d.fillRect(0, 0, this.getWidth(), this.getHeight());
         } else {
             g2d.drawImage(image, 0, 0, this.getWidth(), this.getHeight(), null);
-            System.out.println("show frame...");
+//            System.out.println("show frame...");
         }
     }
 
