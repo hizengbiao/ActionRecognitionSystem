@@ -7,6 +7,7 @@ import org.opencv.core.Core;
 import org.opencv.core.CvType;
 import org.opencv.core.Mat;
 import org.opencv.core.Point;
+import org.opencv.core.Rect;
 import org.opencv.highgui.Highgui;
 import org.opencv.highgui.VideoCapture;
 import org.opencv.video.Video;
@@ -25,7 +26,7 @@ public class Start {
 
 		VideoCapture capture = new VideoCapture();
 		
-		//		 capture.open(0);//调取电脑的摄像头
+//				 capture.open(0);//调取电脑的摄像头
 		capture.open(videoFile);//读取本地文件
 
 		if (!capture.isOpened()) {
@@ -114,7 +115,9 @@ public class Start {
 				System.out.println("max_border:"+max_border+"  min_border:"+min_border);
 
 				
-				Vector<Point>  v1= new Vector<Point> (); 
+				Vector<Point>  v1= new Vector<Point> ();
+				
+				
 
 				for (int ii = 0; ii < frame_height; ii++) {
 					for (int jj = 0; jj < frame_width; jj++) {
@@ -124,7 +127,25 @@ public class Start {
 //						System.out.println(ii+"  "+jj);
 					}
 				}
+				double meanX=0;
+				double meanY=0;
+				for(int ii=0;ii<v1.size();ii++){
+					meanX+=v1.get(ii).x;
+					meanY+=v1.get(ii).y;
+				}
+				meanX/=v1.size();
+				meanY/=v1.size();
+				
+				
+				
 				Mat paintPoint=frame.clone();
+				int scale=56;
+				Rect fanwei=new Rect((int)(meanX-scale/2),(int)(meanY-scale/2),scale,scale);
+				if(v1.size()>10){
+				Core.rectangle(paintPoint, fanwei.tl(), fanwei.br(),  new Scalar(255, 0, 0),2);
+				Core.circle(paintPoint, new Point(meanX,meanY), (int)1, new Scalar(0, 255, 0),2);
+				}
+//				System.out.println(v1.size());
 				for(int m=0;m<v1.size();m++){
 					 Core.circle(paintPoint,v1.get(m),(int) 1,new Scalar(0, 0, 255),2);
 				}
