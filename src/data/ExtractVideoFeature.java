@@ -9,6 +9,7 @@ import org.opencv.core.Point;
 import org.opencv.core.Rect;
 import org.opencv.core.Scalar;
 import org.opencv.highgui.VideoCapture;
+import org.opencv.imgproc.Imgproc;
 import org.opencv.video.Video;
 
 import Jama.Matrix;
@@ -25,8 +26,8 @@ public class ExtractVideoFeature {
 	
 	public void exe(String videoFile){
 		
-		capture.open(videoFile);//读取本地文件
-//		capture.open(0);//调取电脑的摄像头
+//		capture.open(videoFile);//读取本地文件
+		capture.open(0);//调取电脑的摄像头
 
 		if (!capture.isOpened()) {
 			System.out.println("could not load video data...");
@@ -45,6 +46,7 @@ public class ExtractVideoFeature {
 		while(true){
 			
 			boolean have = capture.read(frame);
+			Imgproc.cvtColor(frame, next, Imgproc.COLOR_RGB2GRAY);
 			if (!have)
 				break;
 			if (!prev.empty()){
@@ -137,7 +139,7 @@ public class ExtractVideoFeature {
 			}
 			prev = next.clone();
 			try {
-				Thread.sleep(1);
+				Thread.sleep(500);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
