@@ -13,7 +13,6 @@ public class ExtractAllVideos {
 	
 	public void exe() throws IOException{
 		for (Labels c : Labels.values()) {
-			c=Labels.HANDCLAPPING;
             for(int i=1;i<=c.getNumberOfVideos();i++){
             	 String videoAddress=Constants.dataOfVideosAddress+c.getName()+"/"+c.getName()+"_"+i+".avi";
             	 ExtractVideoFeature ext=new ExtractVideoFeature();
