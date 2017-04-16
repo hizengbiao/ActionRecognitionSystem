@@ -44,9 +44,18 @@ public class ExtractVideoFeature {
 
 		capture.open(videoFile);// 读取本地文件
 		// capture.open(0);// 调取电脑的摄像头
+		File f = new File("add.txt");
+		if (!f.exists()) {  
+//			System.out.print("文件不存在");  
+            f.createNewFile();// 不存在则创建
+        }  
+		FileWriter fw=new FileWriter(f);
+		PrintWriter out=new PrintWriter(new BufferedWriter(fw));
+		
 
 		if (!capture.isOpened()) {
 			System.out.println("could not load video data...");
+			out.close();
 			return;
 		}
 		frame_width = (int) capture.get(3);
@@ -158,27 +167,13 @@ public class ExtractVideoFeature {
 					desc.compute(src, hogVector);
 					float[] hogOut = hogVector.toArray();
 //					System.out.println(hogOut.length);//获取向量维数
-					try {
-						
-						File f = new File("add.txt"); 
-						if (!f.exists()) {  
-							System.out.print("文件不存在");  
-			                f.createNewFile();// 不存在则创建
-			            }  
-						FileWriter fw=new FileWriter(f,true);
-						PrintWriter out=new PrintWriter(new BufferedWriter(fw));
-						
+					
 //						BufferedWriter output = new BufferedWriter(new FileWriter(f,true));
 //						FileOutputStream out = new FileOutputStream(f);
 						for (int i = 0; i < hogOut.length; i++) {
-							out.print(hogOut[i] + "  ");
+							out.print(hogOut[i] + "\t");
 						}
 						out.println();
-						 out.close();
-					} catch (FileNotFoundException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
 
 					spaceSize++;
 					if (spaceSize == 10) {
@@ -191,10 +186,11 @@ public class ExtractVideoFeature {
 			}
 			prev = next.clone();
 			try {
-				Thread.sleep(5);
+				Thread.sleep(0);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
 		}
+		 out.close();
 	}
 }
