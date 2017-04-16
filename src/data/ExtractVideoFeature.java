@@ -1,5 +1,8 @@
 package data;
 
+import har.Constants;
+import har.Labels;
+
 import java.awt.Dimension;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -40,13 +43,20 @@ public class ExtractVideoFeature {
 		capture = new VideoCapture();
 	}
 
-	public void exe(String videoFile) throws IOException {
+	public void exe(String videoFile,Labels c,int num) throws IOException {
 
 		capture.open(videoFile);// 读取本地文件
 		// capture.open(0);// 调取电脑的摄像头
-		File f = new File("add.txt");
+		
+		String hogDirAddress=Constants.VideoHogAddress+c.getName()+"/";
+		String hogFileAddress=hogDirAddress+c.getName()+"_"+num+"hog.txt";
+		File f1 = new File(hogDirAddress);
+		File f = new File(hogFileAddress);//保存路径
+		if (!f1.exists()) {
+			f1.mkdirs();
+        }  
 		if (!f.exists()) {  
-//			System.out.print("文件不存在");  
+//			System.out.print("文件不存在");
             f.createNewFile();// 不存在则创建
         }  
 		FileWriter fw=new FileWriter(f);
@@ -192,5 +202,7 @@ public class ExtractVideoFeature {
 			}
 		}
 		 out.close();
+		 gui.setVisible(false);
+		 gui.getUi().setVisible(false);
 	}
 }

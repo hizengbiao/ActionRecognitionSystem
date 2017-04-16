@@ -17,8 +17,13 @@ public class ImageGUI extends JComponent {
      */
     private static final long serialVersionUID = 1L;
     private BufferedImage image;
+    private JDialog ui;
 
-    public ImageGUI() {
+    public JDialog getUi() {
+		return ui;
+	}
+
+	public ImageGUI() {
 
     }
 
@@ -35,7 +40,7 @@ public class ImageGUI extends JComponent {
     }
 
     public void createWin(String title) {
-        JDialog ui = new JDialog();
+       ui = new JDialog();
         ui.setTitle(title);
         ui.getContentPane().setLayout(new BorderLayout());
         ui.getContentPane().add(this, BorderLayout.CENTER);
@@ -44,7 +49,7 @@ public class ImageGUI extends JComponent {
     }
 
     public void createWin(String title, Dimension size) {
-        JDialog ui = new JDialog();
+        ui = new JDialog();
         ui.setTitle(title);
         ui.getContentPane().setLayout(new BorderLayout());
         ui.getContentPane().add(this, BorderLayout.CENTER);
