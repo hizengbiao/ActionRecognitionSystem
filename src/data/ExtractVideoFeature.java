@@ -7,6 +7,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Vector;
 import org.opencv.objdetect.HOGDescriptor;
 
@@ -14,6 +15,7 @@ import org.opencv.core.Core;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfFloat;
 import org.opencv.core.Point;
+import org.opencv.core.Range;
 import org.opencv.core.Rect;
 import org.opencv.core.Scalar;
 import org.opencv.core.Size;
@@ -150,27 +152,29 @@ public class ExtractVideoFeature {
 					HOGDescriptor desc = new HOGDescriptor(new Size(scale,
 							scale), new Size(20, 20), new Size(5, 5), new Size(
 							10, 10), 5);
-					// System.out.println(desc.getDescriptorSize());//获取向量维数
+//					 System.out.println("维数"+desc.getDescriptorSize());//获取向量维数
 					MatOfFloat hogVector = new MatOfFloat();
-					desc.compute(next, hogVector);
+					Mat src=new Mat(next,new Range(lty,lty+scale),new Range(ltx,ltx+scale));
+					desc.compute(src, hogVector);
 					float[] hogOut = hogVector.toArray();
-
+//					System.out.println(hogOut.length);//获取向量维数
 					try {
+						
 						File f = new File("add.txt"); 
 						if (!f.exists()) {  
 							System.out.print("文件不存在");  
 			                f.createNewFile();// 不存在则创建
 			            }  
-						BufferedWriter output = new BufferedWriter(new FileWriter(f));
+						FileWriter fw=new FileWriter(f,true);
+						PrintWriter out=new PrintWriter(new BufferedWriter(fw));
+						
+//						BufferedWriter output = new BufferedWriter(new FileWriter(f,true));
 //						FileOutputStream out = new FileOutputStream(f);
 						for (int i = 0; i < hogOut.length; i++) {
-//							 output.write(hogOut[i] + "  ");
-							System.out.println(hogOut.length);
-							 output.append(hogOut[i] + "  ");
+							out.print(hogOut[i] + "  ");
 						}
-//						output.write("hahaha\nhahaha");
-						output.append("hahaha\nhahaha");
-						 output.close();
+						out.println();
+						 out.close();
 					} catch (FileNotFoundException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
