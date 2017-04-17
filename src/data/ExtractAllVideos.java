@@ -20,17 +20,26 @@ public class ExtractAllVideos {
 		FileWriter fw=new FileWriter(f);
 		PrintWriter outAll=new PrintWriter(new BufferedWriter(fw));
 		
+		
+		
+		File f2 = MyTools.mkdir(MyTrain.data_hog_Address,MyTrain.data_hog_label);//保存路径
+		FileWriter fw2=new FileWriter(f2);
+		PrintWriter outAll_label=new PrintWriter(new BufferedWriter(fw2));
+		
 		for (Labels c : Labels.values()) {
-            for(int i=1;i<=c.getNumberOfVideos();i++){
+		/*for(int y=0;y<1;y++){
+			Labels c=Labels.BOXING;*/
+			for(int i=1;i<=1;i++){
+//            for(int i=1;i<=c.getNumberOfVideos();i++){
             	 String videoAddress=Constants.dataOfVideosAddress+c.getName()+"/"+c.getName()+"_"+i+".avi";
             	 ExtractVideoFeature ext=new ExtractVideoFeature();
-         		ext.exe(videoAddress,c,i,outAll);
+         		ext.exe(videoAddress,c,i,outAll,outAll_label);
             }
            
         }
 		
 		outAll.close();
-		
+		outAll_label.close();
 	}
 
 }

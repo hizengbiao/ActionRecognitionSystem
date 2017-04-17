@@ -43,7 +43,7 @@ public class ExtractVideoFeature {
 		capture = new VideoCapture();
 	}
 
-	public void exe(String videoFile,Labels c,int num,PrintWriter outAll) throws IOException {
+	public void exe(String videoFile,Labels c,int num,PrintWriter outAll,PrintWriter outAll_label) throws IOException {
 
 		capture.open(videoFile);// 读取本地文件
 		// capture.open(0);// 调取电脑的摄像头
@@ -200,9 +200,13 @@ public class ExtractVideoFeature {
 						for (int i = 0; i < hogOut1.length; i++) {
 							out.print(hogOut1[i] + "\t");
 							outAll.print(hogOut1[i] + "\t");
+							if(i==0)
+							outAll_label.print(c.ordinal());
+//							outAll_label.print("k");
 						}
 						out.println();
 						outAll.println();
+						outAll_label.println();
 						
 						start_extract = 0;
 						spaceSize = 0;
