@@ -16,13 +16,13 @@ public class ExtractAllVideos {
 	}
 	
 	public void exe() throws IOException{
-		File f = MyTools.mkdir(MyTrain.data_hog_Address,MyTrain.data_hog_name);//保存路径
+		File f = MyTools.mkdir(MySVM.data_hog_Address,MySVM.data_hog_name);//保存路径
 		FileWriter fw=new FileWriter(f);
 		PrintWriter outAll=new PrintWriter(new BufferedWriter(fw));
 		
 		
 		
-		File f2 = MyTools.mkdir(MyTrain.data_hog_Address,MyTrain.data_hog_label);//保存路径
+		File f2 = MyTools.mkdir(MySVM.data_hog_Address,MySVM.data_hog_label);//保存路径
 		FileWriter fw2=new FileWriter(f2);
 		PrintWriter outAll_label=new PrintWriter(new BufferedWriter(fw2));
 		

@@ -15,19 +15,24 @@ import har.Constants;
 import org.opencv.core.CvType;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfFloat;
+import org.opencv.ml.CvSVM;
+import org.opencv.ml.CvSVMParams;
 
 import Jama.Matrix;
 
-public class MyTrain {
+public class MySVM {
 	
 //	public static Mat data_mat;
-	public static Mat data_mat;
-	public static Mat label_mat;
+	private static Mat data_mat;
+	private static Mat label_mat;
+	private static CvSVM clasificador;
 	public static String data_hog_Address=Constants.VideoHogAddress;
 	public static String data_hog_name="data_mat_hog.txt";
 	public static String data_hog_label="data_mat_hog_label.txt";
-
-	public MyTrain() {
+	public static String svm_modelAddress=Constants.dataAddress;
+	public static String svm_modelName="svm_model.xml";
+	
+	public MySVM() {
 		// TODO Auto-generated constructor stub
 	}
 	public static void loadTrainData() throws NumberFormatException, IOException{
@@ -105,7 +110,7 @@ public class MyTrain {
 			System.out.println("Mat is uninitialize!");
 			return;
 		}
-		File f11 = MyTools.mkdir(MyTrain.data_hog_Address,"data_mat_hog_duplicate.txt");//保存路径
+		File f11 = MyTools.mkdir(MySVM.data_hog_Address,"data_mat_hog_duplicate.txt");//保存路径
 		FileWriter fw11=new FileWriter(f11);
 		PrintWriter out3=new PrintWriter(new BufferedWriter(fw11));
 //		System.out.println("data_mat.rows():"+data_mat.rows()+"  data_mat.cols():"+data_mat.cols());
@@ -132,7 +137,7 @@ public class MyTrain {
 			System.out.println("labelMat is uninitialize!");
 			return;
 		}
-		File f22 = MyTools.mkdir(MyTrain.data_hog_Address,"data_hog_label.txt");//保存路径
+		File f22 = MyTools.mkdir(MySVM.data_hog_Address,"data_hog_label.txt");//保存路径
 		FileWriter fw22=new FileWriter(f22);
 		PrintWriter out22=new PrintWriter(new BufferedWriter(fw22));
 //		System.out.println("data_mat.rows():"+data_mat.rows()+"  data_mat.cols():"+data_mat.cols());
@@ -154,8 +159,54 @@ public class MyTrain {
 		out22.close();
 		
 	}
-	public void exe(){
-//		data_mat.
+	
+	
+	public static void train(){
+		
+		CvSVMParams params = new CvSVMParams();
+        params.set_kernel_type(CvSVM.LINEAR);
+        clasificador = new CvSVM(data_mat, label_mat, new Mat(), new Mat(), params);
+        MyTools.mkdir(svm_modelAddress, svm_modelName);
+        clasificador.save(svm_modelAddress+svm_modelName);
+		
+		
+		
+//		CvSVM svm = new CvSVM();
+//	    CvSVMParams param;    
+//	    CvTermCriteria criteria;      
+//	    criteria = new cvTermCriteria( CV_TERMCRIT_EPS, 1000, FLT_EPSILON );      
+//	    param = new CvSVMParams( CvSVM.C_SVC, CvSVM.RBF, 10.0, 0.09, 1.0, 10.0, 0.5, 1.0, null, criteria );
+//	    
+////	    SVM种类：CvSVM::C_SVC     
+////	    Kernel的种类：CvSVM::RBF     
+////	    degree：10.0（此次不使用）     
+////	    gamma：8.0     
+////	    coef0：1.0（此次不使用）     
+////	    C：10.0     
+////	    nu：0.5（此次不使用）     
+////	    p：0.1（此次不使用）     
+////	    然后对训练数据正规化处理，并放在CvMat型的数组里。
+//	    //SVM学习
+//		svm.train(data_mat, label_mat, new Mat(), new Mat(), param);
+//	    //利用训练数据和确定的学习参数,进行SVM学习
+//	    svm.save( "E:/apple/SVM_DATA.xml" );
+	    
+	    
+	}
+	
+	public static void predict(String viAdr){
+		if(clasificador==null){
+			clasificador=new CvSVM();
+			System.out.println("load classificator...");
+			clasificador.load(svm_modelAddress+svm_modelName);
+		}			
+		
+		Mat features =ExtractVideoFeature.extract(viAdr);
+		
+		for(int i=0;i<features.rows();i++){
+			float result=clasificador.predict(features.row(i));
+			System.out.println(result);
+		}
 	}
 
 }
