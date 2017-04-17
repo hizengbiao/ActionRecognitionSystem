@@ -198,6 +198,12 @@ public class MySVM {
 		if(clasificador==null){
 			clasificador=new CvSVM();
 			System.out.println("load classificator...");
+			
+			File f = new File(svm_modelAddress+svm_modelName);//svm路径
+			if (!f.exists()) {
+				System.out.println("classificator doesn't exist!...");
+				return;
+	        }
 			clasificador.load(svm_modelAddress+svm_modelName);
 		}			
 		
