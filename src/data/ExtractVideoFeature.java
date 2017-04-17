@@ -43,14 +43,14 @@ public class ExtractVideoFeature {
 		capture = new VideoCapture();
 	}
 
-	public void exe(String videoFile,Labels c,int num) throws IOException {
+	public void exe(String videoFile,Labels c,int num,PrintWriter outAll) throws IOException {
 
 		capture.open(videoFile);// 读取本地文件
 		// capture.open(0);// 调取电脑的摄像头
 		
 		String hogDirAddress=Constants.VideoHogAddress+c.getName()+"/";
-		String hogFileAddress=hogDirAddress+c.getName()+"_"+num+"hog.txt";
-		File f1 = new File(hogDirAddress);
+		String hogFileAddress=c.getName()+"_"+num+"hog.txt";
+		/*File f1 = new File(hogDirAddress);
 		File f = new File(hogFileAddress);//保存路径
 		if (!f1.exists()) {
 			f1.mkdirs();
@@ -58,7 +58,8 @@ public class ExtractVideoFeature {
 		if (!f.exists()) {  
 //			System.out.print("文件不存在");
             f.createNewFile();// 不存在则创建
-        }  
+        }  */
+		File f=MyTools.mkdir(hogDirAddress,hogFileAddress);
 		FileWriter fw=new FileWriter(f);
 		PrintWriter out=new PrintWriter(new BufferedWriter(fw));
 		
@@ -74,6 +75,7 @@ public class ExtractVideoFeature {
 		Mat prev = new Mat();
 		Mat next = new Mat();
 		Mat frame = new Mat();
+		MatOfFloat TenFramesHog= new MatOfFloat();//存储10帧图像的hog
 
 		int spaceSize = 0;// 时空立方体帧数
 		int start_extract = 0;// 开始提取时空体特征
@@ -162,9 +164,11 @@ public class ExtractVideoFeature {
 				}
 				gui.imshow(MyVideo.conver2Image(paintPoint));
 				gui.repaint();
-
+				
+				
 				if (v1.size() > featurePointNumberBorder && spaceSize == 0) {
 					start_extract = 1;
+					TenFramesHog = new MatOfFloat();
 				}
 				if (start_extract == 1) {
 					// 提取HOG特征：
@@ -175,18 +179,31 @@ public class ExtractVideoFeature {
 					MatOfFloat hogVector = new MatOfFloat();
 					Mat src=new Mat(next,new Range(lty,lty+scale),new Range(ltx,ltx+scale));
 					desc.compute(src, hogVector);
-					float[] hogOut = hogVector.toArray();
+//					System.out.println("size："+hogVector.size()+"   rows:"+hogVector.rows()+"  cols:"+hogVector.cols()+"  demions:"+hogVector.dims());
+					
+					TenFramesHog.push_back(hogVector);
+//					float[] hogOut = hogVector.toArray();
 //					System.out.println(hogOut.length);//获取向量维数
 					
 //						BufferedWriter output = new BufferedWriter(new FileWriter(f,true));
 //						FileOutputStream out = new FileOutputStream(f);
-						for (int i = 0; i < hogOut.length; i++) {
+						/*for (int i = 0; i < hogOut.length; i++) {
 							out.print(hogOut[i] + "\t");
 						}
-						out.println();
+						out.println();*/
 
 					spaceSize++;
 					if (spaceSize == 10) {
+						
+						float[] hogOut1 = TenFramesHog.toArray();
+//						System.out.println(hogOut1.length);//获取向量维数
+						for (int i = 0; i < hogOut1.length; i++) {
+							out.print(hogOut1[i] + "\t");
+							outAll.print(hogOut1[i] + "\t");
+						}
+						out.println();
+						outAll.println();
+						
 						start_extract = 0;
 						spaceSize = 0;
 					}
