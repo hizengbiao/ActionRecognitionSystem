@@ -125,8 +125,8 @@ public class MainWindow  extends JFrame implements ActionListener{
 		}
 		else if(e.getSource() == Predict){
 //			预测：
-			Labels c=Labels.HANDWAVING;
-			int i=12;
+			Labels c=Labels.BOXING;
+			int i=72;
 			String videoAddress=Constants.dataOfVideosAddress+c.getName()+"/"+c.getName()+"_"+i+".avi";
 			MySVM.predict(videoAddress,predictVideo);
 		}

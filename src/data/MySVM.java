@@ -210,10 +210,51 @@ public class MySVM {
 		
 		Mat features =ExtractVideoFeature.extract(viAdr,predictVideo);
 		
+		int result[]=new int[features.rows()];
 		for(int i=0;i<features.rows();i++){
-			float result=clasificador.predict(features.row(i));
-			System.out.println(result+"   "+Labels.getNameById((int)result));
+			result[i]=(int)clasificador.predict(features.row(i));
+//			System.out.println(result[i]+"   "+Labels.getNameById(result[i]));
 		}
+		System.out.println("count:");
+		int nt[][]=chooseOne(result);
+		for(int q=0;q<6;q++){
+			System.out.println(nt[q][0]+"   "+Labels.getNameById(nt[q][0])+"   次数："+nt[q][1]);
+		}
+		for(int a=0;a<2;a++){
+			System.out.println("视频为"+Labels.getNameById(nt[a][0])+"的概率为："+(nt[a][1]/(float)nt[6][1])+"%");
+		}
+		
+	}
+	
+	public static int [][] chooseOne(int []r){
+		int [][]NoTimes=new int[7][2];
+		//6是视频各类数量，第一个列向量是视频各类id，第二个是特征符合的数量
+		//第7行是总数
+		for(int w=0;w<7;w++){
+			NoTimes[w][0]=w;
+			NoTimes[w][1]=0;
+		}
+		for(int u=0;u<r.length;u++){
+			NoTimes[r[u]][1]++;
+			NoTimes[6][1]++;
+		}
+		
+		//排序：
+		for(int i=0;i<6-1;i++){
+			for(int j=0;j<6-1-i;j++){
+				if(NoTimes[j][1]<NoTimes[j+1][1]){
+					int tem[]=new int[2];
+					tem[0]=NoTimes[j][0];
+					tem[1]=NoTimes[j][1];
+					NoTimes[j][0]=NoTimes[j+1][0];
+					NoTimes[j][1]=NoTimes[j+1][1];
+					NoTimes[j+1][0]=tem[0];
+					NoTimes[j+1][1]=tem[1];
+				}
+			}
+		}
+		
+		return NoTimes;
 	}
 
 }
