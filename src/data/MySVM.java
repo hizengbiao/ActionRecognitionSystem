@@ -11,6 +11,7 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 
 import har.Constants;
+import har.Labels;
 
 import org.opencv.core.CvType;
 import org.opencv.core.Mat;
@@ -211,7 +212,7 @@ public class MySVM {
 		
 		for(int i=0;i<features.rows();i++){
 			float result=clasificador.predict(features.row(i));
-			System.out.println(result);
+			System.out.println(result+"   "+Labels.getNameById((int)result));
 		}
 	}
 

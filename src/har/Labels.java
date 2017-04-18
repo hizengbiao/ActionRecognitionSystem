@@ -15,6 +15,11 @@ public enum Labels {
         this.address = address;
         this.numberOfVideos = numberOfVideos;
     }
+    
+    public static String getNameById(int id){
+    	Labels []c=Labels.values();
+    	 return c[id].getName();
+    }
 
     public String getName() {
         return this.name;
