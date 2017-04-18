@@ -15,7 +15,7 @@ public class ExtractAllVideos {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public void exe() throws IOException{
+	public void exe(ImageGUI VideoShow) throws IOException{
 		File f = MyTools.mkdir(MySVM.data_hog_Address,MySVM.data_hog_name);//保存路径
 		FileWriter fw=new FileWriter(f);
 		PrintWriter outAll=new PrintWriter(new BufferedWriter(fw));
@@ -33,7 +33,7 @@ public class ExtractAllVideos {
 //            for(int i=1;i<=c.getNumberOfVideos();i++){
             	 String videoAddress=Constants.dataOfVideosAddress+c.getName()+"/"+c.getName()+"_"+i+".avi";
             	 ExtractVideoFeature ext=new ExtractVideoFeature();
-         		ext.exe(videoAddress,c,i,outAll,outAll_label);
+         		ext.exe(videoAddress,c,i,outAll,outAll_label,VideoShow);
             }
            
         }

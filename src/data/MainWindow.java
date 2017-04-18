@@ -3,6 +3,7 @@ package data;
 import har.Constants;
 import har.Labels;
 
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
@@ -13,6 +14,7 @@ import java.io.IOException;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -23,6 +25,9 @@ public class MainWindow  extends JFrame implements ActionListener{
 	private JButton Extract = new JButton("提取特征"); // 提取特征按钮
 	private JButton Train = new JButton("训练"); // 按钮
 	private JButton Predict = new JButton("预测"); // 按钮
+	
+	ImageGUI trainVideo=new ImageGUI();
+	ImageGUI predictVideo=new ImageGUI();
 
 	public MainWindow() {
 		// TODO Auto-generated constructor stub
@@ -66,6 +71,16 @@ public class MainWindow  extends JFrame implements ActionListener{
 		this.add(Predict);
 		Predict.addActionListener(this);
 		
+		trainVideo.setBounds(50, 150, 330, 240);
+		/*trainVideo.createWin("OpenCV + Java视频读与播放演示", new Dimension(300,
+				220));*/
+		trainVideo.setMainWin(this);
+		this.add(trainVideo);
+		
+		predictVideo.setBounds(300, 250, 330, 240);
+		predictVideo.setMainWin(this);
+		this.add(predictVideo);
+		
 		
 		
 		setVisible(true);
@@ -87,7 +102,7 @@ public class MainWindow  extends JFrame implements ActionListener{
 			//提取所有视频特征：
 			ExtractAllVideos extA=new ExtractAllVideos();
 			try {
-				extA.exe();
+				extA.exe(trainVideo);
 			} catch (IOException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
@@ -113,7 +128,7 @@ public class MainWindow  extends JFrame implements ActionListener{
 			Labels c=Labels.HANDWAVING;
 			int i=12;
 			String videoAddress=Constants.dataOfVideosAddress+c.getName()+"/"+c.getName()+"_"+i+".avi";
-			MySVM.predict(videoAddress);
+			MySVM.predict(videoAddress,predictVideo);
 		}
 	}
 

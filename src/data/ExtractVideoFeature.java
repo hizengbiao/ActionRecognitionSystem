@@ -44,7 +44,7 @@ public class ExtractVideoFeature {
 		
 	}
 
-	public void exe(String videoFile,Labels c,int num,PrintWriter outAll,PrintWriter outAll_label) throws IOException {
+	public void exe(String videoFile,Labels c,int num,PrintWriter outAll,PrintWriter outAll_label,ImageGUI gui) throws IOException {
 		VideoCapture capture= new VideoCapture();
 		capture.open(videoFile);// 读取本地文件
 		// capture.open(0);// 调取电脑的摄像头
@@ -80,9 +80,9 @@ public class ExtractVideoFeature {
 
 		int spaceSize = 0;// 时空立方体帧数
 		int start_extract = 0;// 开始提取时空体特征
-		ImageGUI gui = new ImageGUI();
-		gui.createWin("OpenCV + Java视频读与播放演示", new Dimension(frame_width,
-				frame_height));
+//		ImageGUI gui = new ImageGUI();
+		/*gui.createWin("OpenCV + Java视频读与播放演示", new Dimension(frame_width,
+				frame_height));*/
 
 		while (true) {
 
@@ -224,11 +224,11 @@ public class ExtractVideoFeature {
 			}
 		}
 		 out.close();
-//		 gui.setVisible(false);
+		 gui.setVisible(false);
 //		 gui.getUi().setVisible(false);
 	}
 
-	public static Mat extract(String videoFile) {
+	public static Mat extract(String videoFile,ImageGUI gui) {
 		// TODO Auto-generated method stub
 		VideoCapture capture= new VideoCapture();
 		capture.open(videoFile);// 读取本地文件
@@ -332,8 +332,8 @@ public class ExtractVideoFeature {
 					Core.circle(paintPoint, v1.get(m), (int) 1, new Scalar(0,
 							0, 255), 2);
 				}
-//				gui.imshow(MyVideo.conver2Image(paintPoint));
-//				gui.repaint();
+				gui.imshow(MyVideo.conver2Image(paintPoint));
+				gui.repaint();
 				
 				
 				if (v1.size() > featurePointNumberBorder && spaceSize == 0) {

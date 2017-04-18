@@ -195,7 +195,7 @@ public class MySVM {
 	    
 	}
 	
-	public static void predict(String viAdr){
+	public static void predict(String viAdr,ImageGUI predictVideo){
 		if(clasificador==null){
 			clasificador=new CvSVM();
 			System.out.println("load classificator...");
@@ -206,9 +206,9 @@ public class MySVM {
 				return;
 	        }
 			clasificador.load(svm_modelAddress+svm_modelName);
-		}			
+		}
 		
-		Mat features =ExtractVideoFeature.extract(viAdr);
+		Mat features =ExtractVideoFeature.extract(viAdr,predictVideo);
 		
 		for(int i=0;i<features.rows();i++){
 			float result=clasificador.predict(features.row(i));
