@@ -42,9 +42,9 @@ public class ImageGUI extends JComponent {
         } else {
             g2d.drawImage(image, 0, 0, this.getWidth(), this.getHeight(), null);
 //            System.out.println("show frame...");
-            mainWin.invalidate();
+           /* mainWin.invalidate();
             mainWin.repaint();
-            mainWin.setVisible(true);
+            mainWin.setVisible(true);*/
         }
     }
 

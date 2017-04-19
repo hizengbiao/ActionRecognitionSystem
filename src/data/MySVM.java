@@ -230,7 +230,7 @@ public class MySVM {
 			System.out.println(nt[q][0]+"   "+Labels.getNameById(nt[q][0])+"   次数："+nt[q][1]);
 		}
 		for(int a=0;a<2;a++){
-			System.out.println("视频为"+Labels.getNameById(nt[a][0])+"的概率为："+(nt[a][1]/(float)nt[6][1])+"%");
+			System.out.println("视频为"+Labels.getNameById(nt[a][0])+"的概率为："+(nt[a][1]/(float)nt[6][1]*100)+"%");
 		}
 		
 	}
