@@ -111,9 +111,12 @@ public class MainWindow  extends JFrame implements ActionListener{
 		} else if (e.getSource() == Train) {
 //			训练：
 			try {
-				MySVM.loadTrainData();
+				if(MySVM.loadTrainData())
 //				MySVM.saveTrainDataTest();
+//				System.out.println(MySVM.loadTrainData());
 				MySVM.train();
+				else
+					System.out.println("训练数据加载失败！");
 			} catch (NumberFormatException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
@@ -126,7 +129,9 @@ public class MainWindow  extends JFrame implements ActionListener{
 		else if(e.getSource() == Predict){
 //			预测：
 			Labels c=Labels.BOXING;
-			int i=72;
+//			int i=69;
+//			int i=72;
+			int i=29;
 			String videoAddress=Constants.dataOfVideosAddress+c.getName()+"/"+c.getName()+"_"+i+".avi";
 			MySVM.predict(videoAddress,predictVideo);
 		}

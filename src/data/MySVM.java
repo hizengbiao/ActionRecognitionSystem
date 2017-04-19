@@ -36,12 +36,14 @@ public class MySVM {
 	public MySVM() {
 		// TODO Auto-generated constructor stub
 	}
-	public static void loadTrainData() throws NumberFormatException, IOException{
+	public static boolean loadTrainData() throws NumberFormatException, IOException{
 		
+		int dataLines1=0;
+		int dataLines2=0;
 		File f = new File(data_hog_Address+data_hog_name);//读取路径
 		if (!f.exists()) {
 			System.out.println("hog数据不存在！");
-			return;
+			return false;
         }
 		data_mat=new Mat();
 		BufferedReader in = new BufferedReader(new InputStreamReader(
@@ -49,7 +51,9 @@ public class MySVM {
         String line = null;
         int cols=0;
         int k=0;
-        while ((line = in.readLine()) != null) {        	
+        
+        while ((line = in.readLine()) != null) {
+        	dataLines1++;
             String[] words = line.split("\t");
             if(k==0)
             	cols=words.length;
@@ -78,14 +82,15 @@ public class MySVM {
 		File f2 = new File(data_hog_Address+data_hog_label);//读取label路径
 		if (!f2.exists()) {
 			System.out.println("label数据不存在！");
-			return;
+			return false;
         }		
 		label_mat=new Mat();		
 		BufferedReader in2 = new BufferedReader(new InputStreamReader(
                 new FileInputStream(data_hog_Address+data_hog_label)));
         String line2 = null;
         int k2=0;
-        while ((line2 = in2.readLine()) != null) {        	
+        while ((line2 = in2.readLine()) != null) {
+        	dataLines2++;
             String[] words = line2.split("\t");
             Mat aRow2=new Mat(1,words.length,CvType.CV_32FC1);
 //            float[]values=new float[words.length];
@@ -102,7 +107,11 @@ public class MySVM {
             label_mat.push_back(aRow2);
         }
         in2.close();
-        
+
+//		System.out.println(dataLines1+"  "+dataLines2);
+        if(dataLines1==dataLines2&&dataLines1!=0)
+        return true;
+        return false;
 	}
 	
 	public static void saveTrainDataTest() throws IOException{
