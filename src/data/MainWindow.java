@@ -74,13 +74,13 @@ public class MainWindow  extends JFrame implements ActionListener{
 		this.add(Predict);
 		Predict.addActionListener(this);
 		
-		trainVideo.setBounds(50, 150, 330, 240);
+		trainVideo.setBounds(20, 120, 300, 200);
 		/*trainVideo.createWin("OpenCV + Java视频读与播放演示", new Dimension(300,
 				220));*/
 		trainVideo.setMainWin(this);
 		this.add(trainVideo);
 		
-		predictVideo.setBounds(300, 250, 330, 240);
+		predictVideo.setBounds(330, 330, 300, 200);
 		predictVideo.setMainWin(this);
 		this.add(predictVideo);
 		
