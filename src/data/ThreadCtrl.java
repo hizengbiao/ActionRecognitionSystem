@@ -12,21 +12,22 @@ public class ThreadCtrl  implements Runnable {
 	String cmd=null;
 	public static boolean isRunning=false;//线程是否在启动中
 	
-	ImageGUI trainVideo;
-	ImageGUI predictVideo;
+	ImageGUI videoGUI;
+//	ImageGUI predictVideo;
 
 	public ThreadCtrl(String command) {
 		// TODO Auto-generated constructor stub
 		cmd=command;
 	}
 	
-	public void setGUI(ImageGUI v,int no){
-		if(no==1){
+	public void setGUI(ImageGUI v){
+		videoGUI=v;
+		/*if(no==1){
 			trainVideo=v;
 		}
 		else if(no==2){
 			predictVideo=v;
-		}
+		}*/
 	}
 
 	@Override
@@ -43,7 +44,7 @@ public class ThreadCtrl  implements Runnable {
 			//提取所有视频特征：
 			ExtractAllVideos extA=new ExtractAllVideos();
 			try {
-				extA.exe(trainVideo);
+				extA.exe(videoGUI);
 			} catch (IOException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
@@ -84,7 +85,7 @@ public class ThreadCtrl  implements Runnable {
 	        jfc.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES );  
 	        jfc.showDialog(new JLabel(), "选择");
 	        File file=jfc.getSelectedFile();
-	        MySVM.predict(file.toString(),predictVideo);
+	        MySVM.predict(file.toString(),videoGUI);
 	        isRunning=false;
 		}
 	}

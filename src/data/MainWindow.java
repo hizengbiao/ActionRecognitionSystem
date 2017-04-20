@@ -29,8 +29,9 @@ public class MainWindow  extends JFrame implements ActionListener{
 	private JButton Train = new JButton("训练"); // 按钮
 	private JButton Predict = new JButton("预测"); // 按钮
 	
-	ImageGUI trainVideo=new ImageGUI();
-	ImageGUI predictVideo=new ImageGUI();
+	/*ImageGUI trainVideo=new ImageGUI();
+	ImageGUI predictVideo=new ImageGUI();*/
+	ImageGUI videoGUI=new ImageGUI();
 
 	public MainWindow() {
 		// TODO Auto-generated constructor stub
@@ -74,15 +75,15 @@ public class MainWindow  extends JFrame implements ActionListener{
 		this.add(Predict);
 		Predict.addActionListener(this);
 		
-		trainVideo.setBounds(20, 120, 300, 200);
+		videoGUI.setBounds(20, 120, 300, 200);
 		/*trainVideo.createWin("OpenCV + Java视频读与播放演示", new Dimension(300,
 				220));*/
-		trainVideo.setMainWin(this);
-		this.add(trainVideo);
-		
+		videoGUI.setMainWin(this);
+		this.add(videoGUI);
+	/*	
 		predictVideo.setBounds(330, 330, 300, 200);
 		predictVideo.setMainWin(this);
-		this.add(predictVideo);
+		this.add(predictVideo);*/
 		
 		
 		
@@ -104,7 +105,7 @@ public class MainWindow  extends JFrame implements ActionListener{
 		if (e.getSource() == Extract) {
 			
 			ThreadCtrl ctrl = new ThreadCtrl("Extract");
-			ctrl.setGUI(trainVideo, 1);
+			ctrl.setGUI(videoGUI);
 			new Thread(ctrl).start();
 			
 			
@@ -151,7 +152,7 @@ public class MainWindow  extends JFrame implements ActionListener{
 			
 	        
 	        ThreadCtrl ctrl = new ThreadCtrl("Predict");
-	        ctrl.setGUI(predictVideo, 2);
+	        ctrl.setGUI(videoGUI);
 			new Thread(ctrl).start();
 			
 		}
