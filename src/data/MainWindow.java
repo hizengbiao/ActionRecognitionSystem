@@ -102,16 +102,19 @@ public class MainWindow  extends JFrame implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		if (e.getSource() == Extract) {
-			//提取所有视频特征：
-			ExtractAllVideos extA=new ExtractAllVideos();
-			try {
-				extA.exe(trainVideo);
-			} catch (IOException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
+			
+			ThreadCtrl ctrl = new ThreadCtrl("Extract");
+			ctrl.setGUI(trainVideo, 1);
+			new Thread(ctrl).start();
+			
+			
 			
 		} else if (e.getSource() == Train) {
+			
+			ThreadCtrl ctrl = new ThreadCtrl("Train");
+			new Thread(ctrl).start();
+			
+			/*
 //			训练：
 			try {
 				if(MySVM.loadTrainData())
@@ -126,7 +129,7 @@ public class MainWindow  extends JFrame implements ActionListener{
 			} catch (IOException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
-			}
+			}*/
 			
 		}
 		else if(e.getSource() == Predict){
@@ -139,12 +142,17 @@ public class MainWindow  extends JFrame implements ActionListener{
 			MySVM.predict(videoAddress,predictVideo);
 			*/
 			
-			JFileChooser jfc=new JFileChooser(Constants.dataOfVideosAddress);  
+		/*	JFileChooser jfc=new JFileChooser(Constants.dataOfVideosAddress);  
 	        jfc.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES );  
 	        jfc.showDialog(new JLabel(), "选择");
 	        File file=jfc.getSelectedFile();
-	        MySVM.predict(file.toString(),predictVideo);
+	        MySVM.predict(file.toString(),predictVideo);*/
 	        
+			
+	        
+	        ThreadCtrl ctrl = new ThreadCtrl("Predict");
+	        ctrl.setGUI(predictVideo, 2);
+			new Thread(ctrl).start();
 			
 		}
 	}
