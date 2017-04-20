@@ -224,7 +224,7 @@ public class ExtractVideoFeature {
 			}
 		}
 		 out.close();
-		 gui.setVisible(false);
+//		 gui.setVisible(false);
 //		 gui.getUi().setVisible(false);
 	}
 
