@@ -5,6 +5,7 @@ import har.Constants;
 import java.io.File;
 import java.io.IOException;
 
+import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 
@@ -13,6 +14,7 @@ public class ThreadCtrl  implements Runnable {
 	public static boolean isRunning=false;//线程是否在启动中
 	
 	ImageGUI videoGUI;
+	JButton buttonRecover; 
 //	ImageGUI predictVideo;
 
 	public ThreadCtrl(String command) {
@@ -20,8 +22,9 @@ public class ThreadCtrl  implements Runnable {
 		cmd=command;
 	}
 	
-	public void setGUI(ImageGUI v){
+	public void setGUI(ImageGUI v,JButton b){
 		videoGUI=v;
+		buttonRecover=b;
 		/*if(no==1){
 			trainVideo=v;
 		}
@@ -29,6 +32,11 @@ public class ThreadCtrl  implements Runnable {
 			predictVideo=v;
 		}*/
 	}
+	
+	public void setGUI(JButton b){
+		buttonRecover=b;
+	}
+		
 
 	@Override
 	public void run() {
@@ -49,6 +57,7 @@ public class ThreadCtrl  implements Runnable {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
+			buttonRecover.setText("提取特征");
 			isRunning=false;
 		}
 		else if(cmd.equals("Train")){
@@ -74,6 +83,7 @@ public class ThreadCtrl  implements Runnable {
 				e1.printStackTrace();
 			}
 			isRunning=false;
+			buttonRecover.setText("训练");
 		}
 		else if(cmd.equals("Predict")){
 			if(isRunning==true){
@@ -87,6 +97,7 @@ public class ThreadCtrl  implements Runnable {
 	        File file=jfc.getSelectedFile();
 	        MySVM.predict(file.toString(),videoGUI);
 	        isRunning=false;
+	        buttonRecover.setText("预测");
 		}
 	}
 

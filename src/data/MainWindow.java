@@ -28,6 +28,11 @@ public class MainWindow  extends JFrame implements ActionListener{
 	private JButton Extract = new JButton("提取特征"); // 提取特征按钮
 	private JButton Train = new JButton("训练"); // 按钮
 	private JButton Predict = new JButton("预测"); // 按钮
+	private JButton Terminate=new JButton("终止所有");//终止按钮
+	boolean ExtractButtonState=false;
+	boolean TrainButtonState=false;
+	boolean PredictButtonState=false;
+	Thread myThread=null;
 	
 	/*ImageGUI trainVideo=new ImageGUI();
 	ImageGUI predictVideo=new ImageGUI();*/
@@ -74,6 +79,9 @@ public class MainWindow  extends JFrame implements ActionListener{
 		Predict.setBounds(300, 50, 80, 40);
 		this.add(Predict);
 		Predict.addActionListener(this);
+		Terminate.setBounds(400, 50, 80, 40);
+		this.add(Terminate);
+		Terminate.addActionListener(this);
 		
 		videoGUI.setBounds(20, 120, 300, 200);
 		/*trainVideo.createWin("OpenCV + Java视频读与播放演示", new Dimension(300,
@@ -103,17 +111,43 @@ public class MainWindow  extends JFrame implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		if (e.getSource() == Extract) {
-			
-			ThreadCtrl ctrl = new ThreadCtrl("Extract");
-			ctrl.setGUI(videoGUI);
-			new Thread(ctrl).start();
-			
-			
-			
+			if(ExtractButtonState==false){
+				ExtractButtonState=true;
+				Extract.setText("终止提取特征");
+				ThreadCtrl ctrl = new ThreadCtrl("Extract");
+				ctrl.setGUI(videoGUI,Extract);
+				myThread=new Thread(ctrl);
+				myThread.start();
+			}
+			else{
+				//关闭线程
+				ExtractButtonState=false;
+				Extract.setText("提取特征");
+				myThread.stop();
+				myThread=null;
+				ThreadCtrl.isRunning=false;
+				
+			}
 		} else if (e.getSource() == Train) {
 			
-			ThreadCtrl ctrl = new ThreadCtrl("Train");
-			new Thread(ctrl).start();
+			if(TrainButtonState==false){
+				TrainButtonState=true;
+				Train.setText("终止训练");
+
+				ThreadCtrl ctrl = new ThreadCtrl("Train");
+				ctrl.setGUI(Train);
+				myThread=new Thread(ctrl);
+				myThread.start();
+			}
+			else{
+				//关闭线程
+				TrainButtonState=false;
+				Train.setText("训练");
+				myThread.stop();
+				myThread=null;
+				ThreadCtrl.isRunning=false;
+			}
+			
 			
 			/*
 //			训练：
@@ -149,12 +183,37 @@ public class MainWindow  extends JFrame implements ActionListener{
 	        File file=jfc.getSelectedFile();
 	        MySVM.predict(file.toString(),predictVideo);*/
 	        
-			
+			if(PredictButtonState==false){
+				PredictButtonState=true;
+				Predict.setText("终止预测");
+
+
+		        ThreadCtrl ctrl = new ThreadCtrl("Predict");
+		        ctrl.setGUI(videoGUI,Predict);
+		        myThread=new Thread(ctrl);
+		        myThread.start();
+			}
+			else{
+				//关闭线程
+				PredictButtonState=false;
+				Predict.setText("预测");
+				myThread.stop();
+				myThread=null;
+				ThreadCtrl.isRunning=false;
+			}
 	        
-	        ThreadCtrl ctrl = new ThreadCtrl("Predict");
-	        ctrl.setGUI(videoGUI);
-			new Thread(ctrl).start();
 			
+		}
+		else if(e.getSource() == Terminate){
+			ExtractButtonState=false;
+			Extract.setText("提取特征");
+			TrainButtonState=false;
+			Train.setText("训练");
+			PredictButtonState=false;
+			Predict.setText("预测");
+			myThread.stop();
+			myThread=null;
+			ThreadCtrl.isRunning=false;
 		}
 	}
 
