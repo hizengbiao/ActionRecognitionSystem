@@ -27,10 +27,10 @@ public class MySVM {
 	private static Mat data_mat;
 	private static Mat label_mat;
 	private static CvSVM clasificador;
-	public static String data_hog_Address=Constants.VideoHogAddress;
+	public static String data_hog_Address=MyConstants.VideoHogAddress;
 	public static String data_hog_name="data_mat_hog.txt";
 	public static String data_hog_label="data_mat_hog_label.txt";
-	public static String svm_modelAddress=Constants.dataAddress;
+	public static String svm_modelAddress=MyConstants.dataAddress;
 	public static String svm_modelName="svm_model.xml";
 	
 	public MySVM() {

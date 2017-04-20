@@ -11,7 +11,7 @@ import javax.swing.JLabel;
 
 public class ThreadCtrl  implements Runnable {
 	String cmd=null;
-	public static boolean isRunning=false;//线程是否在启动中
+	
 	
 	ImageGUI videoGUI;
 	JButton buttonRecover; 
@@ -43,12 +43,7 @@ public class ThreadCtrl  implements Runnable {
 		// TODO Auto-generated method stub
 
 		if(cmd.equals("Extract")){
-			if(isRunning==true){
-				System.out.println("已经有线程在启动！");
-				return;
-			}
-				
-			isRunning=true;
+			
 			//提取所有视频特征：
 			ExtractAllVideos extA=new ExtractAllVideos();
 			try {
@@ -58,15 +53,11 @@ public class ThreadCtrl  implements Runnable {
 				e1.printStackTrace();
 			}
 			buttonRecover.setText("提取特征");
-			isRunning=false;
+			MainWindow.isRunning=false;
+			MainWindow.ExtractButtonState=false;
 		}
 		else if(cmd.equals("Train")){
-			if(isRunning==true){
-				System.out.println("已经有线程在启动！");
-				return;
-			}
-			isRunning=true;
-
+			
 //			训练：
 			try {
 				if(MySVM.loadTrainData())
@@ -82,21 +73,19 @@ public class ThreadCtrl  implements Runnable {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
-			isRunning=false;
+			MainWindow.isRunning=false;
+			MainWindow.TrainButtonState=false;
 			buttonRecover.setText("训练");
 		}
 		else if(cmd.equals("Predict")){
-			if(isRunning==true){
-				System.out.println("已经有线程在启动！");
-				return;
-			}
-			isRunning=true;
-			JFileChooser jfc=new JFileChooser(Constants.dataOfVideosAddress);  
+			
+			JFileChooser jfc=new JFileChooser(MyConstants.dataOfVideosAddress);  
 	        jfc.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES );  
 	        jfc.showDialog(new JLabel(), "选择");
 	        File file=jfc.getSelectedFile();
 	        MySVM.predict(file.toString(),videoGUI);
-	        isRunning=false;
+	        MainWindow.isRunning=false;
+	        MainWindow.PredictButtonState=false;
 	        buttonRecover.setText("预测");
 		}
 	}

@@ -29,10 +29,11 @@ public class MainWindow  extends JFrame implements ActionListener{
 	private JButton Train = new JButton("训练"); // 按钮
 	private JButton Predict = new JButton("预测"); // 按钮
 	private JButton Terminate=new JButton("终止所有");//终止按钮
-	boolean ExtractButtonState=false;
-	boolean TrainButtonState=false;
-	boolean PredictButtonState=false;
+	public static boolean ExtractButtonState=false;
+	public static boolean TrainButtonState=false;
+	public static boolean PredictButtonState=false;
 	Thread myThread=null;
+	public static boolean isRunning=false;//线程是否在启动中
 	
 	/*ImageGUI trainVideo=new ImageGUI();
 	ImageGUI predictVideo=new ImageGUI();*/
@@ -73,13 +74,13 @@ public class MainWindow  extends JFrame implements ActionListener{
 		Extract.setBounds(50, 50, 120, 40);
 		this.add(Extract);
 		Extract.addActionListener(this);
-		Train.setBounds(190, 50, 80, 40);
+		Train.setBounds(190, 50, 100, 40);
 		this.add(Train);
 		Train.addActionListener(this);
-		Predict.setBounds(300, 50, 80, 40);
+		Predict.setBounds(300, 50, 100, 40);
 		this.add(Predict);
 		Predict.addActionListener(this);
-		Terminate.setBounds(400, 50, 80, 40);
+		Terminate.setBounds(400, 50, 100, 40);
 		this.add(Terminate);
 		Terminate.addActionListener(this);
 		
@@ -112,6 +113,11 @@ public class MainWindow  extends JFrame implements ActionListener{
 		// TODO Auto-generated method stub
 		if (e.getSource() == Extract) {
 			if(ExtractButtonState==false){
+				if(isRunning==true){
+					System.out.println(MyConstants.ThreadConflictMsg);
+					return;
+				}
+				isRunning=true;
 				ExtractButtonState=true;
 				Extract.setText("终止提取特征");
 				ThreadCtrl ctrl = new ThreadCtrl("Extract");
@@ -125,12 +131,17 @@ public class MainWindow  extends JFrame implements ActionListener{
 				Extract.setText("提取特征");
 				myThread.stop();
 				myThread=null;
-				ThreadCtrl.isRunning=false;
+				isRunning=false;
 				
 			}
 		} else if (e.getSource() == Train) {
 			
 			if(TrainButtonState==false){
+				if(isRunning==true){
+					System.out.println(MyConstants.ThreadConflictMsg);
+					return;
+				}
+				isRunning=true;
 				TrainButtonState=true;
 				Train.setText("终止训练");
 
@@ -145,7 +156,7 @@ public class MainWindow  extends JFrame implements ActionListener{
 				Train.setText("训练");
 				myThread.stop();
 				myThread=null;
-				ThreadCtrl.isRunning=false;
+				isRunning=false;
 			}
 			
 			
@@ -184,6 +195,11 @@ public class MainWindow  extends JFrame implements ActionListener{
 	        MySVM.predict(file.toString(),predictVideo);*/
 	        
 			if(PredictButtonState==false){
+				if(isRunning==true){
+					System.out.println(MyConstants.ThreadConflictMsg);
+					return;
+				}
+				isRunning=true;
 				PredictButtonState=true;
 				Predict.setText("终止预测");
 
@@ -199,7 +215,7 @@ public class MainWindow  extends JFrame implements ActionListener{
 				Predict.setText("预测");
 				myThread.stop();
 				myThread=null;
-				ThreadCtrl.isRunning=false;
+				isRunning=false;
 			}
 	        
 			
@@ -213,7 +229,7 @@ public class MainWindow  extends JFrame implements ActionListener{
 			Predict.setText("预测");
 			myThread.stop();
 			myThread=null;
-			ThreadCtrl.isRunning=false;
+			isRunning=false;
 		}
 	}
 

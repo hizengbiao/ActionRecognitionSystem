@@ -31,7 +31,7 @@ public class ExtractAllVideos {
 			Labels c=Labels.BOXING;*/
 			for(int i=1;i<=1;i++){
 //            for(int i=1;i<=c.getNumberOfVideos();i++){
-            	 String videoAddress=Constants.dataOfVideosAddress+c.getName()+"/"+c.getName()+"_"+i+".avi";
+            	 String videoAddress=MyConstants.dataOfVideosAddress+c.getName()+"/"+c.getName()+"_"+i+".avi";
             	 ExtractVideoFeature ext=new ExtractVideoFeature();
          		ext.exe(videoAddress,c,i,outAll,outAll_label,VideoShow);
             }

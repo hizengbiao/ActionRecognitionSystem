@@ -17,7 +17,7 @@ public class FileChooser extends JFrame implements ActionListener{
     public static void main(String[] args) {
 //    	System.out.println(System.getProperty("user.dir")+"/data/kthdata/");
 //        new FileChooser(System.getProperty("user.dir")+"/data/kthdata/");
-        new FileChooser(Constants.dataOfVideosAddress);
+        new FileChooser(MyConstants.dataOfVideosAddress);
     }  
     public FileChooser(String path){
     	absolutePath=path;

@@ -49,7 +49,7 @@ public class ExtractVideoFeature {
 		capture.open(videoFile);// 读取本地文件
 		// capture.open(0);// 调取电脑的摄像头
 		
-		String hogDirAddress=Constants.VideoHogAddress+c.getName()+"/";
+		String hogDirAddress=MyConstants.VideoHogAddress+c.getName()+"/";
 		String hogFileAddress=c.getName()+"_"+num+"hog.txt";
 		/*File f1 = new File(hogDirAddress);
 		File f = new File(hogFileAddress);//保存路径
