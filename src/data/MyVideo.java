@@ -24,8 +24,8 @@ public class MyVideo {
 		int frame_width = (int) capture.get(3);
 		int frame_height = (int) capture.get(4);
 		ImageGUI gui = new ImageGUI();
-		gui.createWin("OpenCV + Java视频读与播放演示", new Dimension(frame_width,
-				frame_height));
+		/*gui.createWin("OpenCV + Java视频读与播放演示", new Dimension(frame_width,
+				frame_height));*/
 		Mat frame = new Mat();
 		while (true) {
 			boolean have = capture.read(frame);
