@@ -36,15 +36,27 @@ public class MySVM {
 	public MySVM() {
 		// TODO Auto-generated constructor stub
 	}
-	public static boolean loadTrainData() throws NumberFormatException, IOException{
+	public static int loadTrainData() throws NumberFormatException, IOException{
 		
 		int dataLines1=0;
 		int dataLines2=0;
 		File f = new File(data_hog_Address+data_hog_name);//读取路径
 		if (!f.exists()) {
 			System.out.println("hog数据不存在！");
-			return false;
+//			MainWindow.tips.append("hog数据不存在！\n");
+			MyTools.showTips("hog数据不存在！",1);
+			return -1;
         }
+		
+		File f2 = new File(data_hog_Address+data_hog_label);//读取label路径
+		if (!f2.exists()) {
+			System.out.println("label数据不存在！");
+//			MainWindow.tips.append("label数据不存在！\n");
+			MyTools.showTips("label数据不存在！",1);
+			return -2;
+        }		
+		
+		//读取hog:
 		data_mat=new Mat();
 		BufferedReader in = new BufferedReader(new InputStreamReader(
                 new FileInputStream(data_hog_Address+data_hog_name)));
@@ -79,11 +91,7 @@ public class MySVM {
         
         
 //        读取label数据：
-		File f2 = new File(data_hog_Address+data_hog_label);//读取label路径
-		if (!f2.exists()) {
-			System.out.println("label数据不存在！");
-			return false;
-        }		
+	
 		label_mat=new Mat();		
 		BufferedReader in2 = new BufferedReader(new InputStreamReader(
                 new FileInputStream(data_hog_Address+data_hog_label)));
@@ -110,14 +118,16 @@ public class MySVM {
 
 //		System.out.println(dataLines1+"  "+dataLines2);
         if(dataLines1==dataLines2&&dataLines1!=0)
-        return true;
-        return false;
+        return 1;
+        return 0;
 	}
 	
 	public static void saveTrainDataTest() throws IOException{
 		//没用，只是用来测试Mat的读取是否正常
 		if(data_mat==null){
 			System.out.println("Mat is uninitialize!");
+//			MainWindow.tips.append("Mat is uninitialize!\n");
+			MyTools.showTips("Mat is uninitialize!");
 			return;
 		}
 		File f11 = MyTools.mkdir(MySVM.data_hog_Address,"data_mat_hog_duplicate.txt");//保存路径
@@ -145,6 +155,8 @@ public class MySVM {
 		//存储label:
 		if(label_mat==null){
 			System.out.println("labelMat is uninitialize!");
+//			MainWindow.tips.append("Mat is uninitialize!\n");
+			MyTools.showTips("Mat is uninitialize!");
 			return;
 		}
 		File f22 = MyTools.mkdir(MySVM.data_hog_Address,"data_hog_label.txt");//保存路径
@@ -175,10 +187,11 @@ public class MySVM {
 		
 		CvSVMParams params = new CvSVMParams();
         params.set_kernel_type(CvSVM.LINEAR);
+        MyTools.showTips("分类器训练中。。。",1);
         clasificador = new CvSVM(data_mat, label_mat, new Mat(), new Mat(), params);
         MyTools.mkdir(svm_modelAddress, svm_modelName);
         clasificador.save(svm_modelAddress+svm_modelName);
-		
+		MyTools.showTips("分类器训练完毕。",1);
 		
 		
 //		CvSVM svm = new CvSVM();
@@ -206,17 +219,22 @@ public class MySVM {
 	
 	public static void predict(String viAdr,ImageGUI predictVideo){
 		if(clasificador==null){
+			System.out.println("haha");
 			clasificador=new CvSVM();
 			System.out.println("load classificator...");
+//			MainWindow.tips.append("load classificator...\n");
+			MyTools.showTips("load classificator...",1);
 			
 			File f = new File(svm_modelAddress+svm_modelName);//svm路径
 			if (!f.exists()) {
 				System.out.println("classificator doesn't exist!...");
+//				MainWindow.tips.append("classificator doesn't exist!...\n");
+				MyTools.showTips("classificator doesn't exist!...");
 				return;
 	        }
 			clasificador.load(svm_modelAddress+svm_modelName);
 		}
-		
+		MyTools.showTips("processing...", 1);
 		Mat features =ExtractVideoFeature.extract(viAdr,predictVideo);
 		
 		int result[]=new int[features.rows()];
@@ -225,12 +243,18 @@ public class MySVM {
 //			System.out.println(result[i]+"   "+Labels.getNameById(result[i]));
 		}
 		System.out.println("count:");
+//		MainWindow.tips.append("count:\n");
+		MyTools.showTips("predict result:",1);
 		int nt[][]=chooseOne(result);
 		for(int q=0;q<6;q++){
 			System.out.println(nt[q][0]+"   "+Labels.getNameById(nt[q][0])+"   次数："+nt[q][1]);
+//			MainWindow.tips.append(nt[q][0]+"   "+Labels.getNameById(nt[q][0])+"   次数："+nt[q][1]+"\n");
+			MyTools.showTips(nt[q][0]+"(类别Id)   "+Labels.getNameById(nt[q][0])+"   次数："+nt[q][1]);
 		}
 		for(int a=0;a<2;a++){
 			System.out.println("视频为"+Labels.getNameById(nt[a][0])+"的概率为："+(nt[a][1]/(float)nt[6][1]*100)+"%");
+//			MainWindow.tips.append("视频为"+Labels.getNameById(nt[a][0])+"的概率为："+(nt[a][1]/(float)nt[6][1]*100)+"%\n");
+			MyTools.showTips("视频为"+Labels.getNameById(nt[a][0])+"的概率为："+(nt[a][1]/(float)nt[6][1]*100)+"%");
 		}
 		
 	}

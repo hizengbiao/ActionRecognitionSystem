@@ -67,12 +67,14 @@ public class ExtractVideoFeature {
 
 		if (!capture.isOpened()) {
 			System.out.println("could not load video data...");
+//			MainWindow.tips.append("could not load video data...");
+			MyTools.showTips("could not load video data...");
 			out.close();
 			return;
 		}
 		int frame_width = (int) capture.get(3);
 		int frame_height = (int) capture.get(4);
-		double frameCount = capture.get(7);
+		int frameCount = (int)capture.get(7);
 		Mat prev = new Mat();
 		Mat next = new Mat();
 		Mat frame = new Mat();
@@ -83,6 +85,8 @@ public class ExtractVideoFeature {
 //		ImageGUI gui = new ImageGUI();
 		/*gui.createWin("OpenCV + Java视频读与播放演示", new Dimension(frame_width,
 				frame_height));*/
+		
+		int frameNo=1;
 
 		while (true) {
 
@@ -90,6 +94,9 @@ public class ExtractVideoFeature {
 			Imgproc.cvtColor(frame, next, Imgproc.COLOR_RGB2GRAY);
 			if (!have)
 				break;
+			
+			MainWindow.videoFrame.setText(MyConstants.S_frame+frameNo+" / "+frameCount);
+			frameNo++;
 			if (!prev.empty()) {
 				Mat flow = new Mat();
 				// Mat flow=new Mat(frame_width,frame_height,CvType.CV_8UC1);
@@ -236,12 +243,14 @@ public class ExtractVideoFeature {
 		
 		if (!capture.isOpened()) {
 			System.out.println("could not load video data...");
+//			MainWindow.tips.append("could not load video data...");
+			MyTools.showTips("could not load video data...");
 //			out.close();
 			return null;
 		}
 		int frame_width = (int) capture.get(3);
 		int frame_height = (int) capture.get(4);
-		double frameCount = capture.get(7);
+		int frameCount = (int)capture.get(7);
 		Mat prev = new Mat();
 		Mat next = new Mat();
 		Mat frame = new Mat();
@@ -252,13 +261,16 @@ public class ExtractVideoFeature {
 //		ImageGUI gui = new ImageGUI();
 //		gui.createWin("OpenCV + Java视频读与播放演示", new Dimension(frame_width,
 //				frame_height));
-
+		
+		int frameNo=1;
 		while (true) {
 
 			boolean have = capture.read(frame);
 			Imgproc.cvtColor(frame, next, Imgproc.COLOR_RGB2GRAY);
 			if (!have)
 				break;
+			MainWindow.videoFrame.setText(MyConstants.S_frame+frameNo+" / "+frameCount);
+			frameNo++;
 			if (!prev.empty()) {
 				Mat flow = new Mat();
 				// Mat flow=new Mat(frame_width,frame_height,CvType.CV_8UC1);

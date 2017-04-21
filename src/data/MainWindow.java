@@ -5,6 +5,8 @@ import har.Labels;
 
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.TextArea;
+import java.awt.Toolkit;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -25,10 +27,22 @@ import javax.swing.border.EmptyBorder;
 public class MainWindow  extends JFrame implements ActionListener{
 
 	private JPanel contentPane;
-	private JButton Extract = new JButton("提取特征"); // 提取特征按钮
-	private JButton Train = new JButton("训练"); // 按钮
-	private JButton Predict = new JButton("预测"); // 按钮
+	private JButton Extract = new JButton(MyConstants.S_Extract); // 提取特征按钮
+	private JButton Train = new JButton(MyConstants.S_Train); // 按钮
+	private JButton Predict = new JButton(MyConstants.S_Predict); // 按钮
 	private JButton Terminate=new JButton("终止所有");//终止按钮
+	
+	public static JLabel optionStatus = new JLabel(MyConstants.S_optionStatus);
+	public static JLabel videoPath = new JLabel(MyConstants.S_videoPath);//视频路径
+	public static JLabel videoName = new JLabel(MyConstants.S_videoName);//视频文件名
+//	public static JLabel videoFrame = new JLabel(MyConstants.S_frame);
+	public static JLabel videoFrame = new JLabel(MyConstants.S_frame);
+	
+	public static JLabel videoCapture = new JLabel(MyConstants.S_videoCapture);
+	public static JLabel Console = new JLabel(MyConstants.S_Console);
+			
+	public static TextArea tips=new TextArea();
+	
 	public static boolean ExtractButtonState=false;
 	public static boolean TrainButtonState=false;
 	public static boolean PredictButtonState=false;
@@ -43,9 +57,36 @@ public class MainWindow  extends JFrame implements ActionListener{
 		// TODO Auto-generated constructor stub
 	}
 	
+	public static void HiddenJLabels(){
+		optionStatus.setVisible(false);
+		videoPath.setVisible(false);
+		videoName.setVisible(false);
+		videoFrame.setVisible(false);
+	}
+	
+	public static void HiddenJLabels(int state){
+		if(state==1){
+			//extract and predict condition
+			optionStatus.setVisible(true);
+			videoPath.setVisible(true);
+			videoName.setVisible(true);
+			videoFrame.setVisible(true);
+		}
+		else if(state==2){
+			//train condition
+			optionStatus.setVisible(true);
+			videoPath.setVisible(false);
+			videoName.setVisible(false);
+			videoFrame.setVisible(false);
+		}
+	}
+	
 	public void lanuchWindow(){
+		Dimension screenSize =Toolkit.getDefaultToolkit().getScreenSize();
 		this.setTitle("视频动作识别系统");
-		setBounds(300, 150, 650, 590);
+		this.setSize(690, 530);
+		this.setLocation((screenSize.width-this.getWidth())/2, (screenSize.height-this.getHeight())/2);
+//		setBounds(300, 150, 700, 550);
 		
 		contentPane = new JPanel() {
 			private static final long serialVersionUID = 1L;
@@ -70,6 +111,7 @@ public class MainWindow  extends JFrame implements ActionListener{
 			}
 		});
 		
+		//Buttons:
 		
 		Extract.setBounds(50, 50, 120, 40);
 		this.add(Extract);
@@ -80,15 +122,42 @@ public class MainWindow  extends JFrame implements ActionListener{
 		Predict.setBounds(300, 50, 100, 40);
 		this.add(Predict);
 		Predict.addActionListener(this);
-		Terminate.setBounds(400, 50, 100, 40);
+		Terminate.setBounds(450, 50, 100, 40);
 		this.add(Terminate);
 		Terminate.addActionListener(this);
 		
-		videoGUI.setBounds(20, 120, 300, 200);
+		videoGUI.setBounds(20, 150, 300, 200);
 		/*trainVideo.createWin("OpenCV + Java视频读与播放演示", new Dimension(300,
 				220));*/
 		videoGUI.setMainWin(this);
 		this.add(videoGUI);
+		
+		//Jlabels:
+		
+		int firstLable_x=20;
+		int firstLable_y=350;
+		int y_interval=30;
+
+		optionStatus.setBounds(firstLable_x, firstLable_y, 300, 20);
+		this.add(optionStatus);		
+		videoPath.setBounds(firstLable_x, firstLable_y+y_interval*1, 650, 20);
+		this.add(videoPath);		
+		videoName.setBounds(firstLable_x, firstLable_y+y_interval*2, 300, 20);
+		this.add(videoName);		
+		videoFrame.setBounds(firstLable_x, firstLable_y+y_interval*3, 300, 20);
+		this.add(videoFrame);
+		
+		HiddenJLabels();
+		
+		videoCapture.setBounds(130, 120, 100, 20);
+		this.add(videoCapture);	
+		Console.setBounds(470, 120, 100, 20);
+		this.add(Console);
+		
+		//textArea tips:
+		tips.setBounds(350, 150, 300, 200);
+		tips.setEditable(false);
+		this.add(tips);
 	/*	
 		predictVideo.setBounds(330, 330, 300, 200);
 		predictVideo.setMainWin(this);
@@ -115,11 +184,19 @@ public class MainWindow  extends JFrame implements ActionListener{
 			if(ExtractButtonState==false){
 				if(isRunning==true){
 					System.out.println(MyConstants.ThreadConflictMsg);
+//					MainWindow.tips.append(MyConstants.ThreadConflictMsg);
+					MyTools.showTips(MyConstants.ThreadConflictMsg);
 					return;
 				}
 				isRunning=true;
 				ExtractButtonState=true;
-				Extract.setText("终止提取特征");
+				
+				MyTools.clearTips();
+				HiddenJLabels();
+				HiddenJLabels(1);
+				optionStatus.setText(MyConstants.S_optionStatus+MyConstants.S_Extract);
+				
+				Extract.setText(MyConstants.S_Terminate+MyConstants.S_Extract);
 				ThreadCtrl ctrl = new ThreadCtrl("Extract");
 				ctrl.setGUI(videoGUI,Extract);
 				myThread=new Thread(ctrl);
@@ -128,7 +205,7 @@ public class MainWindow  extends JFrame implements ActionListener{
 			else{
 				//关闭线程
 				ExtractButtonState=false;
-				Extract.setText("提取特征");
+				Extract.setText(MyConstants.S_Extract);
 				myThread.stop();
 				myThread=null;
 				isRunning=false;
@@ -139,11 +216,19 @@ public class MainWindow  extends JFrame implements ActionListener{
 			if(TrainButtonState==false){
 				if(isRunning==true){
 					System.out.println(MyConstants.ThreadConflictMsg);
+//					MainWindow.tips.append(MyConstants.ThreadConflictMsg);
+					MyTools.showTips(MyConstants.ThreadConflictMsg);
 					return;
 				}
 				isRunning=true;
 				TrainButtonState=true;
-				Train.setText("终止训练");
+				
+				MyTools.clearTips();
+				HiddenJLabels();
+				HiddenJLabels(2);
+				optionStatus.setText(MyConstants.S_optionStatus+MyConstants.S_Train);
+				
+				Train.setText(MyConstants.S_Terminate+MyConstants.S_Train);
 
 				ThreadCtrl ctrl = new ThreadCtrl("Train");
 				ctrl.setGUI(Train);
@@ -153,7 +238,7 @@ public class MainWindow  extends JFrame implements ActionListener{
 			else{
 				//关闭线程
 				TrainButtonState=false;
-				Train.setText("训练");
+				Train.setText(MyConstants.S_Train);
 				myThread.stop();
 				myThread=null;
 				isRunning=false;
@@ -197,11 +282,19 @@ public class MainWindow  extends JFrame implements ActionListener{
 			if(PredictButtonState==false){
 				if(isRunning==true){
 					System.out.println(MyConstants.ThreadConflictMsg);
+//					MainWindow.tips.append(MyConstants.ThreadConflictMsg);
+					MyTools.showTips(MyConstants.ThreadConflictMsg);
 					return;
 				}
 				isRunning=true;
 				PredictButtonState=true;
-				Predict.setText("终止预测");
+				
+				MyTools.clearTips();
+				HiddenJLabels();
+				HiddenJLabels(1);
+				optionStatus.setText(MyConstants.S_optionStatus+MyConstants.S_Predict);
+				
+				Predict.setText(MyConstants.S_Terminate+MyConstants.S_Predict);
 
 
 		        ThreadCtrl ctrl = new ThreadCtrl("Predict");
@@ -212,7 +305,7 @@ public class MainWindow  extends JFrame implements ActionListener{
 			else{
 				//关闭线程
 				PredictButtonState=false;
-				Predict.setText("预测");
+				Predict.setText(MyConstants.S_Predict);
 				myThread.stop();
 				myThread=null;
 				isRunning=false;
@@ -222,11 +315,11 @@ public class MainWindow  extends JFrame implements ActionListener{
 		}
 		else if(e.getSource() == Terminate){
 			ExtractButtonState=false;
-			Extract.setText("提取特征");
+			Extract.setText(MyConstants.S_Extract);
 			TrainButtonState=false;
-			Train.setText("训练");
+			Train.setText(MyConstants.S_Train);
 			PredictButtonState=false;
-			Predict.setText("预测");
+			Predict.setText(MyConstants.S_Predict);
 			myThread.stop();
 			myThread=null;
 			isRunning=false;

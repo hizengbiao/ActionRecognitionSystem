@@ -16,7 +16,7 @@ public class ThreadCtrl  implements Runnable {
 	
 	
 	ImageGUI videoGUI;
-	JButton buttonRecover; 
+	JButton buttonRecover;
 //	ImageGUI predictVideo;
 
 	public ThreadCtrl(String command) {
@@ -54,7 +54,7 @@ public class ThreadCtrl  implements Runnable {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
-			buttonRecover.setText("提取特征");
+			buttonRecover.setText(MyConstants.S_Extract);
 			MainWindow.isRunning=false;
 			MainWindow.ExtractButtonState=false;
 		}
@@ -62,12 +62,19 @@ public class ThreadCtrl  implements Runnable {
 			
 //			训练：
 			try {
-				if(MySVM.loadTrainData())
+				int si=MySVM.loadTrainData();
+				if(si==1)
 //				MySVM.saveTrainDataTest();
 //				System.out.println(MySVM.loadTrainData());
 				MySVM.train();
-				else
+				else if(si==0){
 					System.out.println("训练数据加载失败！");
+					MyTools.showTips("训练数据加载失败！\n    提取的特征是残缺的，请重新提取，提取的过程中不要点击终止按钮！",1);
+				}
+				else{
+					MyTools.showTips("训练数据加载失败！",1);
+				}
+					
 			} catch (NumberFormatException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
@@ -77,7 +84,7 @@ public class ThreadCtrl  implements Runnable {
 			}
 			MainWindow.isRunning=false;
 			MainWindow.TrainButtonState=false;
-			buttonRecover.setText("训练");
+			buttonRecover.setText(MyConstants.S_Train);
 		}
 		else if(cmd.equals("Predict")){
 			
@@ -89,10 +96,14 @@ public class ThreadCtrl  implements Runnable {
 	        jfc.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES );  
 	        jfc.showDialog(new JLabel(), "选择");
 	        File file=jfc.getSelectedFile();
+	        
+	        MainWindow.videoPath.setText(MyConstants.S_videoPath+file.getParent());
+       	 	MainWindow.videoName.setText(MyConstants.S_videoName+file.getName());
+	        
 	        MySVM.predict(file.toString(),videoGUI);
 	        MainWindow.isRunning=false;
 	        MainWindow.PredictButtonState=false;
-	        buttonRecover.setText("预测");
+	        buttonRecover.setText(MyConstants.S_Predict);
 		}
 	}
 

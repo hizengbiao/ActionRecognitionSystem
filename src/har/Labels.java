@@ -20,6 +20,10 @@ public enum Labels {
     	Labels []c=Labels.values();
     	 return c[id].getName();
     }
+    
+    public static int getLabelsCount(){
+    	return Labels.values().length;
+    }
 
     public String getName() {
         return this.name;
