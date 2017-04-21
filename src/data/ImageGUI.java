@@ -9,6 +9,7 @@ import java.awt.image.BufferedImage;
 
 import javax.swing.JComponent;
 import javax.swing.JDialog;
+import javax.swing.JFrame;
 
 
 public class ImageGUI extends JComponent {
@@ -17,10 +18,20 @@ public class ImageGUI extends JComponent {
      */
     private static final long serialVersionUID = 1L;
     private BufferedImage image;
+    JFrame mainWin;
+//    private JDialog ui;
 
-    public ImageGUI() {
+ /*   public JDialog getUi() {
+		return ui;
+	}
+*/
+	public ImageGUI() {
 
     }
+	
+	public void setMainWin(JFrame m){
+		this.mainWin=m;
+	}
 
     @Override
     protected void paintComponent(Graphics g) {
@@ -30,12 +41,15 @@ public class ImageGUI extends JComponent {
             g2d.fillRect(0, 0, this.getWidth(), this.getHeight());
         } else {
             g2d.drawImage(image, 0, 0, this.getWidth(), this.getHeight(), null);
-            System.out.println("show frame...");
+//            System.out.println("show frame...");
+           /* mainWin.invalidate();
+            mainWin.repaint();
+            mainWin.setVisible(true);*/
         }
     }
 
-    public void createWin(String title) {
-        JDialog ui = new JDialog();
+/*    public void createWin(String title) {
+       ui = new JDialog();
         ui.setTitle(title);
         ui.getContentPane().setLayout(new BorderLayout());
         ui.getContentPane().add(this, BorderLayout.CENTER);
@@ -44,13 +58,13 @@ public class ImageGUI extends JComponent {
     }
 
     public void createWin(String title, Dimension size) {
-        JDialog ui = new JDialog();
+        ui = new JDialog();
         ui.setTitle(title);
         ui.getContentPane().setLayout(new BorderLayout());
         ui.getContentPane().add(this, BorderLayout.CENTER);
         ui.setSize(size);
         ui.setVisible(true);
-    }
+    }*/
 
     public void imshow(BufferedImage image) {
         this.image = image;
