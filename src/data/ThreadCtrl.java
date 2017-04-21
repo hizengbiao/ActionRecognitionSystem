@@ -1,5 +1,7 @@
 package data;
 
+import fileFilter.AviFileFilter;
+import fileFilter.Mp4FileFilter;
 import har.Constants;
 
 import java.io.File;
@@ -79,7 +81,11 @@ public class ThreadCtrl  implements Runnable {
 		}
 		else if(cmd.equals("Predict")){
 			
-			JFileChooser jfc=new JFileChooser(MyConstants.dataOfVideosAddress);  
+			AviFileFilter aviFile=new AviFileFilter();
+			Mp4FileFilter mp4File= new Mp4FileFilter();
+			JFileChooser jfc=new JFileChooser(MyConstants.dataOfVideosAddress);
+			jfc.setFileFilter(mp4File);
+			jfc.setFileFilter(aviFile);
 	        jfc.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES );  
 	        jfc.showDialog(new JLabel(), "选择");
 	        File file=jfc.getSelectedFile();
