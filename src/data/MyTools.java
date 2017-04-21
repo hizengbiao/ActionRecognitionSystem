@@ -1,5 +1,7 @@
 package data;
 
+import har.Labels;
+
 import java.io.File;
 import java.io.IOException;
 
@@ -25,6 +27,19 @@ public class MyTools {
 			}
         }
 		return f;
+	}
+	
+	public static void clearTips(){
+		MainWindow.tips.setText("\n");
+	}
+	public static void showTips(String s,int sign){
+		if(sign==1){
+			MainWindow.tips.append("\n "+s+"\n");
+		}		
+	}
+	
+	public static void showTips(String s){
+		MainWindow.tips.append("      "+s+"\n");
 	}
 
 }
