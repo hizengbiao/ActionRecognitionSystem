@@ -280,7 +280,7 @@ public class ExtractVideoFeature {
 			if (!have)
 				break;
 			frameNo++;
-			if(++jump!=4)
+			if(++jump!=2)
 				continue;
 			jump=0;
 			MainWindow.videoFrame.setText(MyConstants.S_frame + frameNo + " / "
@@ -330,6 +330,10 @@ public class ExtractVideoFeature {
 					}
 				}
 				System.out.println();
+				
+				if (v1.size() < featurePointNumberBorder)
+					continue;
+				
 				double meanX = 0;// 所有关键点的平均x值
 				double meanY = 0;
 				for (int ii = 0; ii < v1.size(); ii++) {
@@ -341,12 +345,12 @@ public class ExtractVideoFeature {
 
 				Mat paintPoint = frame.clone();
 
-				if (v1.size() < featurePointNumberBorder) {
+				/*if (v1.size() < featurePointNumberBorder) {
 					meanX = preMeanX;
 					meanY = preMeanY;
 				}
 				preMeanX = meanX;
-				preMeanY = meanY;
+				preMeanY = meanY;*/
 
 				int ltx = (int) (meanX - scale / 2);// leftTopX
 				int lty = (int) (meanY - scale / 2);// 左上角顶点的Y值
@@ -382,14 +386,24 @@ public class ExtractVideoFeature {
 					HOGDescriptor desc = new HOGDescriptor(new Size(scale,
 							scale), new Size(20, 20), new Size(5, 5), new Size(
 							10, 10), 5);
-					// System.out.println("维数"+desc.getDescriptorSize());//获取向量维数
+//					 System.out.println("维数"+desc.getDescriptorSize());//获取向量维数
 					MatOfFloat hogVector = new MatOfFloat();
 					Mat src = new Mat(next, new Range(lty, lty + scale),
 							new Range(ltx, ltx + scale));
-					desc.compute(src, hogVector);
-					// System.out.println("size："+hogVector.size()+"   rows:"+hogVector.rows()+"  cols:"+hogVector.cols()+"  demions:"+hogVector.dims());
-
+					desc.compute(src, hogVector);					
+//					 System.out.println("size："+hogVector.size()+"   rows:"+hogVector.rows()+"  cols:"+hogVector.cols()+"  demions:"+hogVector.dims());
 					TenFramesHog.push_back(hogVector);
+					{
+						float []f2=new float[scale*scale];
+						int y=0;
+						for(int m=lty;m<scale;m++){
+							for(int n=ltx;n<scale;n++){
+								f2[y++]=(float) result.get(ltx,lty);
+							}
+						}
+					MatOfFloat feature2=new MatOfFloat(f2);
+					TenFramesHog.push_back(feature2);
+					}
 					// float[] hogOut = hogVector.toArray();
 					// System.out.println(hogOut.length);//获取向量维数
 
@@ -408,6 +422,7 @@ public class ExtractVideoFeature {
 
 						Mat aRow = new Mat(1, words.length, CvType.CV_32FC1);
 						// float[]values=new float[words.length];
+//						System.out.println( words.length);
 						for (int k = 0; k < words.length; k++) {
 							// String word = words[k];
 							// double value = Float.parseFloat(word);
