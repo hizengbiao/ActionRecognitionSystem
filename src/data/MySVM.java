@@ -57,6 +57,7 @@ public class MySVM {
         }		
 		
 		//读取hog:
+		MyTools.showTips("读取特征数据中。。。",1);
 		data_mat=new Mat();
 		BufferedReader in = new BufferedReader(new InputStreamReader(
                 new FileInputStream(data_hog_Address+data_hog_name)));

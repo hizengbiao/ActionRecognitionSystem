@@ -27,12 +27,12 @@ import javax.swing.border.EmptyBorder;
 public class MainWindow  extends JFrame implements ActionListener{
 
 	private JPanel contentPane;
-	private JButton Extract = new JButton(MyConstants.S_Extract); // 提取特征按钮
-	private JButton Train = new JButton(MyConstants.S_Train); // 按钮
+	public static JButton Extract = new JButton(MyConstants.S_Extract); // 提取特征按钮
+	public static JButton Train = new JButton(MyConstants.S_Train); // 按钮
 	public static JButton Predict = new JButton(MyConstants.S_Predict); // 按钮
 	private JButton Terminate=new JButton("终止所有");//终止按钮
-	private JButton speedUp=new JButton("加速");
-	private JButton speedDown=new JButton("减速");
+	public static JButton speedUp=new JButton("加速");
+	public static JButton speedDown=new JButton("减速");
 	public static JButton videoPause=new JButton("暂停");
 	
 	private JButton myDebug=new JButton("调试按钮");
@@ -365,8 +365,15 @@ public class MainWindow  extends JFrame implements ActionListener{
 			}
 		}
 		else if(e.getSource() == myDebug){
-			String add=MyConstants.dataOfVideosAddress+"jogging/jogging_10.avi";
-			MyTools.playVideo(add);			
+			/*String add=MyConstants.dataOfVideosAddress+"jogging/jogging_10.avi";
+			MyTools.playVideo(add);	*/
+			
+			try {
+				MyTools.ExtractAndTrain();
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 		}
 	}
 

@@ -147,5 +147,19 @@ public class MyTools {
 			MainWindow.myThread.start();
 		}
 	}
+	
+	public static void ExtractAndTrain() throws IOException{
+		/*ExtractAllVideos extA=new ExtractAllVideos();
+		extA.exe(MainWindow.videoGUI);
+		
+//		训练：
+		MySVM.loadTrainData();
+//		MySVM.saveTrainDataTest();
+		MySVM.train();*/
+		ExtractVideoFeature.speed=0;
+		MainWindow.Extract.doClick();
+//		while(MainWindow.isRunning==true);
+		MainWindow.Train.doClick();
+	}
 
 }

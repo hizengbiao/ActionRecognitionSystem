@@ -331,8 +331,8 @@ public class ExtractVideoFeature {
 				}
 				System.out.println();
 				
-				if (v1.size() < featurePointNumberBorder)
-					continue;
+				/*if (v1.size() < featurePointNumberBorder)
+					continue;*/
 				
 				double meanX = 0;// 所有关键点的平均x值
 				double meanY = 0;
@@ -345,12 +345,12 @@ public class ExtractVideoFeature {
 
 				Mat paintPoint = frame.clone();
 
-				/*if (v1.size() < featurePointNumberBorder) {
+				if (v1.size() < featurePointNumberBorder) {
 					meanX = preMeanX;
 					meanY = preMeanY;
 				}
 				preMeanX = meanX;
-				preMeanY = meanY;*/
+				preMeanY = meanY;
 
 				int ltx = (int) (meanX - scale / 2);// leftTopX
 				int lty = (int) (meanY - scale / 2);// 左上角顶点的Y值
