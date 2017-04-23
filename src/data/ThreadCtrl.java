@@ -17,6 +17,7 @@ public class ThreadCtrl  implements Runnable {
 	
 	ImageGUI videoGUI;
 	JButton buttonRecover;
+	File file=null;
 //	ImageGUI predictVideo;
 
 	public ThreadCtrl(String command) {
@@ -38,7 +39,10 @@ public class ThreadCtrl  implements Runnable {
 	public void setGUI(JButton b){
 		buttonRecover=b;
 	}
-		
+	
+	public void setFile(File f){
+		file=f;
+	}
 
 	@Override
 	public void run() {
@@ -88,6 +92,7 @@ public class ThreadCtrl  implements Runnable {
 		}
 		else if(cmd.equals("Predict")){
 			
+			if(file==null){
 			AviFileFilter aviFile=new AviFileFilter();
 			Mp4FileFilter mp4File= new Mp4FileFilter();
 			JFileChooser jfc=new JFileChooser(MyConstants.dataOfVideosAddress);
@@ -95,8 +100,8 @@ public class ThreadCtrl  implements Runnable {
 			jfc.setFileFilter(aviFile);
 	        jfc.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES );  
 	        jfc.showDialog(new JLabel(), "选择");
-	        File file=jfc.getSelectedFile();
-	        
+	        file=jfc.getSelectedFile();
+			}
 	        MainWindow.videoPath.setText(MyConstants.S_videoPath+file.getParent());
        	 	MainWindow.videoName.setText(MyConstants.S_videoName+file.getName());
 	        

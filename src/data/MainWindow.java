@@ -29,11 +29,13 @@ public class MainWindow  extends JFrame implements ActionListener{
 	private JPanel contentPane;
 	private JButton Extract = new JButton(MyConstants.S_Extract); // 提取特征按钮
 	private JButton Train = new JButton(MyConstants.S_Train); // 按钮
-	private JButton Predict = new JButton(MyConstants.S_Predict); // 按钮
+	public static JButton Predict = new JButton(MyConstants.S_Predict); // 按钮
 	private JButton Terminate=new JButton("终止所有");//终止按钮
 	private JButton speedUp=new JButton("加速");
 	private JButton speedDown=new JButton("减速");
-	private JButton videoPause=new JButton("暂停");
+	public static JButton videoPause=new JButton("暂停");
+	
+	private JButton myDebug=new JButton("调试按钮");
 	
 	
 	public static JLabel optionStatus = new JLabel(MyConstants.S_optionStatus);
@@ -50,12 +52,12 @@ public class MainWindow  extends JFrame implements ActionListener{
 	public static boolean ExtractButtonState=false;
 	public static boolean TrainButtonState=false;
 	public static boolean PredictButtonState=false;
-	Thread myThread=null;
+	public static Thread myThread=null;
 	public static boolean isRunning=false;//线程是否在启动中
 	
 	/*ImageGUI trainVideo=new ImageGUI();
 	ImageGUI predictVideo=new ImageGUI();*/
-	ImageGUI videoGUI=new ImageGUI();
+	static ImageGUI videoGUI=new ImageGUI();
 
 	public MainWindow() {
 		// TODO Auto-generated constructor stub
@@ -136,11 +138,13 @@ public class MainWindow  extends JFrame implements ActionListener{
 		videoPause.setBounds(170, 360, 60, 30);
 		this.add(videoPause);
 		videoPause.addActionListener(this);
-		
 		speedDown.setBounds(90, 360, 60, 30);
 		this.add(speedDown);
 		speedDown.addActionListener(this);
 		
+		myDebug.setBounds(450, 400, 100, 30);
+		this.add(myDebug);
+		myDebug.addActionListener(this);
 		
 		videoGUI.setBounds(20, 150, 300, 200);
 		/*trainVideo.createWin("OpenCV + Java视频读与播放演示", new Dimension(300,
@@ -359,6 +363,10 @@ public class MainWindow  extends JFrame implements ActionListener{
 				videoPause.setText("播放");
 				MyTools.videoPause();
 			}
+		}
+		else if(e.getSource() == myDebug){
+			String add=MyConstants.dataOfVideosAddress+"jogging/jogging_10.avi";
+			MyTools.playVideo(add);			
 		}
 	}
 
