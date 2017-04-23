@@ -2,8 +2,13 @@ package data;
 
 import har.Labels;
 
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
+
+import org.opencv.core.Mat;
 
 public class MyTools {
 	/*static int pauseTime=600000;
@@ -84,6 +89,28 @@ public class MyTools {
 	
 	public static void showTips(String s){
 		MainWindow.tips.append("      "+s+"\n");
+	}
+
+	public static void saveFeaturesToText(Mat features,Labels c,int num,PrintWriter outAll,PrintWriter outAll_label) throws IOException {
+		String hogDirAddress=MyConstants.VideoHogAddress+c.getName()+"/";
+		String hogFileAddress=c.getName()+"_"+num+"hog.txt";
+		
+		File f=MyTools.mkdir(hogDirAddress,hogFileAddress);
+		FileWriter fw=new FileWriter(f);
+		PrintWriter out=new PrintWriter(new BufferedWriter(fw));
+		
+		for(int i=0;i<features.rows();i++){
+			for(int k=0;k<features.cols();k++){
+				double[] va=features.get(i, k);
+				float value=(float)va[0];
+				out.print(value + "\t");
+				outAll.print(value + "\t");
+			}
+			out.println();
+			outAll.println();
+			outAll_label.println(c.ordinal());
+		}
+		out.close();		
 	}
 
 }
