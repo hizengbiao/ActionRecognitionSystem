@@ -35,6 +35,7 @@ public class ExtractVideoFeature {
 	// int frame_height;
 	// double frameCount;
 	static double xuandu_max = 40;// 旋度最大值，若为正，则最小为50
+	static double xuandu_min = -40;// 旋度最小值
 	static double xuandu_fazhi = 0.2;// 旋度阀值
 	static int scale = 60;// 矩形框尺寸
 	static int featurePointNumberBorder = 3;// 特征点数量的阀值
