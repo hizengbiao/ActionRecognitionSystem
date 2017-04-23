@@ -31,6 +31,10 @@ public class MainWindow  extends JFrame implements ActionListener{
 	private JButton Train = new JButton(MyConstants.S_Train); // 按钮
 	private JButton Predict = new JButton(MyConstants.S_Predict); // 按钮
 	private JButton Terminate=new JButton("终止所有");//终止按钮
+	private JButton speedUp=new JButton("加速");
+	private JButton speedDown=new JButton("减速");
+	private JButton videoPause=new JButton("暂停");
+	
 	
 	public static JLabel optionStatus = new JLabel(MyConstants.S_optionStatus);
 	public static JLabel videoPath = new JLabel(MyConstants.S_videoPath);//视频路径
@@ -84,7 +88,7 @@ public class MainWindow  extends JFrame implements ActionListener{
 	public void lanuchWindow(){
 		Dimension screenSize =Toolkit.getDefaultToolkit().getScreenSize();
 		this.setTitle("视频动作识别系统");
-		this.setSize(690, 530);
+		this.setSize(690, 560);
 		this.setLocation((screenSize.width-this.getWidth())/2, (screenSize.height-this.getHeight())/2);
 //		setBounds(300, 150, 700, 550);
 		
@@ -126,6 +130,18 @@ public class MainWindow  extends JFrame implements ActionListener{
 		this.add(Terminate);
 		Terminate.addActionListener(this);
 		
+		speedUp.setBounds(250, 360, 60, 30);
+		this.add(speedUp);
+		speedUp.addActionListener(this);
+		videoPause.setBounds(170, 360, 60, 30);
+		this.add(videoPause);
+		videoPause.addActionListener(this);
+		
+		speedDown.setBounds(90, 360, 60, 30);
+		this.add(speedDown);
+		speedDown.addActionListener(this);
+		
+		
 		videoGUI.setBounds(20, 150, 300, 200);
 		/*trainVideo.createWin("OpenCV + Java视频读与播放演示", new Dimension(300,
 				220));*/
@@ -135,7 +151,7 @@ public class MainWindow  extends JFrame implements ActionListener{
 		//Jlabels:
 		
 		int firstLable_x=20;
-		int firstLable_y=350;
+		int firstLable_y=400;
 		int y_interval=30;
 
 		optionStatus.setBounds(firstLable_x, firstLable_y, 300, 20);
@@ -192,6 +208,8 @@ public class MainWindow  extends JFrame implements ActionListener{
 				ExtractButtonState=true;
 				
 				MyTools.clearTips();
+				MyTools.videoPlay();
+				videoPause.setText("暂停");
 				HiddenJLabels();
 				HiddenJLabels(1);
 				optionStatus.setText(MyConstants.S_optionStatus+MyConstants.S_Extract);
@@ -290,6 +308,8 @@ public class MainWindow  extends JFrame implements ActionListener{
 				PredictButtonState=true;
 				
 				MyTools.clearTips();
+				MyTools.videoPlay();
+				videoPause.setText("暂停");
 				HiddenJLabels();
 				HiddenJLabels(1);
 				optionStatus.setText(MyConstants.S_optionStatus+MyConstants.S_Predict);
@@ -323,6 +343,22 @@ public class MainWindow  extends JFrame implements ActionListener{
 			myThread.stop();
 			myThread=null;
 			isRunning=false;
+		}
+		else if(e.getSource() == speedUp){
+			MyTools.speedUp();
+		}
+		else if(e.getSource() == speedDown){
+			MyTools.speedDown();
+		}
+		else if(e.getSource() == videoPause){
+			if(MyTools.isPause()){
+				videoPause.setText("暂停");
+				MyTools.videoPlay();
+			}
+			else{
+				videoPause.setText("播放");
+				MyTools.videoPause();
+			}
 		}
 	}
 
