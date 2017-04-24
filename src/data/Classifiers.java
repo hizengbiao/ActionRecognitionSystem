@@ -184,7 +184,7 @@ public class Classifiers {
 	}
 	
 	
-	public static void train(){
+	public static void SVMtrain(){
 		
 		CvSVMParams params = new CvSVMParams();
         params.set_kernel_type(CvSVM.LINEAR);
@@ -218,7 +218,7 @@ public class Classifiers {
 	    
 	}
 	
-	public static void predict(String viAdr,ImageGUI predictVideo){
+	public static void SVMpredict(String viAdr,ImageGUI predictVideo){
 		if(clasificador==null){
 //			System.out.println("haha");
 			clasificador=new CvSVM();
