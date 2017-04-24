@@ -38,7 +38,7 @@ public class ExtractVideoFeature {
 	static double xuandu_min = -40;// 旋度最小值
 	static double xuandu_fazhi = 0.2;// 旋度阀值
 	static int scale = 60;// 矩形框尺寸
-	static int featurePointNumberBorder = 3;// 特征点数量的阀值
+	static int featurePointNumberBorder = 1;// 特征点数量的阀值
 	public static int speed = 300;// 播放视频时各帧的间隔
 	static int spaceTimeSize=5;
 
@@ -262,7 +262,8 @@ public class ExtractVideoFeature {
 		Mat next = new Mat();
 		Mat frame = new Mat();
 		MatOfFloat TenFramesHog = new MatOfFloat();// 存储spaceTimeSize帧图像的hog
-
+		MatOfFloat TenFramesDisMove = new MatOfFloat();// 存储spaceTimeSize帧图像的位移特征
+		
 		int spaceSize = 0;// 时空立方体帧数
 		int start_extract = 0;// 开始提取时空体特征
 		double preMeanX = 0;// 上一帧的特征点X均值
@@ -349,6 +350,7 @@ public class ExtractVideoFeature {
 				if (v1.size() > featurePointNumberBorder && spaceSize == 0) {
 					start_extract = 1;
 					TenFramesHog = new MatOfFloat();
+					TenFramesDisMove = new MatOfFloat();
 					preMeanX = meanX;
 					preMeanY = meanY;
 				}
@@ -409,7 +411,7 @@ public class ExtractVideoFeature {
 							}
 						}
 					MatOfFloat feature2=new MatOfFloat(f2);
-					TenFramesHog.push_back(feature2);
+					TenFramesDisMove.push_back(feature2);
 					}
 					// float[] hogOut = hogVector.toArray();
 					// System.out.println(hogOut.length);//获取向量维数
@@ -424,6 +426,7 @@ public class ExtractVideoFeature {
 
 					spaceSize++;
 					if (spaceSize == spaceTimeSize) {
+						TenFramesHog.push_back(TenFramesDisMove);
 
 						float[] words = TenFramesHog.toArray();
 
