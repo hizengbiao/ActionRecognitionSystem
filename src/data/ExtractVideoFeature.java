@@ -40,6 +40,7 @@ public class ExtractVideoFeature {
 	static int scale = 60;// 矩形框尺寸
 	static int featurePointNumberBorder = 3;// 特征点数量的阀值
 	public static int speed = 300;// 播放视频时各帧的间隔
+	static int spaceTimeSize=5;
 
 	public ExtractVideoFeature() {
 
@@ -81,7 +82,7 @@ public class ExtractVideoFeature {
 	// Mat prev = new Mat();
 	// Mat next = new Mat();
 	// Mat frame = new Mat();
-	// MatOfFloat TenFramesHog= new MatOfFloat();//存储10帧图像的hog
+	// MatOfFloat TenFramesHog= new MatOfFloat();//存储spaceTimeSize帧图像的hog
 	//
 	// int spaceSize = 0;// 时空立方体帧数
 	// int start_extract = 0;// 开始提取时空体特征
@@ -205,7 +206,7 @@ public class ExtractVideoFeature {
 	// out.println();*/
 	//
 	// spaceSize++;
-	// if (spaceSize == 10) {
+	// if (spaceSize == spaceTimeSize) {
 	//
 	// float[] hogOut1 = TenFramesHog.toArray();
 	// // System.out.println(hogOut1.length);//获取向量维数
@@ -260,7 +261,7 @@ public class ExtractVideoFeature {
 		Mat prev = new Mat();
 		Mat next = new Mat();
 		Mat frame = new Mat();
-		MatOfFloat TenFramesHog = new MatOfFloat();// 存储10帧图像的hog
+		MatOfFloat TenFramesHog = new MatOfFloat();// 存储spaceTimeSize帧图像的hog
 
 		int spaceSize = 0;// 时空立方体帧数
 		int start_extract = 0;// 开始提取时空体特征
@@ -344,13 +345,20 @@ public class ExtractVideoFeature {
 				meanY /= v1.size();
 
 				Mat paintPoint = frame.clone();
+				
+				if (v1.size() > featurePointNumberBorder && spaceSize == 0) {
+					start_extract = 1;
+					TenFramesHog = new MatOfFloat();
+					preMeanX = meanX;
+					preMeanY = meanY;
+				}
 
-				if (v1.size() < featurePointNumberBorder) {
+//				if (v1.size() < featurePointNumberBorder) {
 					meanX = preMeanX;
 					meanY = preMeanY;
-				}
-				preMeanX = meanX;
-				preMeanY = meanY;
+//				}
+//				preMeanX = meanX;
+//				preMeanY = meanY;
 
 				int ltx = (int) (meanX - scale / 2);// leftTopX
 				int lty = (int) (meanY - scale / 2);// 左上角顶点的Y值
@@ -363,11 +371,13 @@ public class ExtractVideoFeature {
 				if ((lty + scale) > frame_height)
 					lty = frame_height - scale;
 				Rect fanwei = new Rect(ltx, lty, scale, scale);
-				// if (v1.size() > featurePointNumberBorder) {
+				 if (v1.size() > featurePointNumberBorder) {
+//				if (start_extract == 1) {
 				Core.rectangle(paintPoint, fanwei.tl(), fanwei.br(),
 						new Scalar(255, 0, 0), 2);
 				Core.circle(paintPoint, new Point(meanX, meanY), (int) 1,
 						new Scalar(0, 255, 0), 2);
+				}
 				// }
 				// System.out.println(v1.size());
 				for (int m = 0; m < v1.size(); m++) {
@@ -377,10 +387,7 @@ public class ExtractVideoFeature {
 				gui.imshow(MyVideo.conver2Image(paintPoint));
 				gui.repaint();
 
-				if (v1.size() > featurePointNumberBorder && spaceSize == 0) {
-					start_extract = 1;
-					TenFramesHog = new MatOfFloat();
-				}
+				
 				if (start_extract == 1) {
 					// 提取HOG特征：
 					HOGDescriptor desc = new HOGDescriptor(new Size(scale,
@@ -416,7 +423,7 @@ public class ExtractVideoFeature {
 					 */
 
 					spaceSize++;
-					if (spaceSize == 10) {
+					if (spaceSize == spaceTimeSize) {
 
 						float[] words = TenFramesHog.toArray();
 
