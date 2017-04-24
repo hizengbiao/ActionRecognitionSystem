@@ -21,7 +21,7 @@ import org.opencv.ml.CvSVMParams;
 
 import Jama.Matrix;
 
-public class MySVM {
+public class Classifiers {
 	
 //	public static Mat data_mat;
 	private static Mat data_mat;
@@ -33,7 +33,7 @@ public class MySVM {
 	public static String svm_modelAddress=MyConstants.dataAddress;
 	public static String svm_modelName="svm_model.xml";
 	
-	public MySVM() {
+	public Classifiers() {
 		// TODO Auto-generated constructor stub
 	}
 	public static int loadTrainData() throws NumberFormatException, IOException{
@@ -131,7 +131,7 @@ public class MySVM {
 			MyTools.showTips("Mat is uninitialize!");
 			return;
 		}
-		File f11 = MyTools.mkdir(MySVM.data_hog_Address,"data_mat_hog_duplicate.txt");//保存路径
+		File f11 = MyTools.mkdir(Classifiers.data_hog_Address,"data_mat_hog_duplicate.txt");//保存路径
 		FileWriter fw11=new FileWriter(f11);
 		PrintWriter out3=new PrintWriter(new BufferedWriter(fw11));
 //		System.out.println("data_mat.rows():"+data_mat.rows()+"  data_mat.cols():"+data_mat.cols());
@@ -160,7 +160,7 @@ public class MySVM {
 			MyTools.showTips("Mat is uninitialize!");
 			return;
 		}
-		File f22 = MyTools.mkdir(MySVM.data_hog_Address,"data_hog_label.txt");//保存路径
+		File f22 = MyTools.mkdir(Classifiers.data_hog_Address,"data_hog_label.txt");//保存路径
 		FileWriter fw22=new FileWriter(f22);
 		PrintWriter out22=new PrintWriter(new BufferedWriter(fw22));
 //		System.out.println("data_mat.rows():"+data_mat.rows()+"  data_mat.cols():"+data_mat.cols());
@@ -220,7 +220,7 @@ public class MySVM {
 	
 	public static void predict(String viAdr,ImageGUI predictVideo){
 		if(clasificador==null){
-			System.out.println("haha");
+//			System.out.println("haha");
 			clasificador=new CvSVM();
 			System.out.println("load classificator...");
 //			MainWindow.tips.append("load classificator...\n");
