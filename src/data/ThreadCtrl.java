@@ -59,6 +59,7 @@ public class ThreadCtrl  implements Runnable {
 				e1.printStackTrace();
 			}
 			buttonRecover.setText(MyConstants.S_Extract);
+//			System.out.println("hhhh");
 			MainWindow.isRunning=false;
 			MainWindow.ExtractButtonState=false;
 		}

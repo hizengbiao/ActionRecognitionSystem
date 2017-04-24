@@ -324,12 +324,12 @@ public class ExtractVideoFeature {
 						if ((result.get(jj, ii) > max_border)
 								|| (result.get(jj, ii) < min_border)) {
 							v1.addElement(new Point(jj, ii));
-							 System.out.print((int)result.get(jj, ii)+"  ");
+//							 System.out.print((int)result.get(jj, ii)+"  ");
 						}
 						
 					}
 				}
-				System.out.println();
+//				System.out.println();
 				
 				/*if (v1.size() < featurePointNumberBorder)
 					continue;*/

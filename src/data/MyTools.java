@@ -156,10 +156,32 @@ public class MyTools {
 		MySVM.loadTrainData();
 //		MySVM.saveTrainDataTest();
 		MySVM.train();*/
-		ExtractVideoFeature.speed=0;
-		MainWindow.Extract.doClick();
-//		while(MainWindow.isRunning==true);
-		MainWindow.Train.doClick();
+		
+		Thread deb=new Thread(){
+			public void run(){
+				ExtractVideoFeature.speed=0;
+				
+				MainWindow.Extract.doClick();
+//				while(MainWindow.isRunning==true) i++;
+				
+				while(true){
+					if(MainWindow.isRunning==false){
+						break;
+					}
+						
+					try {
+						Thread.sleep(500);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+
+				MainWindow.Train.doClick();
+			}
+		};
+		deb.start();
+		
 	}
 
 }
