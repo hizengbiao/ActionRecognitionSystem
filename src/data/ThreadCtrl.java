@@ -71,7 +71,8 @@ public class ThreadCtrl  implements Runnable {
 				if(si==1)
 //				MySVM.saveTrainDataTest();
 //				System.out.println(MySVM.loadTrainData());
-				Classifiers.SVMtrain();
+//				Classifiers.SVMtrain();
+					Classifiers.KNearestTrain();
 				else if(si==0){
 					System.out.println("训练数据加载失败！");
 					MyTools.showTips("训练数据加载失败！\n    提取的特征是残缺的，请重新提取，提取的过程中不要点击终止按钮！",1);

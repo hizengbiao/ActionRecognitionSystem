@@ -301,15 +301,58 @@ public class Classifiers {
 	}
 
 	public static void KNearestTrain() {
+		
+		
+		
+		
+		/*CvSVMParams params = new CvSVMParams();
+		params.set_kernel_type(CvSVM.LINEAR);
+		MyTools.showTips("分类器训练中。。。", 1);
+		svm_classifier = new CvSVM();
+		MyTools.mkdir(svm_modelAddress, svm_modelName);
+		svm_classifier.train(data_mat, label_mat);
+		svm_classifier.save(svm_modelAddress + svm_modelName);
+		MyTools.showTips("分类器训练完毕。", 1);*/
+		
+		
 //		CvSVMParams params = new CvSVMParams();
 //		params.set_kernel_type(CvSVM.LINEAR);
 		MyTools.showTips("分类器训练中。。。", 1);
-		km_classifier = new CvKNearest();
+		km_classifier = new CvKNearest(data_mat, label_mat);
 		MyTools.mkdir(km_modelAddress, km_modelName);
-		km_classifier.train(data_mat, label_mat);
+//		km_classifier.train(data_mat, label_mat);
 		
-		km_classifier.save(km_modelAddress + km_modelName);
+		km_classifier.save("kNearest_model.xml");
+//		km_classifier.save(km_modelAddress + km_modelName);
+		
+		
 		MyTools.showTips("分类器训练完毕。", 1);
+		
+		/*
+		Mat features = ExtractVideoFeature.extract("1.avi", MainWindow.videoGUI);
+
+		for (int i = 0; i < features.rows(); i++) {
+			int resu=(int)km_classifier.find_nearest(features.row(i), 5, new Mat(), new Mat(), new Mat());
+			MyTools.showTips(Labels.getNameById(resu)+"", 1);
+		}*/
+		
+		
+//		CvKNearest::train(const Mat& trainData, const Mat& responses, const Mat& sampleIdx=Mat(), bool isRegression=false, int maxK=32, bool updateBase=false )
+//		trainData：    即训练数据。
+//		response：    对应每一个训练数据的类别或回归值；
+//		sampleIdx：  暂时不清楚其意义；
+//		isRegression：如果是true表示回归，false表示分类；
+//		maxK：           最大的近邻个数
+//		updateBase： 指定模型是否从头训练(update_base = false),或是更新使用新的训练数据(update_base = true)。在后一种情况下,参数maxK不得大于原始值。 
+//
+//		float CvKNearest::find_nearest(const Mat& samples, int k, Mat* results, const float** neighbor, Mat* neighborResponses, Mat* dists) const
+//		float CvKNearest::find_nearest(const Mat& samples, int k, Mat& results, Mat& neighborResponses, Mat& dists) const
+//		samples：   输入参数，大小为样本数(rows)×样本特征数(cols)；
+//		k：               输入参数，即需要返回的k个邻近；
+//		results：      输出参数，返回的结果（类别或者是回归值），大小为样本数(rows)；
+//		neighbor：   输出参数，返回的是指向邻居向量本身的指针，即指向的是原来的训练数据。
+//		neighborResponses： 输出参数，输出每个样本对应的k个最邻近的response，大小为样本数(rows)×k；
+//		dists：          输出参数，输出每个样本对应的k个最邻近的距离，大小为样本数(rows)×k；
 	}
 
 	public static void KNearestPredict() {
