@@ -1,4 +1,4 @@
-package har;
+package data;
 
 public enum Labels {
     BOXING("boxing", "boxing/", 100), HANDCLAPPING("handclapping",

@@ -1,7 +1,6 @@
 package data;
 
 import har.Constants;
-import har.Labels;
 
 import java.awt.Dimension;
 import java.awt.Graphics;

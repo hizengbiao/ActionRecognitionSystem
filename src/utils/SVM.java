@@ -1,6 +1,5 @@
 package utils;
 
-import har.Labels;
 import har.Constants;
 
 import java.io.BufferedOutputStream;
@@ -10,6 +9,8 @@ import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.Serializable;
+
+import data.Labels;
 
 import libsvm.svm;
 import libsvm.svm_model;

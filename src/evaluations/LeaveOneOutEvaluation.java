@@ -2,7 +2,8 @@ package evaluations;
 
 import java.util.TreeMap;
 
-import har.Labels;
+import data.Labels;
+
 import io.Database;
 import models.Model;
 

@@ -1,10 +1,11 @@
 package image;
 
-import har.Labels;
 import har.DrawVideosDataPoint;
 import io.Database;
 
 import java.io.IOException;
+
+import data.Labels;
 
 import Jama.Matrix;
 

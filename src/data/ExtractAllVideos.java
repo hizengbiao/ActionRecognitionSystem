@@ -9,7 +9,6 @@ import java.io.PrintWriter;
 import org.opencv.core.Mat;
 
 import har.Constants;
-import har.Labels;
 
 public class ExtractAllVideos {
 

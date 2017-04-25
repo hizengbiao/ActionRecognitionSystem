@@ -1,6 +1,5 @@
 package data;
 
-import har.Labels;
 
 import java.io.BufferedWriter;
 import java.io.File;

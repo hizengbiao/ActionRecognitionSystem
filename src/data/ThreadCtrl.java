@@ -72,7 +72,7 @@ public class ThreadCtrl  implements Runnable {
 //				MySVM.saveTrainDataTest();
 //				System.out.println(MySVM.loadTrainData());
 //				Classifiers.SVMtrain();
-					Classifiers.KNearestTrain();
+					Classifiers.SVMtrain();
 				else if(si==0){
 					System.out.println("训练数据加载失败！");
 					MyTools.showTips("训练数据加载失败！\n    提取的特征是残缺的，请重新提取，提取的过程中不要点击终止按钮！",1);
@@ -107,7 +107,17 @@ public class ThreadCtrl  implements Runnable {
 	        MainWindow.videoPath.setText(MyConstants.S_videoPath+file.getParent());
        	 	MainWindow.videoName.setText(MyConstants.S_videoName+file.getName());
 	        
-	        Classifiers.SVMpredict(file.toString(),videoGUI);
+       	 Classifiers.SVMpredict(file.toString(),videoGUI);
+       	 /*
+	        try {
+				Classifiers.KNNpredict(file.toString(),videoGUI);
+			} catch (NumberFormatException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}*/
 	        MainWindow.isRunning=false;
 	        MainWindow.PredictButtonState=false;
 	        buttonRecover.setText(MyConstants.S_Predict);

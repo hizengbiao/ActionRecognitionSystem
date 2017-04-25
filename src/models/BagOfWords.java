@@ -1,6 +1,5 @@
 package models;
 
-import har.Labels;
 import har.Constants;
 import io.Database;
 
@@ -11,6 +10,8 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
 import java.util.TreeMap;
+
+import data.Labels;
 
 import utils.KMeans;
 import utils.PCA;

@@ -11,7 +11,6 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 
 import har.Constants;
-import har.Labels;
 
 import org.opencv.core.CvType;
 import org.opencv.core.Mat;
@@ -28,14 +27,14 @@ public class Classifiers {
 	private static Mat data_mat;
 	private static Mat label_mat;
 	private static CvSVM svm_classifier;
-	private static CvKNearest km_classifier;
+	private static CvKNearest knn_classifier;
 	public static String data_hog_Address = MyConstants.VideoHogAddress;
 	public static String data_hog_name = "data_mat_hog.txt";
 	public static String data_hog_label = "data_mat_hog_label.txt";
 	public static String svm_modelAddress = MyConstants.dataAddress;
 	public static String svm_modelName = "svm_model.xml";
-	public static String km_modelAddress = MyConstants.dataAddress;
-	public static String km_modelName = "kNearest_model.xml";
+	public static String knn_modelAddress = MyConstants.dataAddress;
+	public static String knn_modelName = "knn_model.xml";
 
 	public Classifiers() {
 		// TODO Auto-generated constructor stub
@@ -124,8 +123,12 @@ public class Classifiers {
 		in2.close();
 
 		// System.out.println(dataLines1+"  "+dataLines2);
-		if (dataLines1 == dataLines2 && dataLines1 != 0)
+		if (dataLines1 == dataLines2 && dataLines1 != 0){			
 			return 1;
+		}
+		data_mat=null;
+		label_mat=null;
+		MyTools.showTips("训练数据与标签不一致！",1);
 		return 0;
 	}
 
@@ -251,7 +254,7 @@ public class Classifiers {
 		System.out.println("count:");
 		// MainWindow.tips.append("count:\n");
 		MyTools.showTips("predict result:", 1);
-		int nt[][] = chooseOne(result);
+		int nt[][] = chooseOne(result,result.length);
 		for (int q = 0; q < 6; q++) {
 			System.out.println(nt[q][0] + "   " + Labels.getNameById(nt[q][0])
 					+ "   次数：" + nt[q][1]);
@@ -269,22 +272,23 @@ public class Classifiers {
 
 	}
 
-	public static int[][] chooseOne(int[] r) {
-		int[][] NoTimes = new int[7][2];
+	public static int[][] chooseOne(int[] r,int num) {
+		int n=Labels.getLabelsCount();//n=6
+		int[][] NoTimes = new int[n+1][2];
 		// 6是视频各类数量，第一个列向量是视频各类id，第二个是特征符合的数量
 		// 第7行是总数
-		for (int w = 0; w < 7; w++) {
+		for (int w = 0; w < n+1; w++) {
 			NoTimes[w][0] = w;
 			NoTimes[w][1] = 0;
 		}
-		for (int u = 0; u < r.length; u++) {
+		for (int u = 0; u < num; u++) {
 			NoTimes[r[u]][1]++;
-			NoTimes[6][1]++;
+			NoTimes[n][1]++;
 		}
 
 		// 排序：
-		for (int i = 0; i < 6 - 1; i++) {
-			for (int j = 0; j < 6 - 1 - i; j++) {
+		for (int i = 0; i < n - 1; i++) {
+			for (int j = 0; j < n - 1 - i; j++) {
 				if (NoTimes[j][1] < NoTimes[j + 1][1]) {
 					int tem[] = new int[2];
 					tem[0] = NoTimes[j][0];
@@ -299,11 +303,17 @@ public class Classifiers {
 
 		return NoTimes;
 	}
+	
+	private static int[][] chooseOne(Mat kNNs) {
+		int da[]=new int[kNNs.cols()];
+		for(int u=0;u<kNNs.cols();u++){
+			double sss[]=kNNs.get(0, u);
+			da[u]=(int)sss[0];
+		}
+		return chooseOne(da,da.length);
+	}
 
-	public static void KNearestTrain() {
-		
-		
-		
+	public static void KNNtrain() {
 		
 		/*CvSVMParams params = new CvSVMParams();
 		params.set_kernel_type(CvSVM.LINEAR);
@@ -317,16 +327,19 @@ public class Classifiers {
 		
 //		CvSVMParams params = new CvSVMParams();
 //		params.set_kernel_type(CvSVM.LINEAR);
-		MyTools.showTips("分类器训练中。。。", 1);
-		km_classifier = new CvKNearest(data_mat, label_mat);
-		MyTools.mkdir(km_modelAddress, km_modelName);
+//		MyTools.showTips("分类器训练中。。。", 1);
+		if(data_mat==null){
+			System.out.println("hehello");
+		}
+		knn_classifier = new CvKNearest(data_mat, label_mat);
+//		MyTools.mkdir(km_modelAddress, km_modelName);
 //		km_classifier.train(data_mat, label_mat);
 		
-		km_classifier.save("kNearest_model.xml");
+//		km_classifier.save("kNearest_model.xml");
 //		km_classifier.save(km_modelAddress + km_modelName);
 		
 		
-		MyTools.showTips("分类器训练完毕。", 1);
+//		MyTools.showTips("分类器训练完毕。", 1);
 		
 		/*
 		Mat features = ExtractVideoFeature.extract("1.avi", MainWindow.videoGUI);
@@ -355,8 +368,59 @@ public class Classifiers {
 //		dists：          输出参数，输出每个样本对应的k个最邻近的距离，大小为样本数(rows)×k；
 	}
 
-	public static void KNearestPredict() {
+	public static void KNNpredict(String viAdr, ImageGUI predictVideo) throws NumberFormatException, IOException {
+		
+		if(data_mat==null||label_mat==null){
+			if(loadTrainData()!=1)
+				return;
+		}		
+		if (knn_classifier == null) {
+			MyTools.showTips("initializing knn_classifier...", 1);
+			knn_classifier = new CvKNearest(data_mat, label_mat);
+		}
+		
+		MyTools.showTips("processing...", 1);
+		
+		Mat features = ExtractVideoFeature.extract(viAdr, predictVideo);
+/*
+		for (int i = 0; i < features.rows(); i++) {
+			int resu=(int)km_classifier.find_nearest(features.row(i), 5, new Mat(), new Mat(), new Mat());
+			MyTools.showTips(Labels.getNameById(resu)+"", 1);
+		}
+		
+		*/
+
+		int result[] = new int[features.rows()];
+		int valid=0;
+		Mat KNNs = new Mat(1, MyConstants.K, CvType.CV_32FC1);
+		for (int i = 0; i < features.rows(); i++) {
+			knn_classifier.find_nearest(features.row(i), MyConstants.K, new Mat(), KNNs, new Mat());
+			int qw[][]=chooseOne(KNNs);
+			if(qw[0][0]>MyConstants.KNN_threshold)
+			result[++valid] = qw[0][0];
+			// System.out.println(result[i]+"   "+Labels.getNameById(result[i]));
+		}
+		System.out.println("count:");
+		// MainWindow.tips.append("count:\n");
+		MyTools.showTips("predict result:", 1);
+		int nt[][] = chooseOne(result,valid);
+		for (int q = 0; q < 6; q++) {
+			System.out.println(nt[q][0] + "   " + Labels.getNameById(nt[q][0])
+					+ "   次数：" + nt[q][1]);
+			// MainWindow.tips.append(nt[q][0]+"   "+Labels.getNameById(nt[q][0])+"   次数："+nt[q][1]+"\n");
+			MyTools.showTips(nt[q][0] + "(类别Id)   "
+					+ Labels.getNameById(nt[q][0]) + "   次数：" + nt[q][1]);
+		}
+		for (int a = 0; a < 2; a++) {
+			System.out.println("视频为" + Labels.getNameById(nt[a][0]) + "的概率为："
+					+ (nt[a][1] / (float) nt[6][1] * 100) + "%");
+			// MainWindow.tips.append("视频为"+Labels.getNameById(nt[a][0])+"的概率为："+(nt[a][1]/(float)nt[6][1]*100)+"%\n");
+			MyTools.showTips("视频为" + Labels.getNameById(nt[a][0]) + "的概率为："
+					+ (nt[a][1] / (float) nt[6][1] * 100) + "%");
+		}
 
 	}
+
+	
 
 }
