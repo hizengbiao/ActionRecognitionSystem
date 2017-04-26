@@ -31,6 +31,8 @@ public class Classifiers {
 	public static String data_hog_Address = MyConstants.VideoHogAddress;
 	public static String data_hog_name = "data_mat_hog.txt";
 	public static String data_hog_label = "data_mat_hog_label.txt";
+	public static String data_hog_name_tem = "data_mat_hog_tem.txt";
+	public static String data_hog_label_tem = "data_mat_hog_label_tem.txt";
 	public static String svm_modelAddress = MyConstants.dataAddress;
 	public static String svm_modelName = "svm_model.xml";
 	public static String knn_modelAddress = MyConstants.dataAddress;

@@ -17,17 +17,16 @@ public class ExtractAllVideos {
 	}
 	
 	public void exe(ImageGUI VideoShow) throws IOException{
-		File f = MyTools.mkdir(Classifiers.data_hog_Address,Classifiers.data_hog_name);//保存路径
+		File f = MyTools.mkdir(Classifiers.data_hog_Address,Classifiers.data_hog_name_tem);//保存路径
+		File f2 = MyTools.mkdir(Classifiers.data_hog_Address,Classifiers.data_hog_label_tem);//保存路径
+		
 		FileWriter fw=new FileWriter(f);
 		PrintWriter outAll=new PrintWriter(new BufferedWriter(fw));
 		
-		
-		
-		File f2 = MyTools.mkdir(Classifiers.data_hog_Address,Classifiers.data_hog_label);//保存路径
 		FileWriter fw2=new FileWriter(f2);
 		PrintWriter outAll_label=new PrintWriter(new BufferedWriter(fw2));
 		
-//		MyTools.showTips("\n特征提取中...",1);
+		MyTools.showTips("\n特征提取中...",1);
 		
 		for (Labels c : Labels.values()) {
 		/*for(int y=0;y<1;y++){
@@ -50,6 +49,14 @@ public class ExtractAllVideos {
            
         }
 		MyTools.showTips("\n特征提取完毕",1);
+		
+		
+		File f_=MyTools.mkdir(Classifiers.data_hog_Address,Classifiers.data_hog_name);//保存路径
+		File f2_=MyTools.mkdir(Classifiers.data_hog_Address,Classifiers.data_hog_label);//保存路径
+		
+		FileCopy.copy2(f, f_); 
+		FileCopy.copy2(f2, f2_); 
+		
 		outAll.close();
 		outAll_label.close();
 	}

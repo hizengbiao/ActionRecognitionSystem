@@ -108,16 +108,16 @@ public class ThreadCtrl  implements Runnable {
        	 	MainWindow.videoName.setText(MyConstants.S_videoName+file.getName());
 	        
        	 Classifiers.SVMpredict(file.toString(),videoGUI);
-       	 /*
-	        try {
-				Classifiers.KNNpredict(file.toString(),videoGUI);
-			} catch (NumberFormatException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}*/
+       	 
+//	        try {
+//				Classifiers.KNNpredict(file.toString(),videoGUI);
+//			} catch (NumberFormatException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			} catch (IOException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
 	        MainWindow.isRunning=false;
 	        MainWindow.PredictButtonState=false;
 	        buttonRecover.setText(MyConstants.S_Predict);
