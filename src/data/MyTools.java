@@ -119,6 +119,30 @@ public class MyTools {
 		}
 		out.close();
 	}
+	
+	public static void saveFeaturesToText(Mat features, int c,
+			PrintWriter outAll, PrintWriter outAll_label) throws IOException {
+//		String hogDirAddress = MyConstants.VideoHogAddress + c.getName() + "/";
+//		String hogFileAddress = c.getName() + "_" + num + "hog.txt";
+//
+//		File f = MyTools.mkdir(hogDirAddress, hogFileAddress);
+//		FileWriter fw = new FileWriter(f);
+//		PrintWriter out = new PrintWriter(new BufferedWriter(fw));
+
+		for (int i = 0; i < features.rows(); i++) {
+			for (int k = 0; k < features.cols(); k++) {
+				double[] va = features.get(i, k);
+				float value = (float) va[0];
+//				out.print(value + "\t");
+				outAll.print(value + "\t");
+			}
+//			out.println();
+			outAll.println();
+			outAll_label.println(c);
+		}
+//		out.close();
+	}
+	
 
 	public static void playVideo(String vidAdd) {
 		if (MainWindow.PredictButtonState == false) {

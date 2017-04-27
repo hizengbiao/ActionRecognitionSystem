@@ -23,14 +23,20 @@ public class Classifiers {
 	private static CvSVM svm_classifier;
 	private static CvKNearest knn_classifier;
 	public static String data_hog_Address = MyConstants.VideoHogAddress;
-	public static String data_hog_name = "data_mat_hog.txt";
-	public static String data_hog_label = "data_mat_hog_label.txt";
-	public static String data_hog_name_tem = "data_mat_hog_tem.txt";
-	public static String data_hog_label_tem = "data_mat_hog_label_tem.txt";
+	public static String svm_data = "svm_data.txt";
+	public static String svm_label = "svm_label.txt";
+	public static String svm_data_tem = "svm_data_tem.txt";
+	public static String svm_label_tem = "svm_label_tem.txt";
+	
+	public static String knn_data = "knn_data.txt";
+	public static String knn_label = "knn_label.txt";
+	public static String knn_data_tem = "knn_data_tem.txt";
+	public static String knn_label_tem = "knn_label_tem.txt";
+	
 	public static String svm_modelAddress = MyConstants.dataAddress;
 	public static String svm_modelName = "svm_model.xml";
-	public static String knn_modelAddress = MyConstants.dataAddress;
-	public static String knn_modelName = "knn_model.xml";
+//	public static String knn_modelAddress = MyConstants.dataAddress;
+//	public static String knn_modelName = "knn_model.xml";
 
 	public Classifiers() {
 		// TODO Auto-generated constructor stub
