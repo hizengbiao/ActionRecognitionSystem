@@ -196,6 +196,7 @@ public class MainWindow  extends JFrame implements ActionListener{
 		
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
@@ -343,6 +344,7 @@ public class MainWindow  extends JFrame implements ActionListener{
 			Train.setText(MyConstants.S_Train);
 			PredictButtonState=false;
 			Predict.setText(MyConstants.S_Predict);
+			if(myThread!=null)
 			myThread.stop();
 			myThread=null;
 			isRunning=false;
