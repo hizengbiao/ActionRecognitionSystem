@@ -126,6 +126,7 @@ public class Classifiers {
 
 		// System.out.println(dataLines1+"  "+dataLines2);
 		if (dataLines1 == dataLines2 && dataLines1 != 0){			
+			MyTools.showTips("特征数据加载完成！", 1);
 			return 1;
 		}
 		data_mat=null;
@@ -227,6 +228,21 @@ public class Classifiers {
 		// svm.save( "E:/apple/SVM_DATA.xml" );
 
 	}
+	
+	public static void loadSVMModel(){
+		MyTools.showTips("load svm_classifier...", 1);
+		File f = new File(svm_modelAddress + svm_modelName);// svm路径
+		if (!f.exists()) {
+			System.out.println("svm_classifier doesn't exist!...");
+			// MainWindow.tips.append("svm_classifier doesn't exist!...\n");
+			MyTools.showTips("classificator doesn't exist!...");
+			return;
+		}
+		if (svm_classifier == null)
+			svm_classifier = new CvSVM();			
+		svm_classifier.load(svm_modelAddress + svm_modelName);
+		MyTools.showTips("svm_classifier加载完成！", 1);
+	}
 
 	public static void SVMpredict(String viAdr, ImageGUI predictVideo) {
 		if (svm_classifier == null) {
@@ -234,16 +250,7 @@ public class Classifiers {
 			svm_classifier = new CvSVM();
 			System.out.println("load svm_classifier...");
 			// MainWindow.tips.append("load svm_classifier...\n");
-			MyTools.showTips("load svm_classifier...", 1);
-
-			File f = new File(svm_modelAddress + svm_modelName);// svm路径
-			if (!f.exists()) {
-				System.out.println("svm_classifier doesn't exist!...");
-				// MainWindow.tips.append("svm_classifier doesn't exist!...\n");
-				MyTools.showTips("classificator doesn't exist!...");
-				return;
-			}
-			svm_classifier.load(svm_modelAddress + svm_modelName);
+			loadSVMModel();
 		}
 		MyTools.showTips("processing...", 1);
 		Mat features = ExtractVideoFeature.extract(viAdr, predictVideo);

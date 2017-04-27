@@ -1,6 +1,8 @@
 package data;
 
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.File;  
 import java.io.FileInputStream;  
 import java.io.FileNotFoundException;  
@@ -8,6 +10,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;  
 import java.io.InputStream;  
 import java.io.OutputStream;  
+import java.nio.channels.FileChannel;
  
 public class FileCopy {  
    private static  File inputFile;  
@@ -37,8 +40,62 @@ public class FileCopy {
        outputStream=new FileOutputStream(outputFile);
    }
    
+
    
-   private static  void initialize(File in,File out) throws FileNotFoundException{
+   public static void Copy(File source, File target) throws IOException {  
+	   
+	/*   InputStream fis = null;  
+	    OutputStream fos = null;  
+	    try {  
+	        fis = new BufferedInputStream(new FileInputStream(source));  
+	        fos = new BufferedOutputStream(new FileOutputStream(target));  
+	        byte[] buf = new byte[4096];  
+	        int i;  
+	        while ((i = fis.read(buf)) != -1) {  
+	            fos.write(buf, 0, i);  
+	        }  
+	    }  
+	    catch (Exception e) {  
+	        e.printStackTrace();  
+	    } finally {  
+	        close(fis);  
+	        close(fos);  
+	    }  */
+	    
+	     FileChannel in = null;  
+	    FileChannel out = null;  
+	    FileInputStream inStream = null;  
+	    FileOutputStream outStream = null;  
+	    try {  
+	        inStream = new FileInputStream(source);  
+	        outStream = new FileOutputStream(target);  
+	        in = inStream.getChannel();  
+	        out = outStream.getChannel();  
+	        in.transferTo(0, in.size(), out);
+	    } catch (IOException e) {  
+	        e.printStackTrace();  
+	    } finally {  
+	        inStream.close(); 
+	        in.close();
+	        outStream.close();
+	        out.close();
+	    }  
+	}  
+   
+   
+   private static void close(OutputStream fos) throws IOException {
+	// TODO Auto-generated method stub
+	   fos.close();
+	
+}
+
+private static void close(InputStream fis) throws IOException {
+	// TODO Auto-generated method stub
+	fis.close();
+	
+}
+
+private static  void initialize(File in,File out) throws FileNotFoundException{
 	   inputFile=in;  
        outputFile=out;  
        inputStream=new FileInputStream(inputFile);  

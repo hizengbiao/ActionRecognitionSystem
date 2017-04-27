@@ -190,7 +190,8 @@ public class MainWindow  extends JFrame implements ActionListener{
 		
 		
 		
-		
+		//加载数据：
+		MyTools.loadModel();
 		
 		
 		

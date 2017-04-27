@@ -14,6 +14,7 @@ public class MyTools {
 	 * static int pauseTime=600000; static int preSpeed;
 	 */
 	public static boolean pause = false;
+	public static boolean loadingModel=false;
 
 	public MyTools() {
 		// TODO Auto-generated constructor stub
@@ -181,6 +182,27 @@ public class MyTools {
 		};
 		deb.start();
 		
+	}
+
+	public static void loadModel() {
+		// TODO Auto-generated method stub
+		loadingModel=true;
+		Thread lod=new Thread(){
+			public void run(){
+				try {
+					Classifiers.loadTrainData();
+				} catch (NumberFormatException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				Classifiers.loadSVMModel();
+				loadingModel=false;
+			}
+		};
+		lod.start();
 	}
 
 }

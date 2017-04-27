@@ -50,15 +50,18 @@ public class ExtractAllVideos {
         }
 		MyTools.showTips("\n特征提取完毕",1);
 		
+		outAll.close();
+		outAll_label.close();
 		
 		File f_=MyTools.mkdir(Classifiers.data_hog_Address,Classifiers.data_hog_name);//保存路径
 		File f2_=MyTools.mkdir(Classifiers.data_hog_Address,Classifiers.data_hog_label);//保存路径
 		
-		FileCopy.copy2(f, f_); 
-		FileCopy.copy2(f2, f2_); 
+		FileCopy.Copy(f, f_); 
+		MyTools.showTips("\n特征数据拷贝完成",1);
+		FileCopy.Copy(f2, f2_);		
+		MyTools.showTips("\n特征标签拷贝完成",1);
 		
-		outAll.close();
-		outAll_label.close();
+		
 	}
 
 }
