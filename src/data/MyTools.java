@@ -84,7 +84,7 @@ public class MyTools {
 	}
 
 	public static void clearTips() {
-		MainWindow.tips.setText("\n");
+//		MainWindow.tips.setText("\n");
 	}
 
 	public static void showTips(String s, int sign) {
@@ -143,6 +143,101 @@ public class MyTools {
 //		out.close();
 	}
 	
+	public static void saveFeaturesToText(Mat features,String hogDirAddress,String hogFileAddress) throws IOException {
+		
+		File f = MyTools.mkdir(hogDirAddress, hogFileAddress);
+		FileWriter fw = new FileWriter(f);
+		PrintWriter out = new PrintWriter(new BufferedWriter(fw));
+
+		for (int i = 0; i < features.rows(); i++) {
+			for (int k = 0; k < features.cols(); k++) {
+				double[] va = features.get(i, k);
+				float value = (float) va[0];
+				out.print(value + "\t");
+			}
+			out.println();
+		}
+		out.close();
+	}
+	
+	public static void sortN(float[][] NoTimes,int n) {
+		// TODO Auto-generated method stub
+		for (int i = 0; i < n - 1; i++) {
+			for (int j = 0; j < n - 1 - i; j++) {
+				if (NoTimes[j][0] < NoTimes[j + 1][0]) {
+					float tem[] = new float[2];
+					tem[0] = NoTimes[j][0];
+					tem[1] = NoTimes[j][1];
+					NoTimes[j][0] = NoTimes[j + 1][0];
+					NoTimes[j][1] = NoTimes[j + 1][1];
+					NoTimes[j + 1][0] = tem[0];
+					NoTimes[j + 1][1] = tem[1];
+				}
+			}
+		}
+
+	}
+
+	
+
+	public static void sortBelief(VideoConfidence[] NoTimes,int n) {
+//		排序
+//		int n=Labels.getLabelsCount();//n=6
+//		float[][] NoTimes = new float[n][2];
+//		// 6是视频各类数量，第一个列向量是视频各类id，第二个是特征符合的数量
+//		// 第7行是总数
+//		for (int w = 0; w < n; w++) {
+//			NoTimes[w][0] = w;
+//			NoTimes[w][1] = r[w];
+//		}
+//		for (int u = 0; u < n; u++) {
+//			NoTimes[r[u]][1]++;
+//			NoTimes[n][1]++;
+//		}
+
+		// 排序：
+		for (int i = 0; i < n - 1; i++) {
+			for (int j = 0; j < n - 1 - i; j++) {
+				if (NoTimes[j].getConfidence() < NoTimes[j + 1].getConfidence()) {
+					VideoConfidence tem=NoTimes[j] ;
+					NoTimes[j]= NoTimes[j + 1];
+					 NoTimes[j + 1]= tem;
+				}
+			}
+		}
+//
+//		return NoTimes;
+	}
+	
+
+	public static void sortId(VideoConfidence[] NoTimes,int n) {
+//		排序
+//		int n=Labels.getLabelsCount();//n=6
+//		float[][] NoTimes = new float[n][2];
+//		// 6是视频各类数量，第一个列向量是视频各类id，第二个是特征符合的数量
+//		// 第7行是总数
+//		for (int w = 0; w < n; w++) {
+//			NoTimes[w][0] = w;
+//			NoTimes[w][1] = r[w];
+//		}
+//		for (int u = 0; u < n; u++) {
+//			NoTimes[r[u]][1]++;
+//			NoTimes[n][1]++;
+//		}
+
+		// 排序：
+		for (int i = 0; i < n - 1; i++) {
+			for (int j = 0; j < n - 1 - i; j++) {
+				if (NoTimes[j].getId() < NoTimes[j + 1].getId()) {
+					VideoConfidence tem=NoTimes[j] ;
+					NoTimes[j]= NoTimes[j + 1];
+					 NoTimes[j + 1]= tem;
+				}
+			}
+		}
+//
+//		return NoTimes;
+	}
 
 	public static void playVideo(String vidAdd) {
 		if (MainWindow.PredictButtonState == false) {
@@ -242,5 +337,22 @@ public class MyTools {
 		};
 		lod.start();
 	}
+	
+	public static void test() {
+		// TODO Auto-generated method stub
+		
+		Thread lod=new Thread(){
+			public void run(){				
+				try {
+					CoTraining.start(MainWindow.videoGUI);
+				} catch (IOException | InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		};
+		lod.start();
+	}
+
 
 }

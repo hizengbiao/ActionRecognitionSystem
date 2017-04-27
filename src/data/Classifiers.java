@@ -18,8 +18,10 @@ import org.opencv.ml.CvSVMParams;
 public class Classifiers {
 
 	// public static Mat data_mat;
-	private static Mat data_mat;
-	private static Mat label_mat;
+	private static Mat svm_data_mat;
+	private static Mat svm_label_mat;
+	private static Mat knn_data_mat;
+	private static Mat knn_label_mat;
 	private static CvSVM svm_classifier;
 	private static CvKNearest knn_classifier;
 	public static String data_hog_Address = MyConstants.VideoHogAddress;
@@ -46,27 +48,107 @@ public class Classifiers {
 
 		int dataLines1 = 0;
 		int dataLines2 = 0;
-		File f = new File(data_hog_Address + data_hog_name);// 读取路径
-		if (!f.exists()) {
-			System.out.println("hog数据不存在！");
+		int dataLines3 = 0;
+		int dataLines4 = 0;
+		File f1 = new File(data_hog_Address + svm_data);// 读取路径
+		if (!f1.exists()) {
+//			System.out.println("SVM feature数据不存在！");
 			// MainWindow.tips.append("hog数据不存在！\n");
-			MyTools.showTips("hog数据不存在！", 1);
+			MyTools.showTips("SVM feature数据不存在！", 1);
 			return -1;
 		}
 
-		File f2 = new File(data_hog_Address + data_hog_label);// 读取label路径
+		File f2 = new File(data_hog_Address + svm_label);// 读取label路径
 		if (!f2.exists()) {
-			System.out.println("label数据不存在！");
+//			System.out.println("label数据不存在！");
 			// MainWindow.tips.append("label数据不存在！\n");
-			MyTools.showTips("label数据不存在！", 1);
+			MyTools.showTips("SVM label数据不存在！", 1);
 			return -2;
 		}
+		
+		
+		File f3 = new File(data_hog_Address + knn_data);// 读取路径
+		if (!f3.exists()) {
+//			System.out.println("SVM feature数据不存在！");
+			// MainWindow.tips.append("hog数据不存在！\n");
+			MyTools.showTips("KNN feature数据不存在！", 1);
+			return -1;
+		}
 
-		// 读取hog:
+		File f4 = new File(data_hog_Address + svm_label);// 读取label路径
+		if (!f4.exists()) {
+//			System.out.println("label数据不存在！");
+			// MainWindow.tips.append("label数据不存在！\n");
+			MyTools.showTips("KNN label数据不存在！", 1);
+			return -2;
+		}
+		svm_data_mat=new Mat();
+		svm_label_mat=new Mat();
+		knn_data_mat=new Mat();
+		knn_label_mat=new Mat();
+		
 		MyTools.showTips("读取特征数据中。。。", 1);
-		data_mat = new Mat();
+
+		// 读取svm feature:
+		dataLines1=readData(svm_data_mat,svm_data);
+		
+		// 读取SVM label数据：		
+		dataLines2=readData(svm_label_mat,svm_label);
+
+		// 读取knn feature:		
+		dataLines3=readData(knn_data_mat,knn_data);
+		
+		// 读取knn label数据：		
+		dataLines4=readData(knn_label_mat,knn_label);
+		
+		if ((dataLines1 == dataLines2 && dataLines1 != 0)&&(dataLines3 == dataLines4 && dataLines3 != 0)){			
+			MyTools.showTips("特征数据加载完成！", 1);
+//			MyTools.showTips(svm_data_mat.rows()+"  mat rows", 1);
+			return 1;
+		}
+		
+		svm_data_mat=null;
+		svm_label_mat=null;
+		knn_data_mat=null;
+		knn_label_mat=null;
+		
+		MyTools.showTips("训练数据与标签不一致！",1);
+		return 0;
+	}
+	
+	public static int readData(Mat mat,String adds) throws IOException{
+		int dataLines1=0;
+//		mat = new Mat();
+//		BufferedReader in2 = new BufferedReader(new InputStreamReader(
+//				new FileInputStream(data_hog_Address + adds)));
+//		String line2 = null;
+//		int k2 = 0;
+//		int cols = 0;
+//		int k = 0;
+//		while ((line2 = in2.readLine()) != null) {
+//			dataLines2++;
+//			String[] words = line2.split("\t");
+//			Mat aRow2 = new Mat(1, words.length, CvType.CV_32FC1);
+//			// float[]values=new float[words.length];
+//			for (k2 = 0; k2 < words.length; k2++) {
+//				String word = words[k2];
+//				int value = Integer.parseInt(word);
+//				aRow2.put(0, k2, value);
+//			}
+//			// Mat aRow=new Mat();
+//			/*
+//			 * MatOfFloat aRow=new MatOfFloat(); aRow.fromArray(values);
+//			 */
+//
+//			// System.out.println("k="+k+"   words.length="+words.length);
+//			mat.push_back(aRow2);
+//		}
+//		in2.close();
+//		return dataLines2;
+		
+
 		BufferedReader in = new BufferedReader(new InputStreamReader(
-				new FileInputStream(data_hog_Address + data_hog_name)));
+				new FileInputStream(data_hog_Address + adds)));
 		String line = null;
 		int cols = 0;
 		int k = 0;
@@ -93,26 +175,59 @@ public class Classifiers {
 			 */
 
 			// System.out.println("k="+k+"   words.length="+words.length);
-			data_mat.push_back(aRow);
+			mat.push_back(aRow);
 		}
-		in.close();
+		in.close();		
+		return dataLines1;
+	}
+	
+	public static Mat loadTrainData(String adds) throws NumberFormatException, IOException {
 
-		// 读取label数据：
+//		int dataLines1 = 0;
+//		int dataLines2 = 0;
+		File f = new File(adds);// 读取路径
+		if (!f.exists()) {
+//			System.out.println("hog数据不存在！");
+			// MainWindow.tips.append("hog数据不存在！\n");
+			MyTools.showTips("hog数据不存在！", 1);
+			return null;
+		}
 
-		label_mat = new Mat();
-		BufferedReader in2 = new BufferedReader(new InputStreamReader(
-				new FileInputStream(data_hog_Address + data_hog_label)));
-		String line2 = null;
-		int k2 = 0;
-		while ((line2 = in2.readLine()) != null) {
-			dataLines2++;
-			String[] words = line2.split("\t");
-			Mat aRow2 = new Mat(1, words.length, CvType.CV_32FC1);
+//		File f2 = new File(data_hog_Address + data_hog_label);// 读取label路径
+//		if (!f2.exists()) {
+//			System.out.println("label数据不存在！");
+//			// MainWindow.tips.append("label数据不存在！\n");
+//			MyTools.showTips("label数据不存在！", 1);
+//			return -2;
+//		}
+
+		// 读取hog:
+		MyTools.showTips("读取特征数据中。。。", 1);
+		Mat data = new Mat();
+		BufferedReader in = new BufferedReader(new InputStreamReader(
+				new FileInputStream(adds)));
+		String line = null;
+		int cols = 0;
+		int k = 0;
+
+		while ((line = in.readLine()) != null) {
+//			dataLines1++;
+			String[] words = line.split("\t");
+			if (k == 0)
+				cols = words.length;
+			if (cols != words.length){
+//				break;//信息不完整
+				in.close();
+				return null;
+			}
+			Mat aRow = new Mat(1, words.length, CvType.CV_32FC1);
 			// float[]values=new float[words.length];
-			for (k2 = 0; k2 < words.length; k2++) {
-				String word = words[k2];
-				int value = Integer.parseInt(word);
-				aRow2.put(0, k2, value);
+			for (k = 0; k < words.length; k++) {
+				String word = words[k];
+				double value = Float.parseFloat(word);
+				// double value = (float) Double.parseDouble(word);
+				// values[k]= (float) Double.parseDouble(word);
+				aRow.put(0, k, value);
 			}
 			// Mat aRow=new Mat();
 			/*
@@ -120,24 +235,17 @@ public class Classifiers {
 			 */
 
 			// System.out.println("k="+k+"   words.length="+words.length);
-			label_mat.push_back(aRow2);
+			data.push_back(aRow);
 		}
-		in2.close();
+		in.close();
 
-		// System.out.println(dataLines1+"  "+dataLines2);
-		if (dataLines1 == dataLines2 && dataLines1 != 0){			
-			MyTools.showTips("特征数据加载完成！", 1);
-			return 1;
-		}
-		data_mat=null;
-		label_mat=null;
-		MyTools.showTips("训练数据与标签不一致！",1);
-		return 0;
+		
+		return data;
 	}
 
 	public static void saveTrainDataTest() throws IOException {
 		// 没用，只是用来测试Mat的读取是否正常
-		if (data_mat == null) {
+		if (svm_data_mat == null) {
 			System.out.println("Mat is uninitialize!");
 			// MainWindow.tips.append("Mat is uninitialize!\n");
 			MyTools.showTips("Mat is uninitialize!");
@@ -148,9 +256,9 @@ public class Classifiers {
 		FileWriter fw11 = new FileWriter(f11);
 		PrintWriter out3 = new PrintWriter(new BufferedWriter(fw11));
 		// System.out.println("data_mat.rows():"+data_mat.rows()+"  data_mat.cols():"+data_mat.cols());
-		for (int j = 0; j < data_mat.rows(); j++) {
-			for (int k = 0; k < data_mat.cols(); k++) {
-				double[] va = data_mat.get(j, k);
+		for (int j = 0; j < svm_data_mat.rows(); j++) {
+			for (int k = 0; k < svm_data_mat.cols(); k++) {
+				double[] va = svm_data_mat.get(j, k);
 				out3.print((float) va[0] + "\t");
 			}
 
@@ -165,7 +273,7 @@ public class Classifiers {
 		out3.close();
 
 		// 存储label:
-		if (label_mat == null) {
+		if (svm_label_mat == null) {
 			System.out.println("labelMat is uninitialize!");
 			// MainWindow.tips.append("Mat is uninitialize!\n");
 			MyTools.showTips("Mat is uninitialize!");
@@ -176,9 +284,9 @@ public class Classifiers {
 		FileWriter fw22 = new FileWriter(f22);
 		PrintWriter out22 = new PrintWriter(new BufferedWriter(fw22));
 		// System.out.println("data_mat.rows():"+data_mat.rows()+"  data_mat.cols():"+data_mat.cols());
-		for (int j = 0; j < label_mat.rows(); j++) {
-			for (int k = 0; k < label_mat.cols(); k++) {
-				double[] va = label_mat.get(j, k);
+		for (int j = 0; j < svm_label_mat.rows(); j++) {
+			for (int k = 0; k < svm_label_mat.cols(); k++) {
+				double[] va = svm_label_mat.get(j, k);
 				out22.print((int) va[0] + "\t");
 			}
 
@@ -199,10 +307,10 @@ public class Classifiers {
 		CvSVMParams params = new CvSVMParams();
 		params.set_kernel_type(CvSVM.LINEAR);
 		MyTools.showTips("分类器训练中。。。", 1);
-		svm_classifier = new CvSVM(data_mat, label_mat, new Mat(), new Mat(),
+		svm_classifier = new CvSVM(svm_data_mat, svm_label_mat, new Mat(), new Mat(),
 				params);
 		MyTools.mkdir(svm_modelAddress, svm_modelName);
-		svm_classifier.train(data_mat, label_mat);
+		svm_classifier.train(svm_data_mat, svm_label_mat);
 		svm_classifier.save(svm_modelAddress + svm_modelName);
 		MyTools.showTips("分类器训练完毕。", 1);
 
@@ -290,6 +398,61 @@ public class Classifiers {
 		}
 
 	}
+	
+	public static VideoConfidence SVMpredict(Mat features) throws InterruptedException {
+		/*if (svm_classifier == null) {
+			// System.out.println("haha");
+			svm_classifier = new CvSVM();
+			System.out.println("load svm_classifier...");
+			// MainWindow.tips.append("load svm_classifier...\n");
+			loadSVMModel();
+		}*/
+		VideoConfidence vc=new VideoConfidence();
+		
+		while(MyTools.loadingModel==true){
+			Thread.sleep(50);
+		}
+		if(MyTools.loadingModelResult!=1){
+			MyTools.showTips("分类器没有成功加载，无法预测！", 1);
+			return vc;
+		}
+		
+		MyTools.showTips("processing...", 1);
+//		Mat features = ExtractVideoFeature.extract(viAdr, predictVideo);
+
+		int result[] = new int[features.rows()];
+		for (int i = 0; i < features.rows(); i++) {
+			result[i] = (int) svm_classifier.predict(features.row(i));
+			// System.out.println(result[i]+"   "+Labels.getNameById(result[i]));
+		}
+		System.out.println("count:");
+		// MainWindow.tips.append("count:\n");
+		MyTools.showTips("predict result:", 1);
+		int nt[][] = chooseOne(result,result.length);
+		for (int q = 0; q < 6; q++) {
+			System.out.println(nt[q][0] + "   " + Labels.getNameById(nt[q][0])
+					+ "   次数：" + nt[q][1]);
+			// MainWindow.tips.append(nt[q][0]+"   "+Labels.getNameById(nt[q][0])+"   次数："+nt[q][1]+"\n");
+			MyTools.showTips(nt[q][0] + "(类别Id)   "
+					+ Labels.getNameById(nt[q][0]) + "   次数：" + nt[q][1]);
+		}
+		for (int a = 0; a < 2; a++) {
+			System.out.println("视频为" + Labels.getNameById(nt[a][0]) + "的概率为："
+					+ (nt[a][1] / (float) nt[6][1] * 100) + "%");
+			// MainWindow.tips.append("视频为"+Labels.getNameById(nt[a][0])+"的概率为："+(nt[a][1]/(float)nt[6][1]*100)+"%\n");
+			MyTools.showTips("视频为" + Labels.getNameById(nt[a][0]) + "的概率为："
+					+ (nt[a][1] / (float) nt[6][1] * 100) + "%");
+		}
+		
+		//置信度计算：
+		if(nt[6][1]<5)
+			return vc;
+		
+		vc.setConfidence(nt[0][1] / (float) nt[6][1] * 100);
+		vc.setVideoType(nt[0][0]);
+		return vc;
+
+	}
 
 	public static int[][] chooseOne(int[] r,int num) {
 		int n=Labels.getLabelsCount();//n=6
@@ -331,6 +494,9 @@ public class Classifiers {
 		}
 		return chooseOne(da,da.length);
 	}
+	
+
+	
 
 	public static void KNNtrain() {
 		
@@ -347,10 +513,10 @@ public class Classifiers {
 //		CvSVMParams params = new CvSVMParams();
 //		params.set_kernel_type(CvSVM.LINEAR);
 //		MyTools.showTips("分类器训练中。。。", 1);
-		if(data_mat==null){
+		if(knn_data_mat==null){
 			System.out.println("hehello");
 		}
-		knn_classifier = new CvKNearest(data_mat, label_mat);
+		knn_classifier = new CvKNearest(knn_data_mat, knn_label_mat);
 //		MyTools.mkdir(km_modelAddress, km_modelName);
 //		km_classifier.train(data_mat, label_mat);
 		
@@ -389,13 +555,13 @@ public class Classifiers {
 
 	public static void KNNpredict(String viAdr, ImageGUI predictVideo) throws NumberFormatException, IOException {
 		
-		if(data_mat==null||label_mat==null){
+		if(knn_data_mat==null||knn_label_mat==null){
 			if(loadTrainData()!=1)
 				return;
 		}		
 		if (knn_classifier == null) {
 			MyTools.showTips("initializing knn_classifier...", 1);
-			knn_classifier = new CvKNearest(data_mat, label_mat);
+			knn_classifier = new CvKNearest(knn_data_mat, knn_label_mat);
 		}
 		
 		MyTools.showTips("processing...", 1);
@@ -437,6 +603,71 @@ public class Classifiers {
 			MyTools.showTips("视频为" + Labels.getNameById(nt[a][0]) + "的概率为："
 					+ (nt[a][1] / (float) nt[6][1] * 100) + "%");
 		}
+
+	}
+	
+	
+	public static VideoConfidence KNNpredict(Mat features) throws NumberFormatException, IOException {
+		
+		VideoConfidence vc=new VideoConfidence();
+		
+		if(knn_data_mat==null||knn_label_mat==null){
+			if(loadTrainData()!=1)
+				return vc;
+		}		
+		if (knn_classifier == null) {
+			MyTools.showTips("initializing knn_classifier...", 1);
+			knn_classifier = new CvKNearest(knn_data_mat, knn_label_mat);
+		}
+		
+		MyTools.showTips("processing...", 1);
+		
+//		Mat features = ExtractVideoFeature.extract(viAdr, predictVideo);
+/*
+		for (int i = 0; i < features.rows(); i++) {
+			int resu=(int)km_classifier.find_nearest(features.row(i), 5, new Mat(), new Mat(), new Mat());
+			MyTools.showTips(Labels.getNameById(resu)+"", 1);
+		}
+		
+		*/
+
+		int result[] = new int[features.rows()];
+		int valid=0;
+		Mat KNNs = new Mat(1, MyConstants.K, CvType.CV_32FC1);
+		for (int i = 0; i < features.rows(); i++) {
+			knn_classifier.find_nearest(features.row(i), MyConstants.K, new Mat(), KNNs, new Mat());
+			int qw[][]=chooseOne(KNNs);
+			if(qw[0][0]>MyConstants.KNN_threshold)
+			result[++valid] = qw[0][0];
+			// System.out.println(result[i]+"   "+Labels.getNameById(result[i]));
+		}
+		System.out.println("count:");
+		// MainWindow.tips.append("count:\n");
+		MyTools.showTips("predict result:", 1);
+		int nt[][] = chooseOne(result,valid);
+		for (int q = 0; q < 6; q++) {
+			System.out.println(nt[q][0] + "   " + Labels.getNameById(nt[q][0])
+					+ "   次数：" + nt[q][1]);
+			// MainWindow.tips.append(nt[q][0]+"   "+Labels.getNameById(nt[q][0])+"   次数："+nt[q][1]+"\n");
+			MyTools.showTips(nt[q][0] + "(类别Id)   "
+					+ Labels.getNameById(nt[q][0]) + "   次数：" + nt[q][1]);
+		}
+		for (int a = 0; a < 2; a++) {
+			System.out.println("视频为" + Labels.getNameById(nt[a][0]) + "的概率为："
+					+ (nt[a][1] / (float) nt[6][1] * 100) + "%");
+			// MainWindow.tips.append("视频为"+Labels.getNameById(nt[a][0])+"的概率为："+(nt[a][1]/(float)nt[6][1]*100)+"%\n");
+			MyTools.showTips("视频为" + Labels.getNameById(nt[a][0]) + "的概率为："
+					+ (nt[a][1] / (float) nt[6][1] * 100) + "%");
+		}
+		
+		//置信度计算：
+		if(nt[6][1]<5)
+			return vc;
+		
+		vc.setConfidence(nt[0][1] / (float) nt[6][1] * 100);
+		vc.setVideoType(nt[0][0]);
+		return vc;
+
 
 	}
 

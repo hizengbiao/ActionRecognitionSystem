@@ -8,8 +8,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.io.IOException;
-
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -369,12 +367,14 @@ public class MainWindow  extends JFrame implements ActionListener{
 			/*String add=MyConstants.dataOfVideosAddress+"jogging/jogging_10.avi";
 			MyTools.playVideo(add);	*/
 			
-			try {
+			/*try {
 				MyTools.ExtractAndTrain();
 			} catch (IOException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
-			}
+			}*/
+			
+			MyTools.test();
 		}
 	}
 

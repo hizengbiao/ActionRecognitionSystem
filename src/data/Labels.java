@@ -2,9 +2,10 @@ package data;
 
 public enum Labels {
     BOXING("boxing", "boxing/", 100), HANDCLAPPING("handclapping",
-            "handclapping/", 99), HANDWAVING("handwaving", "handwaving/", 100), RUNNING(
-            "running", "running/", 100), JOGGING("jogging", "jogging/", 100), WALKING(
-            "walking", "walking/", 100);
+            "handclapping/", 99);
+//    , HANDWAVING("handwaving", "handwaving/", 100), RUNNING(
+//            "running", "running/", 100), JOGGING("jogging", "jogging/", 100), WALKING(
+//            "walking", "walking/", 100)
 
     private String name;
     private String address;

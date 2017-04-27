@@ -5,6 +5,7 @@ public class MyConstants {
 	 
     public final static String dataAddress = "data/";
     public final static String dataOfVideosAddress = dataAddress + "kthdata/";
+    public final static String unLabeledVideosAddress = dataOfVideosAddress + "unlabeled/";
     public final static String VideoHogAddress=dataAddress+"hog/";
     public static String allGradientDataOfVideosAddress = dataAddress
             + "kth_gradient_data/";
