@@ -1,6 +1,5 @@
 package data;
 
-import har.Constants;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -12,7 +11,11 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 
 public class FileChooser extends JFrame implements ActionListener{  
-    JButton open=null;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	JButton open=null;
     String absolutePath;
     public static void main(String[] args) {
 //    	System.out.println(System.getProperty("user.dir")+"/data/kthdata/");

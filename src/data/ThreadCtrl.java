@@ -2,8 +2,6 @@ package data;
 
 import fileFilter.AviFileFilter;
 import fileFilter.Mp4FileFilter;
-import har.Constants;
-
 import java.io.File;
 import java.io.IOException;
 

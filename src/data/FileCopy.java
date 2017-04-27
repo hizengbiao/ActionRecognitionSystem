@@ -1,8 +1,6 @@
 package data;
 
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
 import java.io.File;  
 import java.io.FileInputStream;  
 import java.io.FileNotFoundException;  
@@ -83,7 +81,7 @@ public class FileCopy {
 	}  
    
    
-   private static void close(OutputStream fos) throws IOException {
+/*private static void close(OutputStream fos) throws IOException {
 	// TODO Auto-generated method stub
 	   fos.close();
 	
@@ -93,7 +91,7 @@ private static void close(InputStream fis) throws IOException {
 	// TODO Auto-generated method stub
 	fis.close();
 	
-}
+}*/
 
 private static  void initialize(File in,File out) throws FileNotFoundException{
 	   inputFile=in;  
@@ -146,13 +144,13 @@ private static  void initialize(File in,File out) throws FileNotFoundException{
        return inputFile;  
    }  
    public void setInputFile(File inputFile) {  
-       this.inputFile = inputFile;  
+       FileCopy.inputFile = inputFile;  
    }  
    public File getOutputFile() {  
        return outputFile;  
    }  
    public void setOutputFile(File outputFile) {  
-       this.outputFile = outputFile;  
+       FileCopy.outputFile = outputFile;  
    }  
   /* public static void main(String[] args) throws IOException{  
        String inputPath="e:"+File.separator+"Xfire.rar";  

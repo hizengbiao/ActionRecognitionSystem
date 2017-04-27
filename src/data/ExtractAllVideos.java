@@ -8,8 +8,6 @@ import java.io.PrintWriter;
 
 import org.opencv.core.Mat;
 
-import har.Constants;
-
 public class ExtractAllVideos {
 
 	public ExtractAllVideos() {
@@ -41,7 +39,7 @@ public class ExtractAllVideos {
             	 MainWindow.videoPath.setText(MyConstants.S_videoPath+MyConstants.dataOfVideosAddress+c.getName()+"/");
             	 MainWindow.videoName.setText(MyConstants.S_videoName+c.getName()+"_"+i+".avi");
             	 
-            	 ExtractVideoFeature ext=new ExtractVideoFeature();
+//            	 ExtractVideoFeature ext=new ExtractVideoFeature();
             	 Mat features =ExtractVideoFeature.extract(videoAddress,VideoShow);
             	 MyTools.saveFeaturesToText(features,c,i,outAll,outAll_label);
 //         		ext.exe(videoAddress,c,i,outAll,outAll_label,VideoShow);

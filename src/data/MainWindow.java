@@ -1,23 +1,17 @@
 package data;
 
-import har.Constants;
-
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.TextArea;
 import java.awt.Toolkit;
-import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.io.File;
 import java.io.IOException;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JComponent;
-import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -25,6 +19,10 @@ import javax.swing.border.EmptyBorder;
 
 public class MainWindow  extends JFrame implements ActionListener{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	public static JButton Extract = new JButton(MyConstants.S_Extract); // 提取特征按钮
 	public static JButton Train = new JButton(MyConstants.S_Train); // 按钮

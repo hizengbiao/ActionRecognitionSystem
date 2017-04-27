@@ -4,22 +4,16 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 
-import har.Constants;
-
 import org.opencv.core.CvType;
 import org.opencv.core.Mat;
-import org.opencv.core.MatOfFloat;
 import org.opencv.ml.CvKNearest;
 import org.opencv.ml.CvSVM;
 import org.opencv.ml.CvSVMParams;
-
-import Jama.Matrix;
 
 public class Classifiers {
 

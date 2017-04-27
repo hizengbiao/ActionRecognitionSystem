@@ -1,15 +1,6 @@
 package data;
 
-import har.Constants;
 
-import java.awt.Dimension;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.Vector;
 import org.opencv.objdetect.HOGDescriptor;
 

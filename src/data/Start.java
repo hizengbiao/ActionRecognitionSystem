@@ -1,6 +1,5 @@
 package data;
 
-import har.Constants;
 
 import java.io.IOException;
 
