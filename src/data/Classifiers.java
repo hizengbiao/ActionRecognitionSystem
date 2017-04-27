@@ -229,29 +229,39 @@ public class Classifiers {
 
 	}
 	
-	public static void loadSVMModel(){
+	public static int loadSVMModel(){
 		MyTools.showTips("load svm_classifier...", 1);
 		File f = new File(svm_modelAddress + svm_modelName);// svm路径
 		if (!f.exists()) {
 			System.out.println("svm_classifier doesn't exist!...");
 			// MainWindow.tips.append("svm_classifier doesn't exist!...\n");
-			MyTools.showTips("classificator doesn't exist!...");
-			return;
+			MyTools.showTips("svm_classifier doesn't exist!...",1);
+			return -1;
 		}
 		if (svm_classifier == null)
 			svm_classifier = new CvSVM();			
 		svm_classifier.load(svm_modelAddress + svm_modelName);
 		MyTools.showTips("svm_classifier加载完成！", 1);
+		return 1;
 	}
 
-	public static void SVMpredict(String viAdr, ImageGUI predictVideo) {
-		if (svm_classifier == null) {
+	public static void SVMpredict(String viAdr, ImageGUI predictVideo) throws InterruptedException {
+		/*if (svm_classifier == null) {
 			// System.out.println("haha");
 			svm_classifier = new CvSVM();
 			System.out.println("load svm_classifier...");
 			// MainWindow.tips.append("load svm_classifier...\n");
 			loadSVMModel();
+		}*/
+		
+		while(MyTools.loadingModel==true){
+			Thread.sleep(50);
 		}
+		if(MyTools.loadingModelResult!=1){
+			MyTools.showTips("分类器没有成功加载，无法预测！", 1);
+			return;
+		}
+		
 		MyTools.showTips("processing...", 1);
 		Mat features = ExtractVideoFeature.extract(viAdr, predictVideo);
 

@@ -13,8 +13,11 @@ public class MyTools {
 	/*
 	 * static int pauseTime=600000; static int preSpeed;
 	 */
-	public static boolean pause = false;
+	public static boolean pause = false;	
+	public static boolean loadingFeature=false;
+	public static int loadingFeatureResult;	
 	public static boolean loadingModel=false;
+	public static int loadingModelResult;
 
 	public MyTools() {
 		// TODO Auto-generated constructor stub
@@ -183,22 +186,33 @@ public class MyTools {
 		deb.start();
 		
 	}
-
-	public static void loadModel() {
-		// TODO Auto-generated method stub
-		loadingModel=true;
+	
+	public static void loadFeature(){
+		loadingFeature=true;
 		Thread lod=new Thread(){
 			public void run(){
 				try {
-					Classifiers.loadTrainData();
+					loadingFeatureResult=Classifiers.loadTrainData();
 				} catch (NumberFormatException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
-				}
-				Classifiers.loadSVMModel();
+				}				
+				loadingFeature=false;
+			}
+		};
+		lod.start();
+	
+	}
+
+	public static void loadSVMModel() {
+		// TODO Auto-generated method stub
+		loadingModel=true;
+		Thread lod=new Thread(){
+			public void run(){				
+				loadingModelResult=Classifiers.loadSVMModel();
 				loadingModel=false;
 			}
 		};
