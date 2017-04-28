@@ -186,11 +186,11 @@ public class MainWindow  extends JFrame implements ActionListener{
 		
 		
 		
-		//加载数据：
-		MyTools.loadFeature();
-		MyTools.loadSVMModel();
-		
-		
+//		//加载数据：
+//		MyTools.loadFeature();
+//		MyTools.loadSVMModel();
+//		
+//		
 		
 	}
 

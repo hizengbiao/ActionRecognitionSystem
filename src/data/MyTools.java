@@ -16,6 +16,8 @@ public class MyTools {
 	public static boolean pause = false;	
 	public static boolean loadingFeature=false;
 	public static int loadingFeatureResult;	
+	public static boolean savingFeature=false;
+	public static int savingFeatureResult;	
 	public static boolean loadingModel=false;
 	public static int loadingModelResult;
 
@@ -101,7 +103,7 @@ public class MyTools {
 			PrintWriter outAll, PrintWriter outAll_label) throws IOException {
 		String hogDirAddress = MyConstants.VideoHogAddress + c.getName() + "/";
 		String hogFileAddress = c.getName() + "_" + num + "hog.txt";
-
+		savingFeature=true;
 		File f = MyTools.mkdir(hogDirAddress, hogFileAddress);
 		FileWriter fw = new FileWriter(f);
 		PrintWriter out = new PrintWriter(new BufferedWriter(fw));
@@ -118,10 +120,12 @@ public class MyTools {
 			outAll_label.println(c.ordinal());
 		}
 		out.close();
+		savingFeature=false;
 	}
 	
 	public static void saveFeaturesToText(Mat features, int c,
 			PrintWriter outAll, PrintWriter outAll_label) throws IOException {
+//		savingFeature=true;
 //		String hogDirAddress = MyConstants.VideoHogAddress + c.getName() + "/";
 //		String hogFileAddress = c.getName() + "_" + num + "hog.txt";
 //
@@ -141,10 +145,11 @@ public class MyTools {
 			outAll_label.println(c);
 		}
 //		out.close();
+//		savingFeature=false;
 	}
 	
 	public static void saveFeaturesToText(Mat features,String hogDirAddress,String hogFileAddress) throws IOException {
-		
+//		savingFeature=true;
 		File f = MyTools.mkdir(hogDirAddress, hogFileAddress);
 		FileWriter fw = new FileWriter(f);
 		PrintWriter out = new PrintWriter(new BufferedWriter(fw));
@@ -158,6 +163,7 @@ public class MyTools {
 			out.println();
 		}
 		out.close();
+//		savingFeature=false;
 	}
 	
 	public static void sortN(float[][] NoTimes,int n) {
