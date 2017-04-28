@@ -245,36 +245,36 @@ public class MyTools {
 //		return NoTimes;
 	}
 
-	public static void playVideo(String vidAdd) {
-		if (MainWindow.PredictButtonState == false) {
-			if (MainWindow.isRunning == true) {
-				System.out.println(MyConstants.ThreadConflictMsg);
-				// MainWindow.tips.append(MyConstants.ThreadConflictMsg);
-				MyTools.showTips(MyConstants.ThreadConflictMsg);
-				return;
-			}
-			MainWindow.isRunning = true;
-			MainWindow.PredictButtonState = true;
-
-			MyTools.clearTips();
-			MyTools.videoPlay();
-			MainWindow.videoPause.setText("暂停");
-			MainWindow.HiddenJLabels();
-			MainWindow.HiddenJLabels(1);
-			MainWindow.optionStatus.setText(MyConstants.S_optionStatus
-					+ MyConstants.S_Predict);
-
-			MainWindow.Predict.setText(MyConstants.S_Terminate
-					+ MyConstants.S_Predict);
-
-			ThreadCtrl ctrl = new ThreadCtrl("Predict");
-			ctrl.setGUI(MainWindow.videoGUI, MainWindow.Predict);
-			File f = new File(vidAdd);
-			ctrl.setFile(f);
-			MainWindow.myThread = new Thread(ctrl);
-			MainWindow.myThread.start();
-		}
-	}
+//	public static void playVideo(String vidAdd) {
+//		if (MainWindow.PredictButtonState == false) {
+//			if (MainWindow.isRunning == true) {
+//				System.out.println(MyConstants.ThreadConflictMsg);
+//				// MainWindow.tips.append(MyConstants.ThreadConflictMsg);
+//				MyTools.showTips(MyConstants.ThreadConflictMsg);
+//				return;
+//			}
+//			MainWindow.isRunning = true;
+//			MainWindow.PredictButtonState = true;
+//
+//			MyTools.clearTips();
+//			MyTools.videoPlay();
+//			MainWindow.videoPause.setText("暂停");
+//			MainWindow.HiddenJLabels();
+//			MainWindow.HiddenJLabels(1);
+//			MainWindow.optionStatus.setText(MyConstants.S_optionStatus
+//					+ MyConstants.S_svm_Predict);
+//
+//			MainWindow.Predict.setText(MyConstants.S_Terminate
+//					+ MyConstants.S_svm_Predict);
+//
+//			ThreadCtrl ctrl = new ThreadCtrl("Predict");
+//			ctrl.setGUI(MainWindow.videoGUI, MainWindow.Predict);
+//			File f = new File(vidAdd);
+//			ctrl.setFile(f);
+//			MainWindow.myThread = new Thread(ctrl);
+//			MainWindow.myThread.start();
+//		}
+//	}
 	
 	public static void ExtractAndTrain() throws IOException{
 		/*ExtractAllVideos extA=new ExtractAllVideos();

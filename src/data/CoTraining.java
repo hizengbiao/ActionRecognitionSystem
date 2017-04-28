@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import org.opencv.core.Mat;
 
 public class CoTraining {
+	static int basisVidN=2* Labels.getLabelsCount()* MyConstants.TrainVideoCount;
+	static int nowN=0;
 
 	public CoTraining() {
 		// TODO Auto-generated constructor stub
@@ -31,15 +33,13 @@ public class CoTraining {
 			 
 			for (int i = startVideoNum; i < startVideoNum+MyConstants.TrainVideoCount; i++) {
 				// for(int i=1;i<=c.getNumberOfVideos();i++){
+				nowN++;
 				String videoAddress = MyConstants.dataOfVideosAddress
 						+ c.getName() + "/" + c.getName() + "_" + i + ".avi";
-				MyTools.showTips("videoAddress "+videoAddress, 1);
+//				MyTools.showTips("videoAddress "+videoAddress, 1);
 				MyTools.clearTips();
 				MyTools.showTips("特征提取中...", 1);
-				MyTools.showTips("进度："
-						+ (c.ordinal() * MyConstants.TrainVideoCount + i)
-						+ " / " + Labels.getLabelsCount()
-						* MyConstants.TrainVideoCount);
+				MyTools.showTips("进度："	+ nowN+ " / " + basisVidN);
 				MainWindow.videoPath.setText(MyConstants.S_videoPath
 						+ MyConstants.dataOfVideosAddress + c.getName() + "/");
 				MainWindow.videoName.setText(MyConstants.S_videoName
@@ -196,7 +196,14 @@ public class CoTraining {
 			svm_unlabeled_filename.add(MyConstants.unLabeledVideosHogAddress+names[i]);
 			knn_unlabeled_filename.add(MyConstants.unLabeledVideosHogAddress+names[i]);
 			
-			//提取这些视频的特征并保存：			
+			MainWindow.videoPath.setText(MyConstants.S_videoPath
+					+MyConstants.unLabeledVideosHogAddress);
+			MainWindow.videoName.setText(MyConstants.S_videoName+names[i]);
+			
+			MyTools.showTips("未标识视频特征提取中...", 1);
+			MyTools.showTips("进度："	+ (i+1)+ " / " + numOfUnlabeledVideos);
+			
+			//提取这些视频的特征并保存：	
 			Mat features = ExtractVideoFeature.extract(MyConstants.unLabeledVideosAddress+names[i],
 					VideoShow);
 			MyTools.saveFeaturesToText(features,MyConstants.unLabeledVideosHogAddress,names[i]+".txt");
@@ -291,7 +298,7 @@ public class CoTraining {
 //			
 		}
 	
-		
+		MyTools.showTips("协同训练完成！", 1);
 		
 	}
 

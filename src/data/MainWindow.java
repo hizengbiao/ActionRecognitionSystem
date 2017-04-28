@@ -24,7 +24,9 @@ public class MainWindow  extends JFrame implements ActionListener{
 	private JPanel contentPane;
 	public static JButton Extract = new JButton(MyConstants.S_Extract); // 提取特征按钮
 	public static JButton Train = new JButton(MyConstants.S_Train); // 按钮
-	public static JButton Predict = new JButton(MyConstants.S_Predict); // 按钮
+	public static JButton COTrain = new JButton(MyConstants.S_co_Train); // 按钮
+	public static JButton SVMPredict = new JButton(MyConstants.S_svm_Predict); // 按钮
+	public static JButton KNNPredict = new JButton(MyConstants.S_knn_Predict); // 按钮
 	private JButton Terminate=new JButton("终止所有");//终止按钮
 	public static JButton speedUp=new JButton("加速");
 	public static JButton speedDown=new JButton("减速");
@@ -46,7 +48,9 @@ public class MainWindow  extends JFrame implements ActionListener{
 	
 	public static boolean ExtractButtonState=false;
 	public static boolean TrainButtonState=false;
-	public static boolean PredictButtonState=false;
+	public static boolean COTrainButtonState=false;
+	public static boolean SVMPredictButtonState=false;
+	public static boolean KNNPredictButtonState=false;
 	public static Thread myThread=null;
 	public static boolean isRunning=false;//线程是否在启动中
 	
@@ -119,10 +123,16 @@ public class MainWindow  extends JFrame implements ActionListener{
 		Extract.addActionListener(this);
 		Train.setBounds(190, 50, 100, 40);
 		this.add(Train);
+		COTrain.addActionListener(this);
+		COTrain.setBounds(190, 80, 100, 40);
+		this.add(COTrain);
 		Train.addActionListener(this);
-		Predict.setBounds(300, 50, 100, 40);
-		this.add(Predict);
-		Predict.addActionListener(this);
+		SVMPredict.setBounds(300, 50, 100, 40);
+		this.add(SVMPredict);
+		SVMPredict.addActionListener(this);
+		KNNPredict.setBounds(300, 80, 100, 40);
+		this.add(KNNPredict);
+		KNNPredict.addActionListener(this);
 		Terminate.setBounds(450, 50, 100, 40);
 		this.add(Terminate);
 		Terminate.addActionListener(this);
@@ -187,8 +197,8 @@ public class MainWindow  extends JFrame implements ActionListener{
 		
 		
 //		//加载数据：
-//		MyTools.loadFeature();
-//		MyTools.loadSVMModel();
+		MyTools.loadFeature();
+		MyTools.loadSVMModel();
 //		
 //		
 		
@@ -283,7 +293,59 @@ public class MainWindow  extends JFrame implements ActionListener{
 			}*/
 			
 		}
-		else if(e.getSource() == Predict){
+		 else if (e.getSource() == COTrain) {
+				
+				if(COTrainButtonState==false){
+					if(isRunning==true){
+						System.out.println(MyConstants.ThreadConflictMsg);
+//						MainWindow.tips.append(MyConstants.ThreadConflictMsg);
+						MyTools.showTips(MyConstants.ThreadConflictMsg);
+						return;
+					}
+					isRunning=true;
+					COTrainButtonState=true;
+					
+					MyTools.clearTips();
+					HiddenJLabels();
+					HiddenJLabels(1);
+					optionStatus.setText(MyConstants.S_optionStatus+MyConstants.S_co_Train);
+					
+					COTrain.setText(MyConstants.S_Terminate+MyConstants.S_co_Train);
+
+					ThreadCtrl ctrl = new ThreadCtrl("COTrain");
+					ctrl.setGUI(COTrain);
+					myThread=new Thread(ctrl);
+					myThread.start();
+				}
+				else{
+					//关闭线程
+					COTrainButtonState=false;
+					COTrain.setText(MyConstants.S_co_Train);
+					myThread.stop();
+					myThread=null;
+					isRunning=false;
+				}
+				
+				
+				/*
+//				训练：
+				try {
+					if(MySVM.loadTrainData())
+//					MySVM.saveTrainDataTest();
+//					System.out.println(MySVM.loadTrainData());
+					MySVM.train();
+					else
+						System.out.println("训练数据加载失败！");
+				} catch (NumberFormatException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}*/
+				
+			}
+		else if(e.getSource() == SVMPredict){
 //			预测：
 			/*Labels c=Labels.BOXING;
 //			int i=69;
@@ -299,7 +361,7 @@ public class MainWindow  extends JFrame implements ActionListener{
 	        File file=jfc.getSelectedFile();
 	        MySVM.predict(file.toString(),predictVideo);*/
 	        
-			if(PredictButtonState==false){
+			if(SVMPredictButtonState==false){
 				if(isRunning==true){
 					System.out.println(MyConstants.ThreadConflictMsg);
 //					MainWindow.tips.append(MyConstants.ThreadConflictMsg);
@@ -307,27 +369,79 @@ public class MainWindow  extends JFrame implements ActionListener{
 					return;
 				}
 				isRunning=true;
-				PredictButtonState=true;
+				SVMPredictButtonState=true;
 				
 				MyTools.clearTips();
 				MyTools.videoPlay();
 				videoPause.setText("暂停");
 				HiddenJLabels();
 				HiddenJLabels(1);
-				optionStatus.setText(MyConstants.S_optionStatus+MyConstants.S_Predict);
+				optionStatus.setText(MyConstants.S_optionStatus+MyConstants.S_svm_Predict);
 				
-				Predict.setText(MyConstants.S_Terminate+MyConstants.S_Predict);
+				SVMPredict.setText(MyConstants.S_Terminate+MyConstants.S_svm_Predict);
 
 
-		        ThreadCtrl ctrl = new ThreadCtrl("Predict");
-		        ctrl.setGUI(videoGUI,Predict);
+		        ThreadCtrl ctrl = new ThreadCtrl("SVMPredict");
+		        ctrl.setGUI(videoGUI,SVMPredict);
 		        myThread=new Thread(ctrl);
 		        myThread.start();
 			}
 			else{
 				//关闭线程
-				PredictButtonState=false;
-				Predict.setText(MyConstants.S_Predict);
+				SVMPredictButtonState=false;
+				SVMPredict.setText(MyConstants.S_svm_Predict);
+				myThread.stop();
+				myThread=null;
+				isRunning=false;
+			}
+	        
+			
+		}
+			else if(e.getSource() == KNNPredict){
+//				预测：
+				/*Labels c=Labels.BOXING;
+//				int i=69;
+//				int i=72;
+				int i=29;
+				String videoAddress=Constants.dataOfVideosAddress+c.getName()+"/"+c.getName()+"_"+i+".avi";
+				MySVM.predict(videoAddress,predictVideo);
+				*/
+				
+			/*	JFileChooser jfc=new JFileChooser(Constants.dataOfVideosAddress);  
+		        jfc.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES );  
+		        jfc.showDialog(new JLabel(), "选择");
+		        File file=jfc.getSelectedFile();
+		        MySVM.predict(file.toString(),predictVideo);*/
+		        
+				if(KNNPredictButtonState==false){
+					if(isRunning==true){
+						System.out.println(MyConstants.ThreadConflictMsg);
+//						MainWindow.tips.append(MyConstants.ThreadConflictMsg);
+						MyTools.showTips(MyConstants.ThreadConflictMsg);
+						return;
+					}
+					isRunning=true;
+					KNNPredictButtonState=true;
+					
+					MyTools.clearTips();
+					MyTools.videoPlay();
+					videoPause.setText("暂停");
+					HiddenJLabels();
+					HiddenJLabels(1);
+					optionStatus.setText(MyConstants.S_optionStatus+MyConstants.S_knn_Predict);
+					
+					KNNPredict.setText(MyConstants.S_Terminate+MyConstants.S_knn_Predict);
+
+
+			        ThreadCtrl ctrl = new ThreadCtrl("KNNPredict");
+			        ctrl.setGUI(videoGUI,KNNPredict);
+			        myThread=new Thread(ctrl);
+			        myThread.start();
+				}
+			else{
+				//关闭线程
+				KNNPredictButtonState=false;
+				KNNPredict.setText(MyConstants.S_knn_Predict);
 				myThread.stop();
 				myThread=null;
 				isRunning=false;
@@ -340,8 +454,12 @@ public class MainWindow  extends JFrame implements ActionListener{
 			Extract.setText(MyConstants.S_Extract);
 			TrainButtonState=false;
 			Train.setText(MyConstants.S_Train);
-			PredictButtonState=false;
-			Predict.setText(MyConstants.S_Predict);
+			COTrainButtonState=false;
+			COTrain.setText(MyConstants.S_co_Train);
+			KNNPredictButtonState=false;
+			KNNPredict.setText(MyConstants.S_knn_Predict);
+			SVMPredictButtonState=false;
+			SVMPredict.setText(MyConstants.S_svm_Predict);
 			if(myThread!=null)
 			myThread.stop();
 			myThread=null;
