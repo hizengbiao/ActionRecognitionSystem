@@ -98,7 +98,47 @@ public class ThreadCtrl  implements Runnable {
 			MainWindow.TrainButtonState=false;
 			buttonRecover.setText(MyConstants.S_Train);
 		}
-		else if(cmd.equals("Predict")){
+		else if(cmd.equals("COTrain")){
+			
+////			训练：
+//			try {
+//				while(MyTools.loadingFeature==true){
+//					Thread.sleep(50);
+//				}
+//				if(MyTools.loadingFeatureResult==1){
+////				MySVM.saveTrainDataTest();
+////				System.out.println(MySVM.loadTrainData());
+////				Classifiers.SVMtrain();
+//					Classifiers.SVMtrain();
+//					//每次训练完后启动一个线程重新加载一下训练模型：
+//					MyTools.loadSVMModel();
+//					}
+//				else if(MyTools.loadingFeatureResult==0){
+//					System.out.println("训练数据加载失败！");
+//					MyTools.showTips("训练数据加载失败！\n    提取的特征是残缺的，请重新提取，提取的过程中不要点击终止按钮！",1);
+//				}
+//				else{
+//					MyTools.showTips("训练数据加载失败！",1);
+//				}
+//					
+//			} catch (NumberFormatException e1) {
+//				// TODO Auto-generated catch block
+//				e1.printStackTrace();
+//			}catch (InterruptedException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+			try {
+				CoTraining.start(MainWindow.videoGUI);
+			} catch (IOException | InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			MainWindow.isRunning=false;
+			MainWindow.COTrainButtonState=false;
+			buttonRecover.setText(MyConstants.S_co_Train);
+		}
+		else if(cmd.equals("SVMPredict")){
 			
 			if(file==null){
 			AviFileFilter aviFile=new AviFileFilter();
@@ -130,8 +170,45 @@ public class ThreadCtrl  implements Runnable {
 //				e.printStackTrace();
 //			}
 	        MainWindow.isRunning=false;
-	        MainWindow.PredictButtonState=false;
-	        buttonRecover.setText(MyConstants.S_Predict);
+	        MainWindow.SVMPredictButtonState=false;
+	        buttonRecover.setText(MyConstants.S_svm_Predict);
+		}
+		else if(cmd.equals("KNNPredict")){
+			
+			if(file==null){
+			AviFileFilter aviFile=new AviFileFilter();
+			Mp4FileFilter mp4File= new Mp4FileFilter();
+			JFileChooser jfc=new JFileChooser(MyConstants.dataOfVideosAddress);
+			jfc.setFileFilter(mp4File);
+			jfc.setFileFilter(aviFile);
+	        jfc.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES );  
+	        jfc.showDialog(new JLabel(), "选择");
+	        file=jfc.getSelectedFile();
+			}
+	        MainWindow.videoPath.setText(MyConstants.S_videoPath+file.getParent());
+       	 	MainWindow.videoName.setText(MyConstants.S_videoName+file.getName());
+	        
+       	 
+			try {
+				Classifiers.KNNpredict(file.toString(),videoGUI);
+			} catch (NumberFormatException | IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		
+       	 
+//	        try {
+//				Classifiers.KNNpredict(file.toString(),videoGUI);
+//			} catch (NumberFormatException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			} catch (IOException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+	        MainWindow.isRunning=false;
+	        MainWindow.KNNPredictButtonState=false;
+	        buttonRecover.setText(MyConstants.S_knn_Predict);
 		}
 	}
 

@@ -15,8 +15,8 @@ public class ExtractAllVideos {
 	}
 	
 	public void exe(ImageGUI VideoShow) throws IOException{
-		File f = MyTools.mkdir(Classifiers.data_hog_Address,Classifiers.data_hog_name_tem);//保存路径
-		File f2 = MyTools.mkdir(Classifiers.data_hog_Address,Classifiers.data_hog_label_tem);//保存路径
+		File f = MyTools.mkdir(Classifiers.data_hog_Address,Classifiers.svm_data_tem);//保存路径
+		File f2 = MyTools.mkdir(Classifiers.data_hog_Address,Classifiers.svm_label_tem);//保存路径
 		
 		FileWriter fw=new FileWriter(f);
 		PrintWriter outAll=new PrintWriter(new BufferedWriter(fw));
@@ -27,8 +27,8 @@ public class ExtractAllVideos {
 		MyTools.showTips("\n特征提取中...",1);
 		
 		for (Labels c : Labels.values()) {
-		/*for(int y=0;y<1;y++){
-			Labels c=Labels.BOXING;*/
+//		for(int y=0;y<1;y++){
+//			Labels c=Labels.BOXING;
 			for(int i=1;i<=MyConstants.TrainVideoCount;i++){
 //            for(int i=1;i<=c.getNumberOfVideos();i++){
             	 String videoAddress=MyConstants.dataOfVideosAddress+c.getName()+"/"+c.getName()+"_"+i+".avi";
@@ -51,13 +51,22 @@ public class ExtractAllVideos {
 		outAll.close();
 		outAll_label.close();
 		
-		File f_=MyTools.mkdir(Classifiers.data_hog_Address,Classifiers.data_hog_name);//保存路径
-		File f2_=MyTools.mkdir(Classifiers.data_hog_Address,Classifiers.data_hog_label);//保存路径
+		File f_=MyTools.mkdir(Classifiers.data_hog_Address,Classifiers.svm_data);//保存路径
+		File f2_=MyTools.mkdir(Classifiers.data_hog_Address,Classifiers.svm_label);//保存路径
+
+		File f_knn=MyTools.mkdir(Classifiers.data_hog_Address,Classifiers.knn_data);//保存路径
+		File f2_knn=MyTools.mkdir(Classifiers.data_hog_Address,Classifiers.knn_label);//保存路径
 		
 		FileCopy.Copy(f, f_); 
-		MyTools.showTips("\n特征数据拷贝完成",1);
+		MyTools.showTips("\nsvm特征数据拷贝完成",1);
 		FileCopy.Copy(f2, f2_);		
-		MyTools.showTips("\n特征标签拷贝完成",1);
+		MyTools.showTips("\nsvm特征标签拷贝完成",1);
+		
+		FileCopy.Copy(f_, f_knn); 
+		MyTools.showTips("\nknn特征数据拷贝完成",1);
+		FileCopy.Copy(f2_, f2_knn);		
+		MyTools.showTips("\nknn特征标签拷贝完成",1);
+		
 		
 		
 	}
