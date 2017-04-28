@@ -1,6 +1,5 @@
 package io;
 
-import har.Labels;
 import har.Constants;
 import image.ImageFilters;
 
@@ -17,6 +16,8 @@ import java.nio.file.Paths;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.stream.Stream;
+
+import data.Labels;
 
 import utils.ArraysFunctions;
 import utils.Utils;

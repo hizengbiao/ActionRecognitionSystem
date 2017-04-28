@@ -8,6 +8,8 @@ import java.util.TreeMap;
 
 import javax.swing.JOptionPane;
 
+import data.Labels;
+
 import models.BagOfWords;
 import models.Model;
 import utils.ApprioriAll;

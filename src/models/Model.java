@@ -1,6 +1,5 @@
 package models;
 
-import har.Labels;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -10,6 +9,8 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.TreeMap;
+
+import data.Labels;
 
 public abstract class Model implements Serializable {
     public abstract void train(TreeMap<Integer, Labels> trainSet);

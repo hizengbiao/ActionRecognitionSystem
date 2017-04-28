@@ -1,7 +1,7 @@
 package utils;
 
+import data.Labels;
 import Jama.Matrix;
-import har.Labels;
 
 public class Utils {
     public static Labels getVideoClass(int videoNumber) {

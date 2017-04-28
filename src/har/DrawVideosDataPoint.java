@@ -6,6 +6,8 @@ import io.Database;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
+import data.Labels;
+
 import utils.Utils;
 import Jama.Matrix;
 

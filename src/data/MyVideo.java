@@ -4,7 +4,6 @@ import org.opencv.core.Core;
 import org.opencv.core.Mat;
 import org.opencv.highgui.VideoCapture;
 
-import java.awt.Dimension;
 import java.awt.image.BufferedImage;
 
 public class MyVideo {
@@ -21,8 +20,8 @@ public class MyVideo {
 			System.out.println("could not load video data...");
 			return;
 		}
-		int frame_width = (int) capture.get(3);
-		int frame_height = (int) capture.get(4);
+//		int frame_width = (int) capture.get(3);
+//		int frame_height = (int) capture.get(4);
 		ImageGUI gui = new ImageGUI();
 		/*gui.createWin("OpenCV + Java视频读与播放演示", new Dimension(frame_width,
 				frame_height));*/
