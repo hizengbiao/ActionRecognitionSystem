@@ -86,7 +86,7 @@ public class MyTools {
 	}
 
 	public static void clearTips() {
-//		MainWindow.tips.setText("\n");
+		MainWindow.tips.setText("\n");
 	}
 
 	public static void showTips(String s, int sign) {
