@@ -306,11 +306,12 @@ public class Classifiers {
 
 		CvSVMParams params = new CvSVMParams();
 		params.set_kernel_type(CvSVM.LINEAR);
+//		params.
 		MyTools.showTips("SVM分类器训练中。。。", 1);
 		svm_classifier = new CvSVM(svm_data_mat, svm_label_mat, new Mat(), new Mat(),
 				params);
 		MyTools.mkdir(svm_modelAddress, svm_modelName);
-		svm_classifier.train(svm_data_mat, svm_label_mat);
+//		svm_classifier.train(svm_data_mat, svm_label_mat);
 		svm_classifier.save(svm_modelAddress + svm_modelName);
 		MyTools.showTips("SVM分类器训练完毕。", 1);
 
@@ -376,6 +377,8 @@ public class Classifiers {
 		int result[] = new int[features.rows()];
 		for (int i = 0; i < features.rows(); i++) {
 			result[i] = (int) svm_classifier.predict(features.row(i));
+			if(result[i]==-1)
+				result[i]=0;
 			// System.out.println(result[i]+"   "+Labels.getNameById(result[i]));
 		}
 		System.out.println("count:");
@@ -423,6 +426,8 @@ public class Classifiers {
 		int result[] = new int[features.rows()];
 		for (int i = 0; i < features.rows(); i++) {
 			result[i] = (int) svm_classifier.predict(features.row(i));
+			if(result[i]==-1)
+				result[i]=0;
 			// System.out.println(result[i]+"   "+Labels.getNameById(result[i]));
 		}
 		System.out.println("count:");
@@ -445,10 +450,10 @@ public class Classifiers {
 		}
 		
 		//置信度计算：
-		if(nt[6][1]<5)
+		if(nt[6][1]==0)
 			return vc;
-		
-		vc.setConfidence(nt[0][1] / (float) nt[6][1] * 100);
+		float conf=(float) (0.6*(nt[0][1]*1.0 /nt[6][1])+(0.4*(nt[6][1]/30)));
+		vc.setConfidence(conf);
 		vc.setVideoType(nt[0][0]);
 		return vc;
 
@@ -464,7 +469,9 @@ public class Classifiers {
 			NoTimes[w][1] = 0;
 		}
 		for (int u = 0; u < num; u++) {
-//			System.out.println(u);
+			System.out.println("u:  "+u);
+			System.out.println("r.length:  "+r.length);
+			System.out.println("r[u]:  "+r[u]);
 			NoTimes[r[u]][1]++;
 			NoTimes[n][1]++;
 		}
@@ -492,6 +499,9 @@ public class Classifiers {
 		for(int u=0;u<kNNs.cols();u++){
 			double sss[]=kNNs.get(0, u);
 			da[u]=(int)sss[0];
+			if(da[u]==-1)
+//				System.out.println(sss[0]);
+				da[u]=0;
 		}
 		return chooseOne(da,da.length);
 	}
@@ -662,10 +672,16 @@ public class Classifiers {
 		}
 		
 		//置信度计算：
-		if(nt[6][1]<5)
+//		if(nt[6][1]<5)
+//			return vc;
+//		
+//		vc.setConfidence(nt[0][1] / (float) nt[6][1] * 100);
+//		vc.setVideoType(nt[0][0]);
+//		return vc;
+		if(nt[6][1]==0)
 			return vc;
-		
-		vc.setConfidence(nt[0][1] / (float) nt[6][1] * 100);
+		float conf=(float) (0.6*(nt[0][1]*1.0 /nt[6][1])+(0.4*(nt[6][1]/30)));
+		vc.setConfidence(conf);
 		vc.setVideoType(nt[0][0]);
 		return vc;
 

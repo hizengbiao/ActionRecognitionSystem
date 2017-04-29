@@ -200,13 +200,13 @@ public class CoTraining {
 					+MyConstants.unLabeledVideosHogAddress);
 			MainWindow.videoName.setText(MyConstants.S_videoName+names[i]);
 			
-			MyTools.showTips("未标识视频特征提取中...", 1);
-			MyTools.showTips("进度："	+ (i+1)+ " / " + numOfUnlabeledVideos);
-			
-			//提取这些视频的特征并保存：	
-			Mat features = ExtractVideoFeature.extract(MyConstants.unLabeledVideosAddress+names[i],
-					VideoShow);
-			MyTools.saveFeaturesToText(features,MyConstants.unLabeledVideosHogAddress,names[i]+".txt");
+//			MyTools.showTips("未标识视频特征提取中...", 1);
+//			MyTools.showTips("进度："	+ (i+1)+ " / " + numOfUnlabeledVideos);
+//			
+//			//提取这些视频的特征并保存：	
+//			Mat features = ExtractVideoFeature.extract(MyConstants.unLabeledVideosAddress+names[i],
+//					VideoShow);
+//			MyTools.saveFeaturesToText(features,MyConstants.unLabeledVideosHogAddress,names[i]+".txt");
 		}
 /*		for(int i=0;i<svm_unlabeled_filename.size();i++){
 			MyTools.showTips((String)knn_unlabeled_filename.get(i), 1);
