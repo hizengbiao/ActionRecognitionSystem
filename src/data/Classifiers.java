@@ -75,7 +75,7 @@ public class Classifiers {
 			return -1;
 		}
 
-		File f4 = new File(data_hog_Address + svm_label);// 读取label路径
+		File f4 = new File(data_hog_Address + knn_label);// 读取label路径
 		if (!f4.exists()) {
 //			System.out.println("label数据不存在！");
 			// MainWindow.tips.append("label数据不存在！\n");
