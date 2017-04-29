@@ -232,10 +232,10 @@ public class CoTraining {
 			MyTools.sortBelief(svm_believe, svm_believe.length);
 			MyTools.sortBelief(knn_believe, knn_believe.length);
 			
-/*			MyTools.showTips("\n\n\n", 1);
-			for(int i=0;i<svm_unlabeled_filename.size();i++){
-				MyTools.showTips("id:"+knn_believe[i].getId()+" 类别："+knn_believe[i].getVideoType()+" 置信度："+knn_believe[i].getConfidence(), 1);
-			}*/
+//			MyTools.showTips("\n\n\n", 1);
+//			for(int i=0;i<svm_unlabeled_filename.size();i++){
+//				MyTools.showTips("id:"+knn_believe[i].getId()+" 类别："+knn_believe[i].getVideoType()+" 置信度："+knn_believe[i].getConfidence(), 1);
+//			}
 			
 //			
 ////			再对前5个的序号进行由大到小的排列，调用ArryList的remove方法时先删除序号大的，否则每次remove一个元素后ArryList的序号都是动态变化的,会产生错误

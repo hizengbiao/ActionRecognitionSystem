@@ -450,8 +450,11 @@ public class Classifiers {
 		}
 		
 		//置信度计算：
-		if(nt[6][1]==0)
+		if(nt[6][1]==0){
+			vc.setVideoType(nt[0][0]);
+			vc.setConfidence(0);
 			return vc;
+		}
 		float conf=(float) (0.6*(nt[0][1]*1.0 /nt[6][1])+(0.4*(nt[6][1]/30)));
 		vc.setConfidence(conf);
 		vc.setVideoType(nt[0][0]);
@@ -496,8 +499,17 @@ public class Classifiers {
 	
 	private static int[][] chooseOne(Mat kNNs) {
 		int da[]=new int[kNNs.cols()];
+		
+
+//		MyTools.showTips("kNNs.cols() :"+kNNs.cols(), 1);
+//		for(int i=0;i<kNNs.cols();i++){
+//			MyTools.showTips("kNNs.cols["+i+"]: "+kNNs.get(0, i)[0], 1);
+//		}
+//		
+		
 		for(int u=0;u<kNNs.cols();u++){
 			double sss[]=kNNs.get(0, u);
+			
 			da[u]=(int)sss[0];
 			if(da[u]==-1)
 //				System.out.println(sss[0]);
@@ -589,9 +601,14 @@ public class Classifiers {
 		int result[] = new int[features.rows()];
 		int valid=0;
 		Mat KNNs = new Mat(1, MyConstants.K, CvType.CV_32FC1);
+//		MyTools.showTips("features.rows(): "+features.rows(), 1);
 		for (int i = 0; i < features.rows(); i++) {
+//			MyTools.showTips("\n\n特征行："+i, 1);
 			knn_classifier.find_nearest(features.row(i), MyConstants.K, new Mat(), KNNs, new Mat());
 			int qw[][]=chooseOne(KNNs);
+//			for(int i2=0;i2<7;i2++){
+//				MyTools.showTips("qw[i][0]   "+qw[i2][0]+"  qw[i][0]  "+qw[i2][1], 1);
+//			}
 			if(qw[0][1]>MyConstants.KNN_threshold)
 			result[valid++] = qw[0][0];
 			// System.out.println(result[i]+"   "+Labels.getNameById(result[i]));
@@ -678,8 +695,12 @@ public class Classifiers {
 //		vc.setConfidence(nt[0][1] / (float) nt[6][1] * 100);
 //		vc.setVideoType(nt[0][0]);
 //		return vc;
-		if(nt[6][1]==0)
+		if(nt[6][1]==0){
+			vc.setVideoType(nt[0][0]);
+			vc.setConfidence(0);
 			return vc;
+		}
+			
 		float conf=(float) (0.6*(nt[0][1]*1.0 /nt[6][1])+(0.4*(nt[6][1]/30)));
 		vc.setConfidence(conf);
 		vc.setVideoType(nt[0][0]);
