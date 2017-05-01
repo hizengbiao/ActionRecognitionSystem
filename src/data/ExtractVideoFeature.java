@@ -24,13 +24,13 @@ public class ExtractVideoFeature {
 	// int frame_width;
 	// int frame_height;
 	// double frameCount;
-	static double xuandu_max = 40;// 旋度最大值，若为正，则最小为50
-	static double xuandu_min = -40;// 旋度最小值
+	static double xuandu_max = 6;// 旋度最大值，若为正，则最小为50
+//	static double xuandu_min = -40;// 旋度最小值
 	static double xuandu_fazhi = 0.2;// 旋度阀值
 	static int scale = 60;// 矩形框尺寸
 	static int featurePointNumberBorder = 3;// 特征点数量的阀值
 	public static int speed = 0;// 播放视频时各帧的间隔
-	static int spaceTimeSize=10;
+	static int spaceTimeSize=5;
 
 	public ExtractVideoFeature() {
 
@@ -296,13 +296,13 @@ public class ExtractVideoFeature {
 						result.set(jj, ii, xuandu);
 						if (xuandu > xuandu_max)
 							xuandu_max = xuandu;
-						if (xuandu < xuandu_min)
-							xuandu_min = xuandu;
+//						if (xuandu < xuandu_min)
+//							xuandu_min = xuandu;
 					}
 				}
 
 				double max_border = xuandu_max * xuandu_fazhi;
-				double min_border = xuandu_min * xuandu_fazhi;
+//				double min_border = xuandu_min * xuandu_fazhi;
 
 				// System.out.println("max_border:" + max_border +
 				// "  min_border:"
@@ -313,8 +313,9 @@ public class ExtractVideoFeature {
 				for (int ii = 0; ii < frame_height; ii++) {
 					for (int jj = 0; jj < frame_width; jj++) {
 						// 保存关键点
-						if ((result.get(jj, ii) > max_border)
-								|| (result.get(jj, ii) < min_border)) {
+						if ((result.get(jj, ii) > max_border)) {
+//						if ((result.get(jj, ii) > max_border)
+//								|| (result.get(jj, ii) < min_border)) {
 							v1.addElement(new Point(jj, ii));
 //							 System.out.print((int)result.get(jj, ii)+"  ");
 						}
