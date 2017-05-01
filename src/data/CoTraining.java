@@ -126,6 +126,7 @@ public class CoTraining {
 
 	public static void start(ImageGUI VideoShow) throws IOException,
 			InterruptedException {
+		nowN=0;
 
 		// svm 特征及标签文件：
 		File f_svm_data_tem = MyTools.mkdir(Classifiers.data_hog_Address,
