@@ -1,132 +1,21 @@
 package data;
 
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import org.opencv.core.Mat;
 
 public class CoTraining {
-	static int basisVidN=2* Labels.getLabelsCount()* MyConstants.TrainVideoCount;
-	static int nowN=0;
+//	static int basisVidN=2* Labels.getLabelsCount()* MyConstants.TrainVideoCount;
+//	static int nowN=0;
 
 	public CoTraining() {
 		// TODO Auto-generated constructor stub
 	}
 
-	public static void saveFeatures(File f, File f2, File f_, File f2_,int startVideoNum ,ImageGUI videoShow) throws IOException {
-		MyTools.showTips("\n特征提取中...", 1);
-		MyTools.savingFeature=true;
-//		FileWriter fw = new FileWriter(f,true);
-		FileWriter fw = new FileWriter(f);
-		PrintWriter outAll = new PrintWriter(new BufferedWriter(fw));
-
-		FileWriter fw2 = new FileWriter(f2);
-		PrintWriter outAll_label = new PrintWriter(new BufferedWriter(fw2));
-
-
-		for (Labels c : Labels.values()) {
-			
-//			 for(int y=0;y<1;y++){ Labels c=Labels.BOXING;
-			 
-			for (int i = startVideoNum; i < startVideoNum+MyConstants.TrainVideoCount; i++) {
-				// for(int i=1;i<=c.getNumberOfVideos();i++){
-				nowN++;
-				String videoAddress = MyConstants.dataOfVideosAddress
-						+ c.getName() + "/" + c.getName() + "_" + i + ".avi";
-//				MyTools.showTips("videoAddress "+videoAddress, 1);
-				MyTools.clearTips();
-				MyTools.showTips("特征提取中...", 1);
-				MyTools.showTips("进度："	+ nowN+ " / " + basisVidN);
-				MainWindow.videoPath.setText(MyConstants.S_videoPath
-						+ MyConstants.dataOfVideosAddress + c.getName() + "/");
-				MainWindow.videoName.setText(MyConstants.S_videoName
-						+ c.getName() + "_" + i + ".avi");
-
-				// ExtractVideoFeature ext=new ExtractVideoFeature();
-				Mat features = ExtractVideoFeature.extract(videoAddress,
-						videoShow);
-
-				MyTools.saveFeaturesToText(features, c.ordinal(), outAll,
-						outAll_label);
-				// ext.exe(videoAddress,c,i,outAll,outAll_label,VideoShow);
-			}
-
-		}
-		MyTools.showTips("\n特征提取完毕", 1);
-
-		outAll.close();
-		outAll_label.close();
-
-		MyTools.savingFeature=false;
-
-		FileCopy.Copy(f, f_);
-		MyTools.showTips("\n特征数据拷贝完成", 1);
-		FileCopy.Copy(f2, f2_);
-		MyTools.showTips("\n特征标签拷贝完成", 1);
-
-	}
-	
-	public static void saveFeature(File f, File f2, File f_, File f2_,Mat features,int c) throws IOException {
-//		MyTools.showTips("\nsvm特征提取中...", 1);
-//		MyTools.savingFeature=true;
-		FileWriter fw = new FileWriter(f,true);
-//		FileWriter fw = new FileWriter(f);
-		PrintWriter outAll = new PrintWriter(new BufferedWriter(fw));
-
-		FileWriter fw2 = new FileWriter(f2,true);
-		PrintWriter outAll_label = new PrintWriter(new BufferedWriter(fw2));
-
-
-//		for (Labels c : Labels.values()) {
-			
-//			 for(int y=0;y<1;y++){ Labels c=Labels.BOXING;
-			 
-//			for (int i = startVideoNum; i <= startVideoNum+MyConstants.TrainVideoCount; i++) {
-				// for(int i=1;i<=c.getNumberOfVideos();i++){
-//				String videoAddress = MyConstants.dataOfVideosAddress
-//						+ c.getName() + "/" + c.getName() + "_" + i + ".avi";
-//
-//				MyTools.clearTips();
-//				MyTools.showTips("特征提取中...", 1);
-//				MyTools.showTips("进度："
-//						+ (c.ordinal() * MyConstants.TrainVideoCount + i)
-//						+ " / " + Labels.getLabelsCount()
-//						* MyConstants.TrainVideoCount);
-//				MainWindow.videoPath.setText(MyConstants.S_videoPath
-//						+ MyConstants.dataOfVideosAddress + c.getName() + "/");
-//				MainWindow.videoName.setText(MyConstants.S_videoName
-//						+ c.getName() + "_" + i + ".avi");
-//
-//				// ExtractVideoFeature ext=new ExtractVideoFeature();
-//				Mat features = ExtractVideoFeature.extract(videoAddress,
-//						videoShow);
-
-				MyTools.saveFeaturesToText(features, c, outAll,
-						outAll_label);
-				// ext.exe(videoAddress,c,i,outAll,outAll_label,VideoShow);
-//			}
-
-//		}
-//		MyTools.showTips("\nsvm特征提取完毕", 1);
-
-		outAll.close();
-		outAll_label.close();
-
-//		MyTools.savingFeature=false;
-
-		FileCopy.Copy(f, f_);
-		MyTools.showTips("\n特征数据拷贝完成", 1);
-		FileCopy.Copy(f2, f2_);
-		MyTools.showTips("\n特征标签拷贝完成", 1);
-
-	}
-
 	public static void start(ImageGUI VideoShow) throws IOException,
 			InterruptedException {
-		nowN=0;
+//		nowN=0;
 
 		// svm 特征及标签文件：
 		File f_svm_data_tem = MyTools.mkdir(Classifiers.data_hog_Address,
@@ -151,12 +40,12 @@ public class CoTraining {
 		File f_knn_label = MyTools.mkdir(Classifiers.data_hog_Address,
 				Classifiers.knn_label);// 保存路径
 
-		//svm特征提取：
-		saveFeatures(f_svm_data_tem,f_svm_label_tem,f_svm_data,f_svm_label,1,VideoShow);
+		//svm特征合并：
+		MyTools.mixFeatures(f_svm_data_tem,f_svm_label_tem,f_svm_data,f_svm_label,1);
 		
 		
-		//knn特征提取：
-		saveFeatures(f_knn_data_tem,f_knn_label_tem,f_knn_data,f_knn_label,MyConstants.TrainVideoCount+1,VideoShow);
+		//knn特征合并：
+		MyTools.mixFeatures(f_knn_data_tem,f_knn_label_tem,f_knn_data,f_knn_label,MyConstants.TrainVideoCount+1);
 
 		MyTools.loadFeature();
 		
@@ -262,9 +151,9 @@ public class CoTraining {
 				Mat knn_fea=Classifiers.loadTrainData(knn_adds);
 //				
 //				//svm特征更新：
-				saveFeature(f_svm_data_tem,f_svm_label_tem,f_svm_data,f_svm_label,svm_fea,svm_believe[i].getVideoType());
+				MyTools.updateFeature(f_svm_data_tem,f_svm_label_tem,f_svm_data,f_svm_label,svm_fea,svm_believe[i].getVideoType());
 //				//knn特征更新：
-				saveFeature(f_knn_data_tem,f_knn_label_tem,f_knn_data,f_knn_label,knn_fea,knn_believe[i].getVideoType());
+				MyTools.updateFeature(f_knn_data_tem,f_knn_label_tem,f_knn_data,f_knn_label,knn_fea,knn_believe[i].getVideoType());
 //				
 //				
 //				

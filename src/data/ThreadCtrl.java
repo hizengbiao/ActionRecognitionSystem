@@ -57,7 +57,7 @@ public class ThreadCtrl  implements Runnable {
 				e1.printStackTrace();
 			}
 			//每次提取完后启动一个线程重新加载一下特征数据：
-			MyTools.loadFeature();
+//			MyTools.loadFeature();
 			
 			buttonRecover.setText(MyConstants.S_Extract);
 //			System.out.println("hhhh");
@@ -65,8 +65,19 @@ public class ThreadCtrl  implements Runnable {
 			MainWindow.ExtractButtonState=false;
 		}
 		else if(cmd.equals("Train")){
-			
 //			训练：
+			
+//			合并特征：
+			try {
+				MyTools.uncoTrainMixFeature();
+			} catch (IOException e2) {
+				// TODO Auto-generated catch block
+				e2.printStackTrace();
+			}
+			
+//			加载特征：
+			MyTools.loadFeature();
+			
 			try {
 				while(MyTools.loadingFeature==true){
 					Thread.sleep(50);

@@ -29,7 +29,8 @@ public class MyConstants {
     public static String S_videoCapture="videoCapture";
     public static String S_Console="Console";
     
-    public static int TrainVideoCount=40;
+    public static int TrainVideoCount=2;
+    public static int ExtractVideoCount=4;
     public static int K=7;//KNN的K值
     public static int KNN_threshold=0;
 

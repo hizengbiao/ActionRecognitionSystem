@@ -121,13 +121,13 @@ public class MainWindow extends JFrame implements ActionListener {
 		int wid = 120;
 		int hei = 40;
 		int di = 10;
-		Extract.setBounds(sx, sy, wid, hei);
+		Extract.setBounds(sx,sy + 25 , wid, hei);
 		this.add(Extract);
 		Extract.addActionListener(this);
 		Train.setBounds(sx + wid * 1 + di * 1, sy, wid, hei);
 		this.add(Train);
 		COTrain.addActionListener(this);
-		COTrain.setBounds((int) (sx + wid * 0.5), sy + hei + di, wid, hei);
+		COTrain.setBounds(sx + wid * 1 + di * 1, sy + hei + di, wid, hei);
 		this.add(COTrain);
 		Train.addActionListener(this);
 		SVMPredict.setBounds(sx + wid * 2 + di * 2, sy, wid, hei);

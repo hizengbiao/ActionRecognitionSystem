@@ -238,6 +238,8 @@ public class Classifiers {
 			data.push_back(aRow);
 		}
 		in.close();
+		
+		MyTools.showTips("特征数据加载完成！", 1);
 
 		
 		return data;
