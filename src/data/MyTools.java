@@ -126,9 +126,9 @@ public class MyTools {
 				MyTools.clearTips();
 				MyTools.showTips("特征合并中...", 1);
 				MyTools.showTips("进度：" + nowN + " / " + basisVidN);
-				MainWindow.videoPath.setText("特征路径："
+				MainWindow.videoPath.setText("特征路径：    "
 						+ MyConstants.VideoHogAddress + c.getName() + "/");
-				MainWindow.videoName.setText("特征文件名：" + c.getName() + "_" + i
+				MainWindow.videoName.setText("特征名字：    " + c.getName() + "_" + i
 						+ ".txt");
 				MainWindow.videoFrame.setVisible(false);
 
@@ -323,6 +323,21 @@ public class MyTools {
 		for (int i = 0; i < n - 1; i++) {
 			for (int j = 0; j < n - 1 - i; j++) {
 				if (NoTimes[j].getConfidence() < NoTimes[j + 1].getConfidence()) {
+					VideoConfidence tem = NoTimes[j];
+					NoTimes[j] = NoTimes[j + 1];
+					NoTimes[j + 1] = tem;
+				}
+			}
+		}
+		//
+		// return NoTimes;
+	}
+	
+	public static void sortBeliefSmallToBig(VideoConfidence[] NoTimes, int n) {
+		// 从小到大排序：
+		for (int i = 0; i < n - 1; i++) {
+			for (int j = 0; j < n - 1 - i; j++) {
+				if (NoTimes[j].getConfidence() > NoTimes[j + 1].getConfidence()) {
 					VideoConfidence tem = NoTimes[j];
 					NoTimes[j] = NoTimes[j + 1];
 					NoTimes[j + 1] = tem;

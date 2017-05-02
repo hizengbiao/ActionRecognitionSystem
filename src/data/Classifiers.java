@@ -457,9 +457,12 @@ public class Classifiers {
 			vc.setConfidence(0);
 			return vc;
 		}
-		float conf=(float) (0.6*(nt[0][1]*1.0 /nt[6][1])+(0.4*(nt[6][1]/30)));
+		if(nt[6][1]>10)
+			nt[6][1]=10;
+		float conf=(float) (0.3*(nt[0][1]*1.0 /nt[6][1])+(0.7*(nt[6][1]/10.0)));
 		vc.setConfidence(conf);
 		vc.setVideoType(nt[0][0]);
+		MyTools.showTips("置信度： "+ conf,1);
 		return vc;
 
 	}
@@ -703,9 +706,12 @@ public class Classifiers {
 			return vc;
 		}
 			
-		float conf=(float) (0.6*(nt[0][1]*1.0 /nt[6][1])+(0.4*(nt[6][1]/30)));
+		if(nt[6][1]>10)
+			nt[6][1]=10;
+		float conf=(float) (0.3*(nt[0][1]*1.0 /nt[6][1])+(0.7*(nt[6][1]/10.0)));
 		vc.setConfidence(conf);
 		vc.setVideoType(nt[0][0]);
+		MyTools.showTips("置信度： "+ conf,1);
 		return vc;
 
 
