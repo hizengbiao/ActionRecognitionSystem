@@ -103,7 +103,10 @@ public class CoTraining {
 		}*/
 		
 		//协同训练：
+		int iteration=0;
 		while(svm_unlabeled_filename.size()!=0){
+			iteration++;
+			MyTools.showTips("\n第"+iteration+"次迭代：", 1);
 			VideoConfidence[] svm_believe=new VideoConfidence[svm_unlabeled_filename.size()];
 			VideoConfidence[] knn_believe=new VideoConfidence[knn_unlabeled_filename.size()];
 			for(int i=0;i<svm_unlabeled_filename.size();i++){
