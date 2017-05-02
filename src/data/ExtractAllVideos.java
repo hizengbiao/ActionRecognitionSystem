@@ -27,17 +27,20 @@ public class ExtractAllVideos {
 		for (Labels c : Labels.values()) {
 			// for(int y=0;y<1;y++){
 			// Labels c=Labels.BOXING;
-			for (int i = 1; i <= MyConstants.ExtractVideoCount; i++) {
-				// for(int i=1;i<=c.getNumberOfVideos();i++){
+			int all=c.getNumberOfVideos();
+//			int all=MyConstants.ExtractVideoCount;
+//			for (int i = 1; i <= MyConstants.ExtractVideoCount; i++) {
+//				 for(int i=1;i<=c.getNumberOfVideos();i++){
+			 for(int i=1;i<=all;i++){
 				String videoAddress = MyConstants.dataOfVideosAddress
 						+ c.getName() + "/" + c.getName() + "_" + i + ".avi";
 
 				MyTools.clearTips();
 				MyTools.showTips("特征提取中...", 1);
 				MyTools.showTips("进度："
-						+ (c.ordinal() * MyConstants.ExtractVideoCount + i)
+						+ (c.ordinal() * all + i)
 						+ " / " + Labels.getLabelsCount()
-						* MyConstants.ExtractVideoCount);
+						* all);
 				MainWindow.videoPath.setText(MyConstants.S_videoPath
 						+ MyConstants.dataOfVideosAddress + c.getName() + "/");
 				MainWindow.videoName.setText(MyConstants.S_videoName
