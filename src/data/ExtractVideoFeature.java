@@ -24,7 +24,7 @@ public class ExtractVideoFeature {
 	// int frame_width;
 	// int frame_height;
 	// double frameCount;
-	static double xuandu_max = 6;// 旋度最大值，若为正，则最小为50
+	static double xuandu_max_tem = 6;// 旋度最大值，若为正，则最小为50
 //	static double xuandu_min = -40;// 旋度最小值
 	static double xuandu_fazhi = 0.2;// 旋度阀值
 	static int scale = 60;// 矩形框尺寸
@@ -258,6 +258,7 @@ public class ExtractVideoFeature {
 		int start_extract = 0;// 开始提取时空体特征
 		double preMeanX = 0;// 上一帧的特征点X均值
 		double preMeanY = 0;// 上一帧的特征点Y均值
+		
 
 		// ImageGUI gui = new ImageGUI();
 		// gui.createWin("OpenCV + Java视频读与播放演示", new Dimension(frame_width,
@@ -265,9 +266,11 @@ public class ExtractVideoFeature {
 
 		int frameNo = 0;
 		int jump=0;
-		System.gc();
+//		System.gc();
 		while (true) {
-
+			
+			double xuandu_max=xuandu_max_tem;
+			
 			boolean have = capture.read(frame);
 			Imgproc.cvtColor(frame, next, Imgproc.COLOR_RGB2GRAY);
 			if (!have)
@@ -283,6 +286,11 @@ public class ExtractVideoFeature {
 				// Mat flow=new Mat(frame_width,frame_height,CvType.CV_8UC1);
 				Video.calcOpticalFlowFarneback(prev, next, flow, 0.5, 1, 1, 1,
 						7, 1.5, 1);
+				
+				//debug:
+//				double matall=MyTools.MatSum(flow);
+//				System.out.println(matall);
+				
 				// prevImg(y,x)=nextImg(y+flow(y,x)[1]，x+fow(y,x)[0]);
 				Matrix result = new Matrix(frame_width, frame_height);
 
@@ -308,6 +316,8 @@ public class ExtractVideoFeature {
 				// System.out.println("max_border:" + max_border +
 				// "  min_border:"
 				// + min_border);
+				
+//				System.out.println(xuandu_max);
 
 				Vector<Point> v1 = new Vector<Point>();
 

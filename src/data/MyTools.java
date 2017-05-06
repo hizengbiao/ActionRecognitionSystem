@@ -97,6 +97,18 @@ public class MyTools {
 	public static void showTips(String s) {
 		MainWindow.tips.append("      " + s + "\n");
 	}
+	
+	public static double MatSum(Mat m){
+		double sum=0;
+		for(int i=0;i<m.rows();i++){
+			for(int j=0;j<m.cols();j++){
+				double[] data;
+				data = m.get(i, j);
+				sum+=data[0];
+			}
+		}
+		return sum;
+	}
 
 	public static void mixFeatures(File f, File f2, File f_, File f2_,
 			int startVideoNum) throws IOException {
