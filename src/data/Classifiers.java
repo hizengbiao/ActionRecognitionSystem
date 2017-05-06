@@ -189,7 +189,7 @@ public class Classifiers {
 		if (!f.exists()) {
 //			System.out.println("hog数据不存在！");
 			// MainWindow.tips.append("hog数据不存在！\n");
-			MyTools.showTips("hog数据不存在！", 1);
+			MyTools.showTips("特征数据不存在，请先提取特征！", 1);
 			return null;
 		}
 
