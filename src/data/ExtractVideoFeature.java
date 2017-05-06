@@ -265,6 +265,7 @@ public class ExtractVideoFeature {
 
 		int frameNo = 0;
 		int jump=0;
+		System.gc();
 		while (true) {
 
 			boolean have = capture.read(frame);
@@ -468,6 +469,7 @@ public class ExtractVideoFeature {
 				e.printStackTrace();
 			}
 		}
+		
 
 		return video_mat;
 	}

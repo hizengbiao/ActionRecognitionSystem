@@ -103,7 +103,7 @@ public class MyTools {
 		// 合并特征：
 		int nowN = 0;
 		int basisVidN = Labels.getLabelsCount() * MyConstants.TrainVideoCount;
-//		MyTools.showTips("\n特征合并中...", 1);
+		// MyTools.showTips("\n特征合并中...", 1);
 		MyTools.savingFeature = true;
 		// FileWriter fw = new FileWriter(f,true);
 		FileWriter fw = new FileWriter(f);
@@ -128,8 +128,8 @@ public class MyTools {
 				MyTools.showTips("进度：" + nowN + " / " + basisVidN);
 				MainWindow.videoPath.setText("特征路径：    "
 						+ MyConstants.VideoHogAddress + c.getName() + "/");
-				MainWindow.videoName.setText("特征名字：    " + c.getName() + "_" + i
-						+ ".txt");
+				MainWindow.videoName.setText("特征名字：    " + c.getName() + "_"
+						+ i + ".txt");
 				MainWindow.videoFrame.setVisible(false);
 
 				// ExtractVideoFeature ext=new ExtractVideoFeature();
@@ -332,7 +332,7 @@ public class MyTools {
 		//
 		// return NoTimes;
 	}
-	
+
 	public static void sortBeliefSmallToBig(VideoConfidence[] NoTimes, int n) {
 		// 从小到大排序：
 		for (int i = 0; i < n - 1; i++) {
@@ -377,36 +377,36 @@ public class MyTools {
 		// return NoTimes;
 	}
 
-	// public static void playVideo(String vidAdd) {
-	// if (MainWindow.PredictButtonState == false) {
-	// if (MainWindow.isRunning == true) {
-	// System.out.println(MyConstants.ThreadConflictMsg);
-	// // MainWindow.tips.append(MyConstants.ThreadConflictMsg);
-	// MyTools.showTips(MyConstants.ThreadConflictMsg);
-	// return;
-	// }
-	// MainWindow.isRunning = true;
-	// MainWindow.PredictButtonState = true;
-	//
-	// MyTools.clearTips();
-	// MyTools.videoPlay();
-	// MainWindow.videoPause.setText("暂停");
-	// MainWindow.HiddenJLabels();
-	// MainWindow.HiddenJLabels(1);
-	// MainWindow.optionStatus.setText(MyConstants.S_optionStatus
-	// + MyConstants.S_svm_Predict);
-	//
-	// MainWindow.Predict.setText(MyConstants.S_Terminate
-	// + MyConstants.S_svm_Predict);
-	//
-	// ThreadCtrl ctrl = new ThreadCtrl("Predict");
-	// ctrl.setGUI(MainWindow.videoGUI, MainWindow.Predict);
-	// File f = new File(vidAdd);
-	// ctrl.setFile(f);
-	// MainWindow.myThread = new Thread(ctrl);
-	// MainWindow.myThread.start();
-	// }
-	// }
+	public static void playVideo(String vidAdd) {
+		if (MainWindow.SVMPredictButtonState == false) {
+			if (MainWindow.isRunning == true) {
+				System.out.println(MyConstants.ThreadConflictMsg);
+				// MainWindow.tips.append(MyConstants.ThreadConflictMsg);
+				MyTools.showTips(MyConstants.ThreadConflictMsg);
+				return;
+			}
+			MainWindow.isRunning = true;
+			MainWindow.SVMPredictButtonState = true;
+
+			MyTools.clearTips();
+			MyTools.videoPlay();
+			MainWindow.videoPause.setText("暂停");
+			MainWindow.HiddenJLabels();
+			MainWindow.HiddenJLabels(1);
+			MainWindow.optionStatus.setText(MyConstants.S_optionStatus
+					+ MyConstants.S_svm_Predict);
+
+			MainWindow.SVMPredict.setText(MyConstants.S_Terminate
+					+ MyConstants.S_svm_Predict);
+
+			ThreadCtrl ctrl = new ThreadCtrl("SVMPredict");
+			ctrl.setGUI(MainWindow.videoGUI, MainWindow.SVMPredict);
+			File f = new File(vidAdd);
+			ctrl.setFile(f);
+			MainWindow.myThread = new Thread(ctrl);
+			MainWindow.myThread.start();
+		}
+	}
 
 	public static void ExtractAndTrain() throws IOException {
 		/*

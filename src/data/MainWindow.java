@@ -464,18 +464,18 @@ public class MainWindow extends JFrame implements ActionListener {
 				MyTools.videoPause();
 			}
 		} else if (e.getSource() == myDebug) {
-			/*
-			 * String
-			 * add=MyConstants.dataOfVideosAddress+"jogging/jogging_10.avi";
-			 * MyTools.playVideo(add);
-			 */
+			
+			 String
+			 add=MyConstants.dataOfVideosAddress+"jogging/jogging_10.avi";
+			 MyTools.playVideo(add);
+			 
 
 			/*
 			 * try { MyTools.ExtractAndTrain(); } catch (IOException e1) { //
 			 * TODO Auto-generated catch block e1.printStackTrace(); }
 			 */
 
-			MyTools.test();
+//			MyTools.test();
 		}
 	}
 

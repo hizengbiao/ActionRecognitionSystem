@@ -23,7 +23,7 @@ public class ExtractAllVideos {
 		// PrintWriter outAll_label=new PrintWriter(new BufferedWriter(fw2));
 		//
 		MyTools.showTips("\n特征提取中...", 1);
-
+/*
 		for (Labels c : Labels.values()) {
 			// for(int y=0;y<1;y++){
 			// Labels c=Labels.BOXING;
@@ -67,7 +67,7 @@ public class ExtractAllVideos {
 			}
 
 		}
-
+*/
 		// 保存所有未标记视频的特征：
 		File path = new File(MyConstants.unLabeledVideosAddress);
 		String names[] = path.list();
