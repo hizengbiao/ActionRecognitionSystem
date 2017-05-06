@@ -477,9 +477,9 @@ public class Classifiers {
 			NoTimes[w][1] = 0;
 		}
 		for (int u = 0; u < num; u++) {
-			System.out.println("u:  "+u);
-			System.out.println("r.length:  "+r.length);
-			System.out.println("r[u]:  "+r[u]);
+//			System.out.println("u:  "+u);
+//			System.out.println("r.length:  "+r.length);
+//			System.out.println("r[u]:  "+r[u]);
 			NoTimes[r[u]][1]++;
 			NoTimes[n][1]++;
 		}
