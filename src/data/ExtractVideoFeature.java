@@ -24,11 +24,11 @@ public class ExtractVideoFeature {
 	// int frame_width;
 	// int frame_height;
 	// double frameCount;
-	static double xuandu_max_tem = 6;// 旋度最大值，若为正，则最小为50
+	static double xuandu_max_tem = 200;// 旋度最大值，若为正，则最小为50
 //	static double xuandu_min = -40;// 旋度最小值
 	static double xuandu_fazhi = 0.2;// 旋度阀值
 	static int scale = 60;// 矩形框尺寸
-	static int featurePointNumberBorder = 3;// 特征点数量的阀值
+	static int featurePointNumberBorder = 30;// 特征点数量的阀值
 	public static int speed = 0;// 播放视频时各帧的间隔
 	static int spaceTimeSize=5;
 
@@ -346,6 +346,9 @@ public class ExtractVideoFeature {
 				}
 				meanX /= v1.size();
 				meanY /= v1.size();
+				
+//				double variance=MyTools.calcVariance(v1,new Point(meanX,meanY));
+//				System.out.println(variance);
 
 				Mat paintPoint = frame.clone();
 				
@@ -375,8 +378,8 @@ public class ExtractVideoFeature {
 				if ((lty + scale) > frame_height)
 					lty = frame_height - scale;
 				Rect fanwei = new Rect(ltx, lty, scale, scale);
-				 if (v1.size() > featurePointNumberBorder) {
-//				if (start_extract == 1) {
+//				 if (v1.size() > featurePointNumberBorder) {
+				if (start_extract == 1) {
 				Core.rectangle(paintPoint, fanwei.tl(), fanwei.br(),
 						new Scalar(255, 0, 0), 2);
 				Core.circle(paintPoint, new Point(meanX, meanY), (int) 1,

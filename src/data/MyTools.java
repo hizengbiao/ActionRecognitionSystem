@@ -5,8 +5,10 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Vector;
 
 import org.opencv.core.Mat;
+import org.opencv.core.Point;
 
 public class MyTools {
 	/*
@@ -530,6 +532,20 @@ public class MyTools {
 		MyTools.showTips("\nknn特征数据拷贝完成", 1);
 		FileCopy.Copy(f_svm_label, f_knn_label);
 		MyTools.showTips("\nknn特征标签拷贝完成", 1);
+	}
+
+	public static double calcVariance(Vector<Point> v, Point mean) {
+		// TODO Auto-generated method stub
+		//计算方差：
+		if(v.size()==0)
+			return Double.POSITIVE_INFINITY;
+		double al=0;
+		for(int i=0;i<v.size();i++){
+			double dis=Math.sqrt(Math.pow((v.get(i).x-mean.x),2)+Math.pow((v.get(i).y-mean.y),2));
+			al+=Math.pow(dis,2);
+		}
+		al/=v.size();
+		return al;
 	}
 
 }
