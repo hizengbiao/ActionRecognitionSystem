@@ -10,7 +10,7 @@ public class DectCodeLineAndCharNum {
 //	时间：_2017_5_1
 //	注：1.一个英文字母、一个汉字、一个空格、一个制表符等，都只算一个字符，另外在emptyLineMode==false模式下回车也算一个字符
 //	2.如果选择了emptyLineMode==false模式，空格、制表符、回车等的数量都计入总字符数，如果某一个代码行为空或者全为空格或制表符，也计入总行数
-//	如果选择了emptyLineMode==false模式，则不计入。
+//	如果选择了emptyLineMode==true模式，则不计入。
 	
 	
 	public static String excludeId="8zk3kidl3dld.x34klki.j";

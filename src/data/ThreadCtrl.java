@@ -9,6 +9,9 @@ import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 
+import utils.ImageGUI;
+import utils.MyTools;
+
 public class ThreadCtrl implements Runnable {
 	String cmd = null;
 
@@ -210,7 +213,7 @@ public class ThreadCtrl implements Runnable {
 			while (MyTools.loadingFeature == true) {
 				try {
 					MyTools.clearTips();
-					MyTools.showTips("特征数据加载中，请稍等。。。",1);
+					MyTools.showTips("KNN分类器加载中，请稍等。。。",1);
 					Thread.sleep(50);
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block

@@ -1,4 +1,4 @@
-package data;
+package utils;
 
 
 import java.awt.event.ActionEvent;
@@ -9,6 +9,8 @@ import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+
+import data.MyConstants;
 
 public class FileChooser extends JFrame implements ActionListener{  
     /**

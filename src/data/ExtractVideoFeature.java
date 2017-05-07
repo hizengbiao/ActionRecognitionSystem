@@ -17,6 +17,10 @@ import org.opencv.highgui.VideoCapture;
 import org.opencv.imgproc.Imgproc;
 import org.opencv.video.Video;
 
+import utils.ImageGUI;
+import utils.MyTools;
+import utils.MyVideo;
+
 import Jama.Matrix;
 
 public class ExtractVideoFeature {

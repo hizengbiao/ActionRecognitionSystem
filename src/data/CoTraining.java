@@ -5,6 +5,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import org.opencv.core.Mat;
 
+import utils.ImageGUI;
+import utils.MyTools;
+
 public class CoTraining {
 //	static int basisVidN=2* Labels.getLabelsCount()* MyConstants.TrainVideoCount;
 //	static int nowN=0;

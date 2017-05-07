@@ -1,4 +1,4 @@
-package data;
+package utils;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -9,6 +9,16 @@ import java.util.Vector;
 
 import org.opencv.core.Mat;
 import org.opencv.core.Point;
+
+import data.Classifiers;
+import data.CoTraining;
+import data.ExtractVideoFeature;
+import data.Labels;
+import data.MainWindow;
+import data.MyConstants;
+import data.ThreadCtrl;
+import data.VideoConfidence;
+
 
 public class MyTools {
 	/*

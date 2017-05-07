@@ -15,6 +15,9 @@ import org.opencv.ml.CvKNearest;
 import org.opencv.ml.CvSVM;
 import org.opencv.ml.CvSVMParams;
 
+import utils.ImageGUI;
+import utils.MyTools;
+
 public class Classifiers {
 
 	// public static Mat data_mat;

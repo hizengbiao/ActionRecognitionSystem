@@ -15,6 +15,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import utils.ImageGUI;
+import utils.MyTools;
+
 public class MainWindow extends JFrame implements ActionListener {
 
 	/**
@@ -56,7 +59,7 @@ public class MainWindow extends JFrame implements ActionListener {
 	/*
 	 * ImageGUI trainVideo=new ImageGUI(); ImageGUI predictVideo=new ImageGUI();
 	 */
-	static ImageGUI videoGUI = new ImageGUI();
+	public static ImageGUI videoGUI = new ImageGUI();
 
 	public MainWindow() {
 		// TODO Auto-generated constructor stub
