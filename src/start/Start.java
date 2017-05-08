@@ -1,9 +1,11 @@
-package data;
+package start;
 
 
 import java.io.IOException;
 
 import org.opencv.core.Core;
+
+import data.MainWindow;
 
 public class Start {
 	public static void main(String args[]) throws IOException {
