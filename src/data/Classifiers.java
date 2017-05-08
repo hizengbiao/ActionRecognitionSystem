@@ -53,6 +53,23 @@ public class Classifiers {
 		int dataLines2 = 0;
 		int dataLines3 = 0;
 		int dataLines4 = 0;
+		
+		File f3 = new File(data_hog_Address + knn_data);// 读取路径
+		if (!f3.exists()) {
+//			System.out.println("SVM feature数据不存在！");
+			// MainWindow.tips.append("hog数据不存在！\n");
+			MyTools.showTips("KNN 分类器模型数据不存在！", 1);
+			return -1;
+		}
+
+		File f4 = new File(data_hog_Address + knn_label);// 读取label路径
+		if (!f4.exists()) {
+//			System.out.println("label数据不存在！");
+			// MainWindow.tips.append("label数据不存在！\n");
+			MyTools.showTips("KNN label数据不存在！", 1);
+			return -2;
+		}
+		
 		File f1 = new File(data_hog_Address + svm_data);// 读取路径
 		if (!f1.exists()) {
 //			System.out.println("SVM feature数据不存在！");
@@ -70,21 +87,7 @@ public class Classifiers {
 		}
 		
 		
-		File f3 = new File(data_hog_Address + knn_data);// 读取路径
-		if (!f3.exists()) {
-//			System.out.println("SVM feature数据不存在！");
-			// MainWindow.tips.append("hog数据不存在！\n");
-			MyTools.showTips("KNN feature数据不存在！", 1);
-			return -1;
-		}
-
-		File f4 = new File(data_hog_Address + knn_label);// 读取label路径
-		if (!f4.exists()) {
-//			System.out.println("label数据不存在！");
-			// MainWindow.tips.append("label数据不存在！\n");
-			MyTools.showTips("KNN label数据不存在！", 1);
-			return -2;
-		}
+		
 		svm_data_mat=new Mat();
 		svm_label_mat=new Mat();
 		knn_data_mat=new Mat();
@@ -587,8 +590,11 @@ public class Classifiers {
 	public static void KNNpredict(String viAdr, ImageGUI predictVideo) throws NumberFormatException, IOException {
 		
 		if(knn_data_mat==null||knn_label_mat==null){
-			if(loadTrainData()!=1)
+			if(loadTrainData()!=1){
+				MyTools.showTips("KNN分类器模型加载失败，请先提取特征!", 1);
 				return;
+			}
+				
 		}		
 		if (knn_classifier == null) {
 			MyTools.showTips("initializing knn_classifier...", 1);
