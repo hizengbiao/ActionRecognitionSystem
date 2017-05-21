@@ -725,6 +725,154 @@ public class Classifiers {
 
 
 	}
+	
+	
+	
+	
+	public static int KNNpredict2(Mat features) throws NumberFormatException, IOException {
+		//通过Mat特征返回预测结果类别Id
+//		VideoConfidence vc=new VideoConfidence();
+//		
+//		if(knn_data_mat==null||knn_label_mat==null){
+//			if(loadTrainData()!=1)
+//				return vc;
+//		}		
+		if (knn_classifier == null) {
+			MyTools.showTips("initializing knn_classifier...", 1);
+			knn_classifier = new CvKNearest(knn_data_mat, knn_label_mat);
+		}
+		
+//		MyTools.showTips("processing...", 1);
+		
+//		Mat features = ExtractVideoFeature.extract(viAdr, predictVideo);
+/*
+		for (int i = 0; i < features.rows(); i++) {
+			int resu=(int)km_classifier.find_nearest(features.row(i), 5, new Mat(), new Mat(), new Mat());
+			MyTools.showTips(Labels.getNameById(resu)+"", 1);
+		}
+		
+		*/
+
+		int result[] = new int[features.rows()];
+		int valid=0;
+		Mat KNNs = new Mat(1, MyConstants.K, CvType.CV_32FC1);
+		for (int i = 0; i < features.rows(); i++) {
+			knn_classifier.find_nearest(features.row(i), MyConstants.K, new Mat(), KNNs, new Mat());
+			int qw[][]=chooseOne(KNNs);
+			if(qw[0][1]>MyConstants.KNN_threshold)
+			result[valid++] = qw[0][0];
+			// System.out.println(result[i]+"   "+Labels.getNameById(result[i]));
+		}
+//		System.out.println("count:");
+		// MainWindow.tips.append("count:\n");
+//		MyTools.showTips("predict result:", 1);
+		int nt[][] = chooseOne(result,valid);
+//		for (int q = 0; q < 6; q++) {
+//			System.out.println(nt[q][0] + "   " + Labels.getNameById(nt[q][0])
+//					+ "   次数：" + nt[q][1]);
+			// MainWindow.tips.append(nt[q][0]+"   "+Labels.getNameById(nt[q][0])+"   次数："+nt[q][1]+"\n");
+//			MyTools.showTips(nt[q][0] + "(类别Id)   "
+//					+ Labels.getNameById(nt[q][0]) + "   次数：" + nt[q][1]);
+//		}
+		
+		return nt[0][0];
+//		for (int a = 0; a < 2; a++) {
+//			System.out.println("视频为" + Labels.getNameById(nt[a][0]) + "的概率为："
+//					+ (nt[a][1] / (float) nt[6][1] * 100) + "%");
+//			// MainWindow.tips.append("视频为"+Labels.getNameById(nt[a][0])+"的概率为："+(nt[a][1]/(float)nt[6][1]*100)+"%\n");
+//			MyTools.showTips("视频为" + Labels.getNameById(nt[a][0]) + "的概率为："
+//					+ (nt[a][1] / (float) nt[6][1] * 100) + "%");
+//		}
+		
+		//置信度计算：
+//		if(nt[6][1]<5)
+//			return vc;
+//		
+//		vc.setConfidence(nt[0][1] / (float) nt[6][1] * 100);
+//		vc.setVideoType(nt[0][0]);
+//		return vc;
+//		if(nt[6][1]==0){
+//			vc.setVideoType(nt[0][0]);
+//			vc.setConfidence(0);
+//			return vc;
+//		}
+//			
+//		if(nt[6][1]>10)
+//			nt[6][1]=10;
+//		float conf=(float) (0.3*(nt[0][1]*1.0 /nt[6][1])+(0.7*(nt[6][1]/10.0)));
+//		vc.setConfidence(conf);
+//		vc.setVideoType(nt[0][0]);
+//		MyTools.showTips("置信度： "+ conf,1);
+//		return vc;
+
+
+	}
+	
+	public static int SVMpredict2(Mat features) throws InterruptedException {
+		//通过Mat特征返回预测结果类别Id
+		/*if (svm_classifier == null) {
+			// System.out.println("haha");
+			svm_classifier = new CvSVM();
+			System.out.println("load svm_classifier...");
+			// MainWindow.tips.append("load svm_classifier...\n");
+			loadSVMModel();
+		}*/
+//		VideoConfidence vc=new VideoConfidence();
+		
+		while(MyTools.loadingModel==true){
+			Thread.sleep(50);
+		}
+//		if(MyTools.loadingModelResult!=1){
+//			MyTools.showTips("分类器没有成功加载，无法预测！", 1);
+//			return vc;
+//		}
+		
+//		MyTools.showTips("processing...", 1);
+//		Mat features = ExtractVideoFeature.extract(viAdr, predictVideo);
+
+		int result[] = new int[features.rows()];
+		for (int i = 0; i < features.rows(); i++) {
+			result[i] = (int) svm_classifier.predict(features.row(i));
+			if(result[i]==-1)
+				result[i]=0;
+			// System.out.println(result[i]+"   "+Labels.getNameById(result[i]));
+		}
+//		System.out.println("count:");
+		// MainWindow.tips.append("count:\n");
+//		MyTools.showTips("predict result:", 1);
+		int nt[][] = chooseOne(result,result.length);
+//		for (int q = 0; q < 6; q++) {
+//			System.out.println(nt[q][0] + "   " + Labels.getNameById(nt[q][0])
+//					+ "   次数：" + nt[q][1]);
+//			// MainWindow.tips.append(nt[q][0]+"   "+Labels.getNameById(nt[q][0])+"   次数："+nt[q][1]+"\n");
+//			MyTools.showTips(nt[q][0] + "(类别Id)   "
+//					+ Labels.getNameById(nt[q][0]) + "   次数：" + nt[q][1]);
+//		}
+		
+		return nt[0][0];
+//		for (int a = 0; a < 2; a++) {
+//			System.out.println("视频为" + Labels.getNameById(nt[a][0]) + "的概率为："
+//					+ (nt[a][1] / (float) nt[6][1] * 100) + "%");
+//			// MainWindow.tips.append("视频为"+Labels.getNameById(nt[a][0])+"的概率为："+(nt[a][1]/(float)nt[6][1]*100)+"%\n");
+//			MyTools.showTips("视频为" + Labels.getNameById(nt[a][0]) + "的概率为："
+//					+ (nt[a][1] / (float) nt[6][1] * 100) + "%");
+//		}
+		
+//		//置信度计算：
+//		if(nt[6][1]==0){
+//			vc.setVideoType(nt[0][0]);
+//			vc.setConfidence(0);
+//			return vc;
+//		}
+//		if(nt[6][1]>10)
+//			nt[6][1]=10;
+//		float conf=(float) (0.3*(nt[0][1]*1.0 /nt[6][1])+(0.7*(nt[6][1]/10.0)));
+//		vc.setConfidence(conf);
+//		vc.setVideoType(nt[0][0]);
+//		MyTools.showTips("置信度： "+ conf,1);
+//		return vc;
+
+	}
 
 	
 

@@ -35,6 +35,9 @@ public class MyConstants {
     public static int KNN_threshold=0;//距离为K的范围内，要有KNN_threshold个以上的特征才算数
     public static int coTrainNum=5;//协同训练每次迭代取用的视频样本量
     public static float ConfiThreshold=(float) 0.5;//置信度小于ConfiThreshold的视频不考虑
+    
+    public static int rateVidStart=56;    
+    public static int rateVidEnd=56;
 
 
 }

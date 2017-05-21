@@ -557,5 +557,61 @@ public class MyTools {
 		al/=v.size();
 		return al;
 	}
+	
+	public static double RecognitionRateCalc(int startN,int endN) throws NumberFormatException, IOException{
+		int videosNumAll=0;		
+		int rightNumAll=0;
+		
+		int resultId;
+		String result;
+		boolean conclusion;
+		
+		double RecognitionRate=0;
+		for (Labels c : Labels.values()){
+			int rightNum=0;
+			int videosNum=0;
+			for(int i=startN;i<=endN;i++){
+			Mat features = Classifiers
+					.loadTrainData(MyConstants.VideoHogAddress
+							+ c.getName() + "/" + c.getName() + "_" + i
+							+ "hog.txt");
+			resultId=Classifiers.KNNpredict2(features);
+			result=Labels.getNameById(resultId);
+			conclusion=c.getName().equals(result);
+			MyTools.showTips("文件："+c.getName() + "_" + i+".avi", 1);
+			MyTools.showTips("\n实际类别："+c.getName() + "  ，识别结果：" +result+(  conclusion?"  预测成功！":"  预测失败!") );
+			
+			videosNum++;
+			if(conclusion)
+				rightNum++;
+			
+			
+			}
+			rightNumAll+=rightNum;
+			videosNumAll+=videosNum;
+		}
+		
+		RecognitionRate=rightNumAll*1.0/videosNumAll;
+		MyTools.showTips("视频总数："+videosNumAll+"   预测正确数："+rightNumAll+"   识别率："+RecognitionRate, 1);
+		return RecognitionRate;
+	}
+	
+	public static void RecognitionRateCalcCtrl() {
+		Thread lod = new Thread() {
+			public void run() {
+				try {
+					RecognitionRateCalc(MyConstants.rateVidStart,MyConstants.rateVidEnd);
+				} catch (NumberFormatException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		};
+		lod.start();
+	}
+	
 
 }

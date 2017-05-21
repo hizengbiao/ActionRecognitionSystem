@@ -468,9 +468,9 @@ public class MainWindow extends JFrame implements ActionListener {
 			}
 		} else if (e.getSource() == myDebug) {
 			
-			 String
-			 add=MyConstants.dataOfVideosAddress+"jogging/jogging_10.avi";
-			 MyTools.playVideo(add);
+//			 String
+//			 add=MyConstants.dataOfVideosAddress+"jogging/jogging_10.avi";
+//			 MyTools.playVideo(add);
 			 
 
 			/*
@@ -479,6 +479,8 @@ public class MainWindow extends JFrame implements ActionListener {
 			 */
 
 //			MyTools.test();
+			
+			MyTools.RecognitionRateCalcCtrl();
 		}
 	}
 
