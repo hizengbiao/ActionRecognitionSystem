@@ -558,9 +558,11 @@ public class MyTools {
 		return al;
 	}
 	
-	public static double RecognitionRateCalc(int startN,int endN) throws NumberFormatException, IOException{
+	public static double RecognitionRateCalc(int startN,int endN,int classifierNo) throws NumberFormatException, IOException, InterruptedException{
 		int videosNumAll=0;		
 		int rightNumAll=0;
+		int[]rightNum=new int[Labels.getLabelsCount()];
+		int[]videosNum=new int[Labels.getLabelsCount()];
 		
 		int resultId;
 		String result;
@@ -568,43 +570,80 @@ public class MyTools {
 		
 		double RecognitionRate=0;
 		for (Labels c : Labels.values()){
-			int rightNum=0;
-			int videosNum=0;
+//			int rightNum=0;
+//			int videosNum=0;
+			int cId=c.ordinal();
+			
+			videosNum[cId]=0;
+			rightNum[cId]=0;
+			
 			for(int i=startN;i<=endN;i++){
 			Mat features = Classifiers
 					.loadTrainData(MyConstants.VideoHogAddress
 							+ c.getName() + "/" + c.getName() + "_" + i
 							+ "hog.txt");
-			resultId=Classifiers.KNNpredict2(features);
+			
+			//测试KNN分类器的识别率：
+			if(classifierNo==1)
+			resultId=Classifiers.KNNpredict2(features);			
+			//测试SVM分类器的识别率：
+			else   //(classifierNo==2)
+			resultId=Classifiers.SVMpredict2(features);
+			
 			result=Labels.getNameById(resultId);
 			conclusion=c.getName().equals(result);
 			MyTools.showTips("文件："+c.getName() + "_" + i+".avi", 1);
-			MyTools.showTips("\n实际类别："+c.getName() + "  ，识别结果：" +result+(  conclusion?"  预测成功！":"  预测失败!") );
+			MyTools.showTips("实际类别："+c.getName() + "  ，识别结果：" +result+(  conclusion?"  预测成功！":"  预测失败!") );
 			
-			videosNum++;
+			videosNum[cId]++;
 			if(conclusion)
-				rightNum++;
+				rightNum[cId]++;
 			
 			
 			}
-			rightNumAll+=rightNum;
-			videosNumAll+=videosNum;
+			rightNumAll+=rightNum[cId];
+			videosNumAll+=videosNum[cId];
+		}
+		
+		
+		
+		for (Labels c : Labels.values()){
+			int cId=c.ordinal();
+			MyTools.showTips("类别："+c.getName(), 1);
+			MyTools.showTips("视频总数："+videosNum[cId]+"   预测正确数："+rightNum[cId]+"   识别率："+rightNum[cId]*1.0/videosNum[cId]);
+			
 		}
 		
 		RecognitionRate=rightNumAll*1.0/videosNumAll;
-		MyTools.showTips("视频总数："+videosNumAll+"   预测正确数："+rightNumAll+"   识别率："+RecognitionRate, 1);
+		MyTools.showTips("\n\n合计：", 1);
+		MyTools.showTips("视频总数："+videosNumAll+"   预测正确数："+rightNumAll+"   识别率："+RecognitionRate);
 		return RecognitionRate;
 	}
 	
 	public static void RecognitionRateCalcCtrl() {
 		Thread lod = new Thread() {
 			public void run() {
+				
+//				运行此函数之前应先等分类器加载完毕，
+//				另外还需要考虑各功能线程之间的同步和互斥的约束关系，
+//				出于时间因素我就不写了，运行的时候注意一下就行，
+//				代码的实现请参考预测按钮
+				
+				MyTools.showTips("如果运行出现错误请先等分类器加载完毕再执行，\n另外注意各功能线程之间的同步和互斥的约束关系，\n出于时间关系此处就不优化了", 1);
+				
 				try {
-					RecognitionRateCalc(MyConstants.rateVidStart,MyConstants.rateVidEnd);
-				} catch (NumberFormatException e) {
+					MyTools.showTips("\n\n\nsvm预测率计算：", 1);
+					RecognitionRateCalc(MyConstants.rateVidStart,MyConstants.rateVidEnd,2);
+				
+					MyTools.showTips("\n\n\nknn预测率计算：", 1);
+					RecognitionRateCalc(MyConstants.rateVidStart,MyConstants.rateVidEnd,1);
+					} catch (NumberFormatException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}

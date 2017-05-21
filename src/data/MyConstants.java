@@ -29,7 +29,7 @@ public class MyConstants {
     public static String S_videoCapture="videoCapture";
     public static String S_Console="Console";
     
-    public static int TrainVideoCount=20;//训练的视频样本数
+    public static int TrainVideoCount=2;//训练的视频样本数
     public static int ExtractVideoCount=4;
     public static int K=7;//KNN的K值
     public static int KNN_threshold=0;//距离为K的范围内，要有KNN_threshold个以上的特征才算数
@@ -37,7 +37,7 @@ public class MyConstants {
     public static float ConfiThreshold=(float) 0.5;//置信度小于ConfiThreshold的视频不考虑
     
     public static int rateVidStart=56;    
-    public static int rateVidEnd=56;
+    public static int rateVidEnd=57;
 
 
 }
