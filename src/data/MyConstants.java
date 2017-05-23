@@ -37,7 +37,7 @@ public class MyConstants {
     public static float ConfiThreshold=(float) 0.5;//置信度小于ConfiThreshold的视频不考虑
     
     public static int rateVidStart=56;    
-    public static int rateVidEnd=57;
+    public static int rateVidEnd=78;
 
 
 }
