@@ -17,7 +17,10 @@ public class MyConstants {
     public static String S_Extract="提取特征";
     public static String S_Train  ="SVM训练";
     public static String S_co_Train  ="协同训练";
-    public static String S_knn_Predict  ="KNN预测";
+//    public static String S_knn_Predict  ="KNN预测";
+    
+    public static String S_knn_Predict  ="动作识别";
+    
     public static String S_svm_Predict  ="SVM预测";
 //    public static String S_Predict  ="预测";
     public static String S_Terminate="终止";

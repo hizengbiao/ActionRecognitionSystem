@@ -30,7 +30,7 @@ public class MainWindow extends JFrame implements ActionListener {
 	public static JButton COTrain = new JButton(MyConstants.S_co_Train); // 按钮
 	public static JButton SVMPredict = new JButton(MyConstants.S_svm_Predict); // 按钮
 	public static JButton KNNPredict = new JButton(MyConstants.S_knn_Predict); // 按钮
-	private JButton Terminate = new JButton("终止所有");// 终止按钮
+	private JButton Terminate = new JButton("终止所有线程");// 终止按钮
 	public static JButton speedUp = new JButton("加速");
 	public static JButton speedDown = new JButton("减速");
 	public static JButton videoPause = new JButton("暂停");
@@ -129,14 +129,25 @@ public class MainWindow extends JFrame implements ActionListener {
 		Extract.addActionListener(this);
 		Train.setBounds(sx + wid * 1 + di * 1, sy, wid, hei);
 		this.add(Train);
+		
+		Train.setVisible(false);
+		
 		COTrain.addActionListener(this);
-		COTrain.setBounds(sx + wid * 1 + di * 1, sy + hei + di, wid, hei);
+//		COTrain.setBounds(sx + wid * 1 + di * 1, sy + hei + di, wid, hei);
+		
+		COTrain.setBounds(sx + wid * 1 + di * 1,sy + 25, wid, hei);
+		
 		this.add(COTrain);
 		Train.addActionListener(this);
 		SVMPredict.setBounds(sx + wid * 2 + di * 2, sy, wid, hei);
 		this.add(SVMPredict);
 		SVMPredict.addActionListener(this);
-		KNNPredict.setBounds(sx + wid * 2 + di * 2, sy + hei + di, wid, hei);
+		
+		SVMPredict.setVisible(false);
+		
+		KNNPredict.setBounds(sx + wid * 2 + di * 2, sy + 25, wid, hei);
+		
+//		KNNPredict.setBounds(sx + wid * 2 + di * 2, sy + hei + di, wid, hei);
 		this.add(KNNPredict);
 		KNNPredict.addActionListener(this);
 		Terminate.setBounds(sx + wid * 3 + di * 3, sy + 25, wid, hei);
