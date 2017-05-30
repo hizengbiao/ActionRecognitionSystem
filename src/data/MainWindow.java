@@ -31,6 +31,7 @@ public class MainWindow extends JFrame implements ActionListener {
 	public static JButton SVMPredict = new JButton(MyConstants.S_svm_Predict); // 按钮
 	public static JButton KNNPredict = new JButton(MyConstants.S_knn_Predict); // 按钮
 	private JButton Terminate = new JButton("退出系统");// 终止按钮
+	private JButton RecogRate = new JButton("识别率");// 识别率按钮
 	public static JButton speedUp = new JButton("加速");
 	public static JButton speedDown = new JButton("减速");
 	public static JButton videoPause = new JButton("暂停");
@@ -153,6 +154,11 @@ public class MainWindow extends JFrame implements ActionListener {
 		Terminate.setBounds(sx + wid * 3 + di * 3, sy + 25, wid, hei);
 		this.add(Terminate);
 		Terminate.addActionListener(this);
+		Terminate.setVisible(false);
+		
+		RecogRate.setBounds(sx + wid * 3 + di * 3, sy + 25, wid, hei);
+		this.add(RecogRate);
+		RecogRate.addActionListener(this);
 
 		videoCapture.setBounds(136, sy + hei * 2 + di * 2, 100, 20);
 		this.add(videoCapture);
@@ -467,7 +473,11 @@ public class MainWindow extends JFrame implements ActionListener {
 				myThread.stop();
 			myThread = null;
 			isRunning = false;
-		} else if (e.getSource() == speedUp) {
+		}
+		else if (e.getSource() == RecogRate) {
+			MyTools.RecognitionRateCalcCtrl();
+		}
+		else if (e.getSource() == speedUp) {
 			MyTools.speedUp();
 		} else if (e.getSource() == speedDown) {
 			MyTools.speedDown();
