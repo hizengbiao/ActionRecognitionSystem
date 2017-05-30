@@ -30,7 +30,7 @@ public class MainWindow extends JFrame implements ActionListener {
 	public static JButton COTrain = new JButton(MyConstants.S_co_Train); // 按钮
 	public static JButton SVMPredict = new JButton(MyConstants.S_svm_Predict); // 按钮
 	public static JButton KNNPredict = new JButton(MyConstants.S_knn_Predict); // 按钮
-	private JButton Terminate = new JButton("终止所有线程");// 终止按钮
+	private JButton Terminate = new JButton("退出系统");// 终止按钮
 	public static JButton speedUp = new JButton("加速");
 	public static JButton speedDown = new JButton("减速");
 	public static JButton videoPause = new JButton("暂停");
@@ -185,6 +185,8 @@ public class MainWindow extends JFrame implements ActionListener {
 		myDebug.setBounds(450, 400, 100, 30);
 		this.add(myDebug);
 		myDebug.addActionListener(this);
+		
+		myDebug.setVisible(false);
 
 		// Jlabels:
 
