@@ -32,7 +32,7 @@ public class ExtractVideoFeature {
 //	static double xuandu_min = -40;// 旋度最小值
 	static double xuandu_fazhi = 0.2;// 旋度阀值
 	static int scale = 60;// 矩形框尺寸
-	static int featurePointNumberBorder = 13;// 特征点数量的阀值
+	static int featurePointNumberBorder = 3;// 特征点数量的阀值
 	public static int speed = 0;// 播放视频时各帧的间隔
 	static int spaceTimeSize=5;
 
