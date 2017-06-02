@@ -8,6 +8,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.File;
+import java.io.IOException;
+
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -192,7 +195,7 @@ public class MainWindow extends JFrame implements ActionListener {
 		this.add(myDebug);
 		myDebug.addActionListener(this);
 		
-		myDebug.setVisible(false);
+		myDebug.setVisible(true);
 
 		// Jlabels:
 
@@ -223,8 +226,8 @@ public class MainWindow extends JFrame implements ActionListener {
 		this.setResizable(false);// 窗口大小不可调整
 
 		// //加载数据：
-		MyTools.loadFeature();
-		MyTools.loadSVMModel();
+//		MyTools.loadFeature();
+//		MyTools.loadSVMModel();
 		//
 		//
 
@@ -503,7 +506,29 @@ public class MainWindow extends JFrame implements ActionListener {
 
 //			MyTools.test();
 			
-			MyTools.RecognitionRateCalcCtrl();
+//			MyTools.RecognitionRateCalcCtrl();
+			
+			
+			
+			// knn 特征及标签文件：
+			
+			File f_knn_data_tem = MyTools.mkdir(Classifiers.data_hog_Address,
+					Classifiers.knn_data_tem);// 保存路径
+			File f_knn_label_tem = MyTools.mkdir(Classifiers.data_hog_Address,
+					Classifiers.knn_label_tem);// 保存路径
+			
+			File f_knn_data = MyTools.mkdir(Classifiers.data_hog_Address,
+					Classifiers.knn_data);// 保存路径
+			File f_knn_label = MyTools.mkdir(Classifiers.data_hog_Address,
+					Classifiers.knn_label);// 保存路径
+			try {
+				MyTools.mixFeatures(f_knn_data_tem,f_knn_label_tem,f_knn_data,f_knn_label,MyConstants.TrainVideoCount+1);
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+
+			MyTools.loadFeature();
 		}
 	}
 

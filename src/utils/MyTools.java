@@ -632,8 +632,8 @@ public class MyTools {
 				MyTools.showTips("如果运行出现错误请先等分类器加载完毕再执行，\n另外注意各功能线程之间的同步和互斥的约束关系，\n出于时间关系此处就不优化了", 1);
 				
 				try {
-					MyTools.showTips("\n\n\nsvm预测率计算：", 1);
-					RecognitionRateCalc(MyConstants.rateVidStart,MyConstants.rateVidEnd,2);
+//					MyTools.showTips("\n\n\nsvm预测率计算：", 1);
+//					RecognitionRateCalc(MyConstants.rateVidStart,MyConstants.rateVidEnd,2);
 				
 					MyTools.showTips("\n\n\nknn预测率计算：", 1);
 					RecognitionRateCalc(MyConstants.rateVidStart,MyConstants.rateVidEnd,1);

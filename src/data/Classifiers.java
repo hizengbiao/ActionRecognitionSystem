@@ -49,8 +49,9 @@ public class Classifiers {
 
 	public static int loadTrainData() throws NumberFormatException, IOException {
 
-		int dataLines1 = 0;
-		int dataLines2 = 0;
+//		int dataLines1 = 0;
+		int dataLines1 = 1;
+		int dataLines2 = 1;
 		int dataLines3 = 0;
 		int dataLines4 = 0;
 		
@@ -95,11 +96,11 @@ public class Classifiers {
 		
 		MyTools.showTips("读取特征数据中。。。", 1);
 
-		// 读取svm feature:
-		dataLines1=readData(svm_data_mat,svm_data);
-		
-		// 读取SVM label数据：		
-		dataLines2=readData(svm_label_mat,svm_label);
+//		// 读取svm feature:
+//		dataLines1=readData(svm_data_mat,svm_data);
+//		
+//		// 读取SVM label数据：		
+//		dataLines2=readData(svm_label_mat,svm_label);
 
 		// 读取knn feature:		
 		dataLines3=readData(knn_data_mat,knn_data);
@@ -107,6 +108,7 @@ public class Classifiers {
 		// 读取knn label数据：		
 		dataLines4=readData(knn_label_mat,knn_label);
 		
+		System.out.println("1:  "+dataLines1+"  2: "+dataLines2+"  3: "+dataLines3+"  4: "+dataLines4);
 		if ((dataLines1 == dataLines2 && dataLines1 != 0)&&(dataLines3 == dataLines4 && dataLines3 != 0)){			
 			MyTools.showTips("特征数据加载完成！", 1);
 //			MyTools.showTips(svm_data_mat.rows()+"  mat rows", 1);
