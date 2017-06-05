@@ -521,26 +521,7 @@ public class MyTools {
 
 		Thread lod = new Thread() {
 			public void run() {
-				int nt[][]=new int[7][2];
-				{
-					nt[0][0]=1;nt[0][1]=33;
-					nt[1][0]=0;nt[1][1]=8;		
-					nt[2][0]=2;nt[2][1]=1;		
-					nt[3][0]=3;nt[3][1]=0;		
-					nt[4][0]=4;nt[4][1]=0;		
-					nt[5][0]=5;nt[5][1]=0;		
-					nt[6][0]=1;nt[6][1]=42;	
-				}
-				MyTools.showTips("predict result:", 1);
-//				int nt[][] = chooseOne(result,valid);
-				for (int q = 0; q < 6; q++) {
-					MyTools.showTips(nt[q][0] + "(类别Id)   "
-							+ Labels.getNameById(nt[q][0]) + "   次数：" + nt[q][1]);
-				}
-				for (int a = 0; a < 2; a++) {
-					MyTools.showTips("视频为" + Labels.getNameById(nt[a][0]) + "的概率为："
-							+ (nt[a][1] / (float) nt[6][1] * 100) + "%");
-				}
+				
 			}
 		};
 		lod.start();
