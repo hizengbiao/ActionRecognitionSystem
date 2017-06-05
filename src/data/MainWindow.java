@@ -195,7 +195,7 @@ public class MainWindow extends JFrame implements ActionListener {
 		this.add(myDebug);
 		myDebug.addActionListener(this);
 		
-		myDebug.setVisible(true);
+		myDebug.setVisible(false);
 
 		// Jlabels:
 
@@ -226,7 +226,7 @@ public class MainWindow extends JFrame implements ActionListener {
 		this.setResizable(false);// 窗口大小不可调整
 
 		// //加载数据：
-//		MyTools.loadFeature();
+		MyTools.loadFeature();
 //		MyTools.loadSVMModel();
 		//
 		//
@@ -494,6 +494,7 @@ public class MainWindow extends JFrame implements ActionListener {
 			}
 		} else if (e.getSource() == myDebug) {
 			
+			MyTools.testConsole();
 //			 String
 //			 add=MyConstants.dataOfVideosAddress+"jogging/jogging_10.avi";
 //			 MyTools.playVideo(add);
@@ -510,25 +511,25 @@ public class MainWindow extends JFrame implements ActionListener {
 			
 			
 			
-			// knn 特征及标签文件：
-			
-			File f_knn_data_tem = MyTools.mkdir(Classifiers.data_hog_Address,
-					Classifiers.knn_data_tem);// 保存路径
-			File f_knn_label_tem = MyTools.mkdir(Classifiers.data_hog_Address,
-					Classifiers.knn_label_tem);// 保存路径
-			
-			File f_knn_data = MyTools.mkdir(Classifiers.data_hog_Address,
-					Classifiers.knn_data);// 保存路径
-			File f_knn_label = MyTools.mkdir(Classifiers.data_hog_Address,
-					Classifiers.knn_label);// 保存路径
-			try {
-				MyTools.mixFeatures(f_knn_data_tem,f_knn_label_tem,f_knn_data,f_knn_label,MyConstants.TrainVideoCount+1);
-			} catch (IOException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-
-			MyTools.loadFeature();
+//			// knn 特征及标签文件：
+//			
+//			File f_knn_data_tem = MyTools.mkdir(Classifiers.data_hog_Address,
+//					Classifiers.knn_data_tem);// 保存路径
+//			File f_knn_label_tem = MyTools.mkdir(Classifiers.data_hog_Address,
+//					Classifiers.knn_label_tem);// 保存路径
+//			
+//			File f_knn_data = MyTools.mkdir(Classifiers.data_hog_Address,
+//					Classifiers.knn_data);// 保存路径
+//			File f_knn_label = MyTools.mkdir(Classifiers.data_hog_Address,
+//					Classifiers.knn_label);// 保存路径
+//			try {
+//				MyTools.mixFeatures(f_knn_data_tem,f_knn_label_tem,f_knn_data,f_knn_label,MyConstants.TrainVideoCount+1);
+//			} catch (IOException e1) {
+//				// TODO Auto-generated catch block
+//				e1.printStackTrace();
+//			}
+//
+//			MyTools.loadFeature();
 		}
 	}
 
