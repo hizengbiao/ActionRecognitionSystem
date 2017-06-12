@@ -1,3 +1,7 @@
+		数据集的准备：
+		将kth人体动作视频集下载后放到项目下的data\kthdata目录下
+		
+		
 		要运行该程序，必须将OpenCV目录下build/bin目录下的opencv_ffmpeg的dll文件
 		（有2个，一个是32位，另一个是64位，比如我的是64位的环境，opencv2.4.9，
 		就用了C:\mysoftware\opencv\build\x64\vc12\bin目录下
