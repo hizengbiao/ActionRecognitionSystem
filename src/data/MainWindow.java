@@ -131,6 +131,8 @@ public class MainWindow extends JFrame implements ActionListener {
 		Extract.setBounds(sx,sy + 25 , wid, hei);
 		this.add(Extract);
 		Extract.addActionListener(this);
+		Extract.setVisible(false);
+		
 		Train.setBounds(sx + wid * 1 + di * 1, sy, wid, hei);
 		this.add(Train);
 		
@@ -149,7 +151,7 @@ public class MainWindow extends JFrame implements ActionListener {
 		
 		SVMPredict.setVisible(false);
 		
-		KNNPredict.setBounds(sx + wid * 2 + di * 2, sy + 25, wid, hei);
+		KNNPredict.setBounds(sx + wid * 2 + di * 2+50, sy + 25, wid, hei);
 		
 //		KNNPredict.setBounds(sx + wid * 2 + di * 2, sy + hei + di, wid, hei);
 		this.add(KNNPredict);
@@ -162,6 +164,7 @@ public class MainWindow extends JFrame implements ActionListener {
 		RecogRate.setBounds(sx + wid * 3 + di * 3, sy + 25, wid, hei);
 		this.add(RecogRate);
 		RecogRate.addActionListener(this);
+		RecogRate.setVisible(false);
 
 		videoCapture.setBounds(136, sy + hei * 2 + di * 2, 100, 20);
 		this.add(videoCapture);
