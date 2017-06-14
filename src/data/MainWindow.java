@@ -143,7 +143,7 @@ public class MainWindow extends JFrame implements ActionListener {
 		COTrain.addActionListener(this);
 //		COTrain.setBounds(sx + wid * 1 + di * 1, sy + hei + di, wid, hei);
 		
-		COTrain.setBounds(sx + wid * 1 + di * 1,sy + 25, wid, hei);
+		COTrain.setBounds(sx +50 ,sy + 25, wid, hei);
 		
 		this.add(COTrain);
 		Train.addActionListener(this);
@@ -153,7 +153,7 @@ public class MainWindow extends JFrame implements ActionListener {
 		
 		SVMPredict.setVisible(false);
 		
-		KNNPredict.setBounds(sx + wid * 2 + di * 2+50, sy + 25, wid, hei);
+		KNNPredict.setBounds(sx + wid * 1+100 , sy + 25, wid, hei);
 		
 //		KNNPredict.setBounds(sx + wid * 2 + di * 2, sy + hei + di, wid, hei);
 		this.add(KNNPredict);
