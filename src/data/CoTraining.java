@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import org.opencv.core.Mat;
 
+import utils.FileChooser;
+import utils.FileCopy;
 import utils.ImageGUI;
 import utils.MyTools;
 
@@ -251,6 +253,9 @@ public class CoTraining {
 				Thread.sleep(50);
 			}
 			if (MyTools.loadingFeatureResult == 1) {
+//				File ff=FileChooser.saveFile();
+//				Classifiers.svm_modelAddress=ff.getParent();
+//				Classifiers.svm_modelName=ff.getName();
 				Classifiers.SVMtrain();
 				// 每次训练完后启动一个线程重新加载一下训练模型：
 				MyTools.loadSVMModel();
@@ -265,7 +270,10 @@ public class CoTraining {
 			
 //			
 		}
-	
+		
+		File f = new File(Classifiers.svm_modelAddress + Classifiers.svm_modelName);
+		File ff=FileChooser.saveFile();//选择保存路径
+		FileCopy.Copy(f, ff);
 		MyTools.showTips("协同训练完成！", 1);
 		
 	}

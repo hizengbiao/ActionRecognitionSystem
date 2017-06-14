@@ -58,11 +58,12 @@ public class FileChooser extends JFrame implements ActionListener{
 		jfc.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
 		jfc.showDialog(new JLabel(), "保存");
 		File file=jfc.getSelectedFile(); //获得你输入要保存的文件 
-//		String fileName=jfc.getName(file); //获得文件名
+//		String fileName=file.getName(); //获得文件名
 //		String path=file.getAbsolutePath(); //得到要保存文件的路径(包括文件名）
-//		
+//		String path1=file.getParent();//获取目录（不包括文件名）
 //		System.out.println(fileName);
 //		System.out.println(path);
+//		System.out.println(path1);
 	
 		return file;
     }
