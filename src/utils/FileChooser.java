@@ -11,6 +11,8 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 
 import data.MyConstants;
+import fileFilter.AviFileFilter;
+import fileFilter.Mp4FileFilter;
 
 public class FileChooser extends JFrame implements ActionListener{  
     /**
@@ -22,7 +24,8 @@ public class FileChooser extends JFrame implements ActionListener{
     public static void main(String[] args) {
 //    	System.out.println(System.getProperty("user.dir")+"/data/kthdata/");
 //        new FileChooser(System.getProperty("user.dir")+"/data/kthdata/");
-        new FileChooser(MyConstants.dataOfVideosAddress);
+//        new FileChooser(MyConstants.dataOfVideosAddress);
+    	File f=saveFile();
     }  
     public FileChooser(String path){
     	absolutePath=path;
@@ -32,7 +35,37 @@ public class FileChooser extends JFrame implements ActionListener{
         this.setVisible(true);  
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);  
         open.addActionListener(this);  
-    }  
+    }
+    public static File openFile(){
+    	//选择一个文件或路径
+    	AviFileFilter aviFile = new AviFileFilter();
+		Mp4FileFilter mp4File = new Mp4FileFilter();
+		JFileChooser jfc = new JFileChooser(
+				MyConstants.dataOfVideosAddress);
+		jfc.setFileFilter(mp4File);
+		jfc.setFileFilter(aviFile);
+		jfc.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+		jfc.showDialog(new JLabel(), "确定");
+		File file = jfc.getSelectedFile();
+		return file;
+    }
+    public static File saveFile(){
+    	//选择一个文件或路径进行保存
+//    	AviFileFilter aviFile = new AviFileFilter();
+//		Mp4FileFilter mp4File = new Mp4FileFilter();
+		JFileChooser jfc = new JFileChooser(
+				MyConstants.dataOfVideosAddress);
+		jfc.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+		jfc.showDialog(new JLabel(), "保存");
+		File file=jfc.getSelectedFile(); //获得你输入要保存的文件 
+//		String fileName=jfc.getName(file); //获得文件名
+//		String path=file.getAbsolutePath(); //得到要保存文件的路径(包括文件名）
+//		
+//		System.out.println(fileName);
+//		System.out.println(path);
+	
+		return file;
+    }
     @Override  
     public void actionPerformed(ActionEvent e) {  
         // TODO Auto-generated method stub

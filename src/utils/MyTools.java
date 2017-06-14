@@ -7,8 +7,21 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Vector;
 
+import org.opencv.core.Core;
+import org.opencv.core.CvType;
 import org.opencv.core.Mat;
+import org.opencv.core.MatOfFloat;
 import org.opencv.core.Point;
+import org.opencv.core.Range;
+import org.opencv.core.Rect;
+import org.opencv.core.Scalar;
+import org.opencv.core.Size;
+import org.opencv.highgui.VideoCapture;
+import org.opencv.imgproc.Imgproc;
+import org.opencv.objdetect.HOGDescriptor;
+import org.opencv.video.Video;
+
+import Jama.Matrix;
 
 import data.Classifiers;
 import data.CoTraining;
@@ -400,37 +413,86 @@ public class MyTools {
 		//
 		// return NoTimes;
 	}
+	
+	public static void playVideo(String viAdr, ImageGUI gui) {
 
-	public static void playVideo(String vidAdd) {
-		if (MainWindow.SVMPredictButtonState == false) {
-			if (MainWindow.isRunning == true) {
-				System.out.println(MyConstants.ThreadConflictMsg);
-				// MainWindow.tips.append(MyConstants.ThreadConflictMsg);
-				MyTools.showTips(MyConstants.ThreadConflictMsg);
-				return;
-			}
-			MainWindow.isRunning = true;
-			MainWindow.SVMPredictButtonState = true;
+		// TODO Auto-generated method stub
+		VideoCapture capture = new VideoCapture();
+		capture.open(viAdr);// 读取本地文件
+//		Mat video_mat = new Mat();
 
-			MyTools.clearTips();
-			MyTools.videoPlay();
-			MainWindow.videoPause.setText("暂停");
-			MainWindow.HiddenJLabels();
-			MainWindow.HiddenJLabels(1);
-			MainWindow.optionStatus.setText(MyConstants.S_optionStatus
-					+ MyConstants.S_svm_Predict);
-
-			MainWindow.SVMPredict.setText(MyConstants.S_Terminate
-					+ MyConstants.S_svm_Predict);
-
-			ThreadCtrl ctrl = new ThreadCtrl("SVMPredict");
-			ctrl.setGUI(MainWindow.videoGUI, MainWindow.SVMPredict);
-			File f = new File(vidAdd);
-			ctrl.setFile(f);
-			MainWindow.myThread = new Thread(ctrl);
-			MainWindow.myThread.start();
+		if (!capture.isOpened()) {
+			System.out.println("could not load video data...");
+			// MainWindow.tips.append("could not load video data...");
+			MyTools.showTips("could not load video data...");
+			// out.close();
+			return ;
 		}
+		int frameCount = (int) capture.get(7);
+		Mat frame = new Mat();
+		
+		
+
+		// ImageGUI gui = new ImageGUI();
+		// gui.createWin("OpenCV + Java视频读与播放演示", new Dimension(frame_width,
+		// frame_height));
+
+		int frameNo = 0;
+//		System.gc();
+		while (true) {
+			
+			boolean have = capture.read(frame);
+//			Imgproc.cvtColor(frame, next, Imgproc.COLOR_RGB2GRAY);
+			if (!have)
+				break;
+			frameNo++;
+			MainWindow.videoFrame.setText(MyConstants.S_frame + frameNo + " / "
+					+ frameCount);	
+				gui.imshow(MyVideo.conver2Image(frame));
+				gui.repaint();
+			try {
+				do {
+					Thread.sleep(ExtractVideoFeature.speed);
+				} while (MyTools.pause);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+		
+
+		
 	}
+
+//	public static void playVideo(String vidAdd) {
+//		if (MainWindow.SVMPredictButtonState == false) {
+//			if (MainWindow.isRunning == true) {
+//				System.out.println(MyConstants.ThreadConflictMsg);
+//				// MainWindow.tips.append(MyConstants.ThreadConflictMsg);
+//				MyTools.showTips(MyConstants.ThreadConflictMsg);
+//				return;
+//			}
+//			MainWindow.isRunning = true;
+//			MainWindow.SVMPredictButtonState = true;
+//
+//			MyTools.clearTips();
+//			MyTools.videoPlay();
+//			MainWindow.videoPause.setText("暂停");
+//			MainWindow.HiddenJLabels();
+//			MainWindow.HiddenJLabels(1);
+//			MainWindow.optionStatus.setText(MyConstants.S_optionStatus
+//					+ MyConstants.S_svm_Predict);
+//
+//			MainWindow.SVMPredict.setText(MyConstants.S_Terminate
+//					+ MyConstants.S_svm_Predict);
+//
+//			ThreadCtrl ctrl = new ThreadCtrl("SVMPredict");
+//			ctrl.setGUI(MainWindow.videoGUI, MainWindow.SVMPredict);
+//			File f = new File(vidAdd);
+//			ctrl.setFile(f);
+//			MainWindow.myThread = new Thread(ctrl);
+//			MainWindow.myThread.start();
+//		}
+//	}
 
 	public static void ExtractAndTrain() throws IOException {
 		/*

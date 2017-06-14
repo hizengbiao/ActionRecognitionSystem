@@ -38,6 +38,8 @@ public class MainWindow extends JFrame implements ActionListener {
 	public static JButton speedUp = new JButton("加速");
 	public static JButton speedDown = new JButton("减速");
 	public static JButton videoPause = new JButton("暂停");
+	
+	public static JButton videoPlay = new JButton("播放视频");
 
 	private JButton myDebug = new JButton("调试按钮");
 
@@ -161,6 +163,12 @@ public class MainWindow extends JFrame implements ActionListener {
 		Terminate.addActionListener(this);
 		Terminate.setVisible(false);
 		
+		
+		videoPlay.setBounds(sx + wid * 3 + di * 3, sy + 25, wid, hei);
+		this.add(videoPlay);
+		videoPlay.addActionListener(this);
+		
+		
 		RecogRate.setBounds(sx + wid * 3 + di * 3, sy + 25, wid, hei);
 		this.add(RecogRate);
 		RecogRate.addActionListener(this);
@@ -240,7 +248,24 @@ public class MainWindow extends JFrame implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
-		if (e.getSource() == Extract) {
+		if (e.getSource() == videoPlay) {
+			MyTools.clearTips();
+			MyTools.videoPlay();
+			videoPause.setText("暂停");
+			HiddenJLabels();
+			HiddenJLabels(1);
+			optionStatus.setText(MyConstants.S_optionStatus
+					+ "视频播放");
+
+//			KNNPredict.setText(MyConstants.S_Terminate
+//					+ MyConstants.S_knn_Predict);
+
+			ThreadCtrl ctrl = new ThreadCtrl("vidPlay");
+			ctrl.setGUI(videoGUI, videoPlay);
+			myThread = new Thread(ctrl);
+			myThread.start();
+		}
+		else if (e.getSource() == Extract) {
 			if (ExtractButtonState == false) {
 				if (isRunning == true) {
 					System.out.println(MyConstants.ThreadConflictMsg);
