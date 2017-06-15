@@ -1,6 +1,5 @@
 package data;
 
-
 import java.util.Vector;
 import org.opencv.objdetect.HOGDescriptor;
 
@@ -19,8 +18,6 @@ import org.opencv.video.Video;
 
 import utils.ImageGUI;
 import utils.MyTools;
-import utils.MyVideo;
-
 import Jama.Matrix;
 
 public class ExtractVideoFeature {
@@ -29,12 +26,12 @@ public class ExtractVideoFeature {
 	// int frame_height;
 	// double frameCount;
 	static double xuandu_max_tem = 200;// 旋度最大值，若为正，则最小为50
-//	static double xuandu_min = -40;// 旋度最小值
+	// static double xuandu_min = -40;// 旋度最小值
 	static double xuandu_fazhi = 0.2;// 旋度阀值
 	static int scale = 80;// 矩形框尺寸
 	static int featurePointNumberBorder = 3;// 特征点数量的阀值
 	public static int speed = 50;// 播放视频时各帧的间隔
-	static int spaceTimeSize=10;
+	static int spaceTimeSize = 10;
 
 	public ExtractVideoFeature() {
 
@@ -257,44 +254,43 @@ public class ExtractVideoFeature {
 		Mat frame = new Mat();
 		MatOfFloat TenFramesHog = new MatOfFloat();// 存储spaceTimeSize帧图像的hog
 		MatOfFloat TenFramesDisMove = new MatOfFloat();// 存储spaceTimeSize帧图像的位移特征
-		
+
 		int spaceSize = 0;// 时空立方体帧数
 		int start_extract = 0;// 开始提取时空体特征
 		double preMeanX = 0;// 上一帧的特征点X均值
 		double preMeanY = 0;// 上一帧的特征点Y均值
-		
 
 		// ImageGUI gui = new ImageGUI();
 		// gui.createWin("OpenCV + Java视频读与播放演示", new Dimension(frame_width,
 		// frame_height));
 
 		int frameNo = 0;
-		int jump=0;
-//		System.gc();
+		int jump = 0;
+		// System.gc();
 		while (true) {
-			
-			double xuandu_max=xuandu_max_tem;
-			
+
+			double xuandu_max = xuandu_max_tem;
+
 			boolean have = capture.read(frame);
 			Imgproc.cvtColor(frame, next, Imgproc.COLOR_RGB2GRAY);
 			if (!have)
 				break;
 			frameNo++;
-			if(++jump!=2)
+			if (++jump != 2)
 				continue;
-			jump=0;
+			jump = 0;
 			MainWindow.videoFrame.setText(MyConstants.S_frame + frameNo + " / "
-					+ frameCount);			
+					+ frameCount);
 			if (!prev.empty()) {
 				Mat flow = new Mat();
 				// Mat flow=new Mat(frame_width,frame_height,CvType.CV_8UC1);
 				Video.calcOpticalFlowFarneback(prev, next, flow, 0.5, 1, 1, 1,
 						7, 1.5, 1);
-				
-				//debug:
-//				double matall=MyTools.MatSum(flow);
-//				System.out.println(matall);
-				
+
+				// debug:
+				// double matall=MyTools.MatSum(flow);
+				// System.out.println(matall);
+
 				// prevImg(y,x)=nextImg(y+flow(y,x)[1]，x+fow(y,x)[0]);
 				Matrix result = new Matrix(frame_width, frame_height);
 
@@ -309,19 +305,19 @@ public class ExtractVideoFeature {
 						result.set(jj, ii, xuandu);
 						if (xuandu > xuandu_max)
 							xuandu_max = xuandu;
-//						if (xuandu < xuandu_min)
-//							xuandu_min = xuandu;
+						// if (xuandu < xuandu_min)
+						// xuandu_min = xuandu;
 					}
 				}
 
 				double max_border = xuandu_max * xuandu_fazhi;
-//				double min_border = xuandu_min * xuandu_fazhi;
+				// double min_border = xuandu_min * xuandu_fazhi;
 
 				// System.out.println("max_border:" + max_border +
 				// "  min_border:"
 				// + min_border);
-				
-//				System.out.println(xuandu_max);
+
+				// System.out.println(xuandu_max);
 
 				Vector<Point> v1 = new Vector<Point>();
 
@@ -329,19 +325,20 @@ public class ExtractVideoFeature {
 					for (int jj = 0; jj < frame_width; jj++) {
 						// 保存关键点
 						if ((result.get(jj, ii) > max_border)) {
-//						if ((result.get(jj, ii) > max_border)
-//								|| (result.get(jj, ii) < min_border)) {
+							// if ((result.get(jj, ii) > max_border)
+							// || (result.get(jj, ii) < min_border)) {
 							v1.addElement(new Point(jj, ii));
-//							 System.out.print((int)result.get(jj, ii)+"  ");
+							// System.out.print((int)result.get(jj, ii)+"  ");
 						}
-						
+
 					}
 				}
-//				System.out.println();
-				
-				/*if (v1.size() < featurePointNumberBorder)
-					continue;*/
-				
+				// System.out.println();
+
+				/*
+				 * if (v1.size() < featurePointNumberBorder) continue;
+				 */
+
 				double meanX = 0;// 所有关键点的平均x值
 				double meanY = 0;
 				for (int ii = 0; ii < v1.size(); ii++) {
@@ -350,12 +347,13 @@ public class ExtractVideoFeature {
 				}
 				meanX /= v1.size();
 				meanY /= v1.size();
-				
-//				double variance=MyTools.calcVariance(v1,new Point(meanX,meanY));
-//				System.out.println(variance);
+
+				// double variance=MyTools.calcVariance(v1,new
+				// Point(meanX,meanY));
+				// System.out.println(variance);
 
 				Mat paintPoint = frame.clone();
-				
+
 				if (v1.size() > featurePointNumberBorder && spaceSize == 0) {
 					start_extract = 1;
 					TenFramesHog = new MatOfFloat();
@@ -364,12 +362,12 @@ public class ExtractVideoFeature {
 					preMeanY = meanY;
 				}
 
-//				if (v1.size() < featurePointNumberBorder) {
-					meanX = preMeanX;
-					meanY = preMeanY;
-//				}
-//				preMeanX = meanX;
-//				preMeanY = meanY;
+				// if (v1.size() < featurePointNumberBorder) {
+				meanX = preMeanX;
+				meanY = preMeanY;
+				// }
+				// preMeanX = meanX;
+				// preMeanY = meanY;
 
 				int ltx = (int) (meanX - scale / 2);// leftTopX
 				int lty = (int) (meanY - scale / 2);// 左上角顶点的Y值
@@ -382,12 +380,12 @@ public class ExtractVideoFeature {
 				if ((lty + scale) > frame_height)
 					lty = frame_height - scale;
 				Rect fanwei = new Rect(ltx, lty, scale, scale);
-//				 if (v1.size() > featurePointNumberBorder) {
+				// if (v1.size() > featurePointNumberBorder) {
 				if (start_extract == 1) {
-				Core.rectangle(paintPoint, fanwei.tl(), fanwei.br(),
-						new Scalar(255, 0, 0), 2);
-				Core.circle(paintPoint, new Point(meanX, meanY), (int) 1,
-						new Scalar(0, 255, 0), 2);
+					Core.rectangle(paintPoint, fanwei.tl(), fanwei.br(),
+							new Scalar(255, 0, 0), 2);
+					Core.circle(paintPoint, new Point(meanX, meanY), (int) 1,
+							new Scalar(0, 255, 0), 2);
 				}
 				// }
 				// System.out.println(v1.size());
@@ -395,32 +393,31 @@ public class ExtractVideoFeature {
 					Core.circle(paintPoint, v1.get(m), (int) 1, new Scalar(0,
 							0, 255), 2);
 				}
-//				gui.imshow(MyVideo.conver2Image(paintPoint));
-//				gui.repaint();
+				// gui.imshow(MyVideo.conver2Image(paintPoint));
+				// gui.repaint();
 
-				
 				if (start_extract == 1) {
 					// 提取HOG特征：
 					HOGDescriptor desc = new HOGDescriptor(new Size(scale,
 							scale), new Size(20, 20), new Size(5, 5), new Size(
 							10, 10), 5);
-//					 System.out.println("维数"+desc.getDescriptorSize());//获取向量维数
+					// System.out.println("维数"+desc.getDescriptorSize());//获取向量维数
 					MatOfFloat hogVector = new MatOfFloat();
 					Mat src = new Mat(next, new Range(lty, lty + scale),
 							new Range(ltx, ltx + scale));
-					desc.compute(src, hogVector);					
-//					 System.out.println("size："+hogVector.size()+"   rows:"+hogVector.rows()+"  cols:"+hogVector.cols()+"  demions:"+hogVector.dims());
+					desc.compute(src, hogVector);
+					// System.out.println("size："+hogVector.size()+"   rows:"+hogVector.rows()+"  cols:"+hogVector.cols()+"  demions:"+hogVector.dims());
 					TenFramesHog.push_back(hogVector);
 					{
-						float []f2=new float[scale*scale];
-						int y=0;
-						for(int m=lty;m<scale;m++){
-							for(int n=ltx;n<scale;n++){
-								f2[y++]=(float) result.get(ltx,lty);
+						float[] f2 = new float[scale * scale];
+						int y = 0;
+						for (int m = lty; m < scale; m++) {
+							for (int n = ltx; n < scale; n++) {
+								f2[y++] = (float) result.get(ltx, lty);
 							}
 						}
-					MatOfFloat feature2=new MatOfFloat(f2);
-					TenFramesDisMove.push_back(feature2);
+						MatOfFloat feature2 = new MatOfFloat(f2);
+						TenFramesDisMove.push_back(feature2);
 					}
 					// float[] hogOut = hogVector.toArray();
 					// System.out.println(hogOut.length);//获取向量维数
@@ -441,7 +438,7 @@ public class ExtractVideoFeature {
 
 						Mat aRow = new Mat(1, words.length, CvType.CV_32FC1);
 						// float[]values=new float[words.length];
-//						System.out.println( words.length);
+						// System.out.println( words.length);
 						for (int k = 0; k < words.length; k++) {
 							// String word = words[k];
 							// double value = Float.parseFloat(word);
@@ -486,7 +483,6 @@ public class ExtractVideoFeature {
 				e.printStackTrace();
 			}
 		}
-		
 
 		return video_mat;
 	}

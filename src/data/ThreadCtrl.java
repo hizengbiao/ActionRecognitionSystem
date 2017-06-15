@@ -1,14 +1,9 @@
 package data;
 
-import fileFilter.AviFileFilter;
-import fileFilter.Mp4FileFilter;
 import java.io.File;
 import java.io.IOException;
 
 import javax.swing.JButton;
-import javax.swing.JFileChooser;
-import javax.swing.JLabel;
-
 import utils.FileChooser;
 import utils.ImageGUI;
 import utils.MyTools;
@@ -149,16 +144,16 @@ public class ThreadCtrl implements Runnable {
 		} else if (cmd.equals("SVMPredict")) {
 
 			if (file == null) {
-//				AviFileFilter aviFile = new AviFileFilter();
-//				Mp4FileFilter mp4File = new Mp4FileFilter();
-//				JFileChooser jfc = new JFileChooser(
-//						MyConstants.dataOfVideosAddress);
-//				jfc.setFileFilter(mp4File);
-//				jfc.setFileFilter(aviFile);
-//				jfc.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
-//				jfc.showDialog(new JLabel(), "选择");
-//				file = jfc.getSelectedFile();
-				file=FileChooser.openFile();
+				// AviFileFilter aviFile = new AviFileFilter();
+				// Mp4FileFilter mp4File = new Mp4FileFilter();
+				// JFileChooser jfc = new JFileChooser(
+				// MyConstants.dataOfVideosAddress);
+				// jfc.setFileFilter(mp4File);
+				// jfc.setFileFilter(aviFile);
+				// jfc.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+				// jfc.showDialog(new JLabel(), "选择");
+				// file = jfc.getSelectedFile();
+				file = FileChooser.openFile();
 			}
 
 			MainWindow.videoPath.setText(MyConstants.S_videoPath
@@ -197,26 +192,26 @@ public class ThreadCtrl implements Runnable {
 		} else if (cmd.equals("KNNPredict")) {
 
 			if (file == null) {
-//				AviFileFilter aviFile = new AviFileFilter();
-//				Mp4FileFilter mp4File = new Mp4FileFilter();
-//				JFileChooser jfc = new JFileChooser(
-//						MyConstants.dataOfVideosAddress);
-//				jfc.setFileFilter(mp4File);
-//				jfc.setFileFilter(aviFile);
-//				jfc.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
-//				jfc.showDialog(new JLabel(), "选择");
-//				file = jfc.getSelectedFile();
-				file=FileChooser.openFile();
+				// AviFileFilter aviFile = new AviFileFilter();
+				// Mp4FileFilter mp4File = new Mp4FileFilter();
+				// JFileChooser jfc = new JFileChooser(
+				// MyConstants.dataOfVideosAddress);
+				// jfc.setFileFilter(mp4File);
+				// jfc.setFileFilter(aviFile);
+				// jfc.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+				// jfc.showDialog(new JLabel(), "选择");
+				// file = jfc.getSelectedFile();
+				file = FileChooser.openFile();
 			}
 			MainWindow.videoPath.setText(MyConstants.S_videoPath
 					+ file.getParent());
 			MainWindow.videoName.setText(MyConstants.S_videoName
 					+ file.getName());
-			
+
 			while (MyTools.loadingFeature == true) {
 				try {
 					MyTools.clearTips();
-					MyTools.showTips("KNN分类器加载中，请稍等。。。",1);
+					MyTools.showTips("KNN分类器加载中，请稍等。。。", 1);
 					Thread.sleep(50);
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
@@ -243,38 +238,35 @@ public class ThreadCtrl implements Runnable {
 			MainWindow.isRunning = false;
 			MainWindow.KNNPredictButtonState = false;
 			buttonRecover.setText(MyConstants.S_knn_Predict);
-		}
-		else if (cmd.equals("vidPlay")) {
+		} else if (cmd.equals("vidPlay")) {
 
 			if (file == null) {
-//				AviFileFilter aviFile = new AviFileFilter();
-//				Mp4FileFilter mp4File = new Mp4FileFilter();
-//				JFileChooser jfc = new JFileChooser(
-//						MyConstants.dataOfVideosAddress);
-//				jfc.setFileFilter(mp4File);
-//				jfc.setFileFilter(aviFile);
-//				jfc.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
-//				jfc.showDialog(new JLabel(), "选择");
-//				file = jfc.getSelectedFile();
-				file=FileChooser.openFile();
+				// AviFileFilter aviFile = new AviFileFilter();
+				// Mp4FileFilter mp4File = new Mp4FileFilter();
+				// JFileChooser jfc = new JFileChooser(
+				// MyConstants.dataOfVideosAddress);
+				// jfc.setFileFilter(mp4File);
+				// jfc.setFileFilter(aviFile);
+				// jfc.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+				// jfc.showDialog(new JLabel(), "选择");
+				// file = jfc.getSelectedFile();
+				file = FileChooser.openFile();
 			}
 			MainWindow.videoPath.setText(MyConstants.S_videoPath
 					+ file.getParent());
 			MainWindow.videoName.setText(MyConstants.S_videoName
 					+ file.getName());
-			
+
 			MyTools.playVideo(file.toString(), videoGUI);
-			
-		
 
-//			try {
-//				Classifiers.KNNpredict(file.toString(), videoGUI);
-//			} catch (NumberFormatException | IOException e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			}
+			// try {
+			// Classifiers.KNNpredict(file.toString(), videoGUI);
+			// } catch (NumberFormatException | IOException e) {
+			// // TODO Auto-generated catch block
+			// e.printStackTrace();
+			// }
 
-//			MainWindow.isRunning = false;
+			// MainWindow.isRunning = false;
 		}
 	}
 
