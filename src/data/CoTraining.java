@@ -22,9 +22,33 @@ public class CoTraining {
 			InterruptedException {
 //		nowN=0;
 		
+		//选择训练集：
+		File trainSetPath=FileChooser.chooseTrainSet();
+		MyConstants.dataOfVideosAddress=trainSetPath.getAbsolutePath()+"\\";
+//		System.out.println(MyConstants.dataOfVideosAddress);
+		//提取特征
+		ExtractVideoFeature.speed = 0;
+		MyTools.clearTips();
+		MyTools.videoPlay();
+		MainWindow.HiddenJLabels();
+		MainWindow.HiddenJLabels(1);
+		MainWindow.optionStatus.setText(MyConstants.S_optionStatus
+				+ MyConstants.S_Extract);
 		
+		ExtractAllVideos extA = new ExtractAllVideos();
+		try {
+			extA.exe(VideoShow);
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		
-		
+//		协同训练：
+		MyTools.clearTips();
+		MainWindow.HiddenJLabels();
+		MainWindow.HiddenJLabels(1);
+		MainWindow.optionStatus.setText(MyConstants.S_optionStatus
+				+ MyConstants.S_co_Train);
 		
 
 		// svm 特征及标签文件：

@@ -3,11 +3,11 @@ package data;
 public class MyConstants {
 	
 	 
-    public final static String dataAddress = "data/";
-    public final static String VideoHogAddress=dataAddress+"hog/";
-    public final static String dataOfVideosAddress = dataAddress + "kthdata/";
-    public final static String unLabeledVideosAddress = dataOfVideosAddress + "unlabeled/";
-    public final static String unLabeledVideosHogAddress = VideoHogAddress + "unlabeled/";
+    public  static String dataAddress = "data/";
+    public  static String VideoHogAddress=dataAddress+"hog/";
+    public  static String dataOfVideosAddress = dataAddress + "kthdata/";
+    public  static String unLabeledVideosAddress = dataOfVideosAddress + "unlabeled/";
+    public  static String unLabeledVideosHogAddress = VideoHogAddress + "unlabeled/";
 
     
     

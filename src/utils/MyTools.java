@@ -7,31 +7,16 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Vector;
 
-import org.opencv.core.Core;
-import org.opencv.core.CvType;
 import org.opencv.core.Mat;
-import org.opencv.core.MatOfFloat;
 import org.opencv.core.Point;
-import org.opencv.core.Range;
-import org.opencv.core.Rect;
-import org.opencv.core.Scalar;
-import org.opencv.core.Size;
 import org.opencv.highgui.VideoCapture;
-import org.opencv.imgproc.Imgproc;
-import org.opencv.objdetect.HOGDescriptor;
-import org.opencv.video.Video;
-
-import Jama.Matrix;
-
 import data.Classifiers;
 import data.CoTraining;
 import data.ExtractVideoFeature;
 import data.Labels;
 import data.MainWindow;
 import data.MyConstants;
-import data.ThreadCtrl;
 import data.VideoConfidence;
-
 
 public class MyTools {
 	/*
@@ -122,14 +107,14 @@ public class MyTools {
 	public static void showTips(String s) {
 		MainWindow.tips.append("      " + s + "\n");
 	}
-	
-	public static double MatSum(Mat m){
-		double sum=0;
-		for(int i=0;i<m.rows();i++){
-			for(int j=0;j<m.cols();j++){
+
+	public static double MatSum(Mat m) {
+		double sum = 0;
+		for (int i = 0; i < m.rows(); i++) {
+			for (int j = 0; j < m.cols(); j++) {
 				double[] data;
 				data = m.get(i, j);
-				sum+=data[0];
+				sum += data[0];
 			}
 		}
 		return sum;
@@ -413,43 +398,43 @@ public class MyTools {
 		//
 		// return NoTimes;
 	}
-	
+
 	public static void playVideo(String viAdr, ImageGUI gui) {
 
 		// TODO Auto-generated method stub
 		VideoCapture capture = new VideoCapture();
 		capture.open(viAdr);// 读取本地文件
-//		Mat video_mat = new Mat();
+		// Mat video_mat = new Mat();
 
 		if (!capture.isOpened()) {
 			System.out.println("could not load video data...");
 			// MainWindow.tips.append("could not load video data...");
 			MyTools.showTips("could not load video data...");
 			// out.close();
-			return ;
+			return;
 		}
 		int frameCount = (int) capture.get(7);
 		Mat frame = new Mat();
-		
-		
+
+		ExtractVideoFeature.speed = 50;
 
 		// ImageGUI gui = new ImageGUI();
 		// gui.createWin("OpenCV + Java视频读与播放演示", new Dimension(frame_width,
 		// frame_height));
 
 		int frameNo = 0;
-//		System.gc();
+		// System.gc();
 		while (true) {
-			
+
 			boolean have = capture.read(frame);
-//			Imgproc.cvtColor(frame, next, Imgproc.COLOR_RGB2GRAY);
+			// Imgproc.cvtColor(frame, next, Imgproc.COLOR_RGB2GRAY);
 			if (!have)
 				break;
 			frameNo++;
 			MainWindow.videoFrame.setText(MyConstants.S_frame + frameNo + " / "
-					+ frameCount);	
-				gui.imshow(MyVideo.conver2Image(frame));
-				gui.repaint();
+					+ frameCount);
+			gui.imshow(MyVideo.conver2Image(frame));
+			gui.repaint();
 			try {
 				do {
 					Thread.sleep(ExtractVideoFeature.speed);
@@ -458,41 +443,39 @@ public class MyTools {
 				e.printStackTrace();
 			}
 		}
-		
 
-		
 	}
 
-//	public static void playVideo(String vidAdd) {
-//		if (MainWindow.SVMPredictButtonState == false) {
-//			if (MainWindow.isRunning == true) {
-//				System.out.println(MyConstants.ThreadConflictMsg);
-//				// MainWindow.tips.append(MyConstants.ThreadConflictMsg);
-//				MyTools.showTips(MyConstants.ThreadConflictMsg);
-//				return;
-//			}
-//			MainWindow.isRunning = true;
-//			MainWindow.SVMPredictButtonState = true;
-//
-//			MyTools.clearTips();
-//			MyTools.videoPlay();
-//			MainWindow.videoPause.setText("暂停");
-//			MainWindow.HiddenJLabels();
-//			MainWindow.HiddenJLabels(1);
-//			MainWindow.optionStatus.setText(MyConstants.S_optionStatus
-//					+ MyConstants.S_svm_Predict);
-//
-//			MainWindow.SVMPredict.setText(MyConstants.S_Terminate
-//					+ MyConstants.S_svm_Predict);
-//
-//			ThreadCtrl ctrl = new ThreadCtrl("SVMPredict");
-//			ctrl.setGUI(MainWindow.videoGUI, MainWindow.SVMPredict);
-//			File f = new File(vidAdd);
-//			ctrl.setFile(f);
-//			MainWindow.myThread = new Thread(ctrl);
-//			MainWindow.myThread.start();
-//		}
-//	}
+	// public static void playVideo(String vidAdd) {
+	// if (MainWindow.SVMPredictButtonState == false) {
+	// if (MainWindow.isRunning == true) {
+	// System.out.println(MyConstants.ThreadConflictMsg);
+	// // MainWindow.tips.append(MyConstants.ThreadConflictMsg);
+	// MyTools.showTips(MyConstants.ThreadConflictMsg);
+	// return;
+	// }
+	// MainWindow.isRunning = true;
+	// MainWindow.SVMPredictButtonState = true;
+	//
+	// MyTools.clearTips();
+	// MyTools.videoPlay();
+	// MainWindow.videoPause.setText("暂停");
+	// MainWindow.HiddenJLabels();
+	// MainWindow.HiddenJLabels(1);
+	// MainWindow.optionStatus.setText(MyConstants.S_optionStatus
+	// + MyConstants.S_svm_Predict);
+	//
+	// MainWindow.SVMPredict.setText(MyConstants.S_Terminate
+	// + MyConstants.S_svm_Predict);
+	//
+	// ThreadCtrl ctrl = new ThreadCtrl("SVMPredict");
+	// ctrl.setGUI(MainWindow.videoGUI, MainWindow.SVMPredict);
+	// File f = new File(vidAdd);
+	// ctrl.setFile(f);
+	// MainWindow.myThread = new Thread(ctrl);
+	// MainWindow.myThread.start();
+	// }
+	// }
 
 	public static void ExtractAndTrain() throws IOException {
 		/*
@@ -577,13 +560,13 @@ public class MyTools {
 		};
 		lod.start();
 	}
-	
+
 	public static void testConsole() {
 		// TODO Auto-generated method stub
 
 		Thread lod = new Thread() {
 			public void run() {
-				
+
 			}
 		};
 		lod.start();
@@ -619,98 +602,106 @@ public class MyTools {
 
 	public static double calcVariance(Vector<Point> v, Point mean) {
 		// TODO Auto-generated method stub
-		//计算方差：
-		if(v.size()==0)
+		// 计算方差：
+		if (v.size() == 0)
 			return Double.POSITIVE_INFINITY;
-		double al=0;
-		for(int i=0;i<v.size();i++){
-			double dis=Math.sqrt(Math.pow((v.get(i).x-mean.x),2)+Math.pow((v.get(i).y-mean.y),2));
-			al+=Math.pow(dis,2);
+		double al = 0;
+		for (int i = 0; i < v.size(); i++) {
+			double dis = Math.sqrt(Math.pow((v.get(i).x - mean.x), 2)
+					+ Math.pow((v.get(i).y - mean.y), 2));
+			al += Math.pow(dis, 2);
 		}
-		al/=v.size();
+		al /= v.size();
 		return al;
 	}
-	
-	public static double RecognitionRateCalc(int startN,int endN,int classifierNo) throws NumberFormatException, IOException, InterruptedException{
-		int videosNumAll=0;		
-		int rightNumAll=0;
-		int[]rightNum=new int[Labels.getLabelsCount()];
-		int[]videosNum=new int[Labels.getLabelsCount()];
-		
+
+	public static double RecognitionRateCalc(int startN, int endN,
+			int classifierNo) throws NumberFormatException, IOException,
+			InterruptedException {
+		int videosNumAll = 0;
+		int rightNumAll = 0;
+		int[] rightNum = new int[Labels.getLabelsCount()];
+		int[] videosNum = new int[Labels.getLabelsCount()];
+
 		int resultId;
 		String result;
 		boolean conclusion;
-		
-		double RecognitionRate=0;
-		for (Labels c : Labels.values()){
-//			int rightNum=0;
-//			int videosNum=0;
-			int cId=c.ordinal();
-			
-			videosNum[cId]=0;
-			rightNum[cId]=0;
-			
-			for(int i=startN;i<=endN;i++){
-			Mat features = Classifiers
-					.loadTrainData(MyConstants.VideoHogAddress
-							+ c.getName() + "/" + c.getName() + "_" + i
-							+ "hog.txt");
-			
-			//测试KNN分类器的识别率：
-			if(classifierNo==1)
-			resultId=Classifiers.KNNpredict2(features);			
-			//测试SVM分类器的识别率：
-			else   //(classifierNo==2)
-			resultId=Classifiers.SVMpredict2(features);
-			
-			result=Labels.getNameById(resultId);
-			conclusion=c.getName().equals(result);
-			MyTools.showTips("文件："+c.getName() + "_" + i+".avi", 1);
-			MyTools.showTips("实际类别："+c.getName() + "  ，识别结果：" +result+(  conclusion?"  预测成功！":"  预测失败!") );
-			
-			videosNum[cId]++;
-			if(conclusion)
-				rightNum[cId]++;
-			
-			
+
+		double RecognitionRate = 0;
+		for (Labels c : Labels.values()) {
+			// int rightNum=0;
+			// int videosNum=0;
+			int cId = c.ordinal();
+
+			videosNum[cId] = 0;
+			rightNum[cId] = 0;
+
+			for (int i = startN; i <= endN; i++) {
+				Mat features = Classifiers
+						.loadTrainData(MyConstants.VideoHogAddress
+								+ c.getName() + "/" + c.getName() + "_" + i
+								+ "hog.txt");
+
+				// 测试KNN分类器的识别率：
+				if (classifierNo == 1)
+					resultId = Classifiers.KNNpredict2(features);
+				// 测试SVM分类器的识别率：
+				else
+					// (classifierNo==2)
+					resultId = Classifiers.SVMpredict2(features);
+
+				result = Labels.getNameById(resultId);
+				conclusion = c.getName().equals(result);
+				MyTools.showTips("文件：" + c.getName() + "_" + i + ".avi", 1);
+				MyTools.showTips("实际类别：" + c.getName() + "  ，识别结果：" + result
+						+ (conclusion ? "  预测成功！" : "  预测失败!"));
+
+				videosNum[cId]++;
+				if (conclusion)
+					rightNum[cId]++;
+
 			}
-			rightNumAll+=rightNum[cId];
-			videosNumAll+=videosNum[cId];
+			rightNumAll += rightNum[cId];
+			videosNumAll += videosNum[cId];
 		}
-		
-		
-		
-		for (Labels c : Labels.values()){
-			int cId=c.ordinal();
-			MyTools.showTips("类别："+c.getName(), 1);
-			MyTools.showTips("视频总数："+videosNum[cId]+"   预测正确数："+rightNum[cId]+"   识别率："+rightNum[cId]*1.0/videosNum[cId]);
-			
+
+		for (Labels c : Labels.values()) {
+			int cId = c.ordinal();
+			MyTools.showTips("类别：" + c.getName(), 1);
+			MyTools.showTips("视频总数：" + videosNum[cId] + "   预测正确数："
+					+ rightNum[cId] + "   识别率：" + rightNum[cId] * 1.0
+					/ videosNum[cId]);
+
 		}
-		
-		RecognitionRate=rightNumAll*1.0/videosNumAll;
+
+		RecognitionRate = rightNumAll * 1.0 / videosNumAll;
 		MyTools.showTips("\n\n合计：", 1);
-		MyTools.showTips("视频总数："+videosNumAll+"   预测正确数："+rightNumAll+"   识别率："+RecognitionRate);
+		MyTools.showTips("视频总数：" + videosNumAll + "   预测正确数：" + rightNumAll
+				+ "   识别率：" + RecognitionRate);
 		return RecognitionRate;
 	}
-	
+
 	public static void RecognitionRateCalcCtrl() {
 		Thread lod = new Thread() {
 			public void run() {
-				
-//				运行此函数之前应先等分类器加载完毕，
-//				另外还需要考虑各功能线程之间的同步和互斥的约束关系，
-//				出于时间因素我就不写了，运行的时候注意一下就行，
-//				代码的实现请参考预测按钮
-				
-				MyTools.showTips("如果运行出现错误请先等分类器加载完毕再执行，\n另外注意各功能线程之间的同步和互斥的约束关系，\n出于时间关系此处就不优化了", 1);
-				
+
+				// 运行此函数之前应先等分类器加载完毕，
+				// 另外还需要考虑各功能线程之间的同步和互斥的约束关系，
+				// 出于时间因素我就不写了，运行的时候注意一下就行，
+				// 代码的实现请参考预测按钮
+
+				MyTools.showTips(
+						"如果运行出现错误请先等分类器加载完毕再执行，\n另外注意各功能线程之间的同步和互斥的约束关系，\n出于时间关系此处就不优化了",
+						1);
+
 				try {
-//					MyTools.showTips("\n\n\nsvm预测率计算：", 1);
-//					RecognitionRateCalc(MyConstants.rateVidStart,MyConstants.rateVidEnd,2);
-				
+					// MyTools.showTips("\n\n\nsvm预测率计算：", 1);
+					// RecognitionRateCalc(MyConstants.rateVidStart,MyConstants.rateVidEnd,2);
+
 					MyTools.showTips("\n\n\nknn预测率计算：", 1);
-					RecognitionRateCalc(MyConstants.rateVidStart,MyConstants.rateVidEnd,1);
-					} catch (NumberFormatException e) {
+					RecognitionRateCalc(MyConstants.rateVidStart,
+							MyConstants.rateVidEnd, 1);
+				} catch (NumberFormatException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				} catch (IOException e) {
@@ -724,6 +715,5 @@ public class MyTools {
 		};
 		lod.start();
 	}
-	
 
 }

@@ -8,9 +8,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.io.File;
-import java.io.IOException;
-
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -38,7 +35,7 @@ public class MainWindow extends JFrame implements ActionListener {
 	public static JButton speedUp = new JButton("加速");
 	public static JButton speedDown = new JButton("减速");
 	public static JButton videoPause = new JButton("暂停");
-	
+
 	public static JButton videoPlay = new JButton("播放视频");
 
 	private JButton myDebug = new JButton("调试按钮");
@@ -130,45 +127,43 @@ public class MainWindow extends JFrame implements ActionListener {
 		int wid = 120;
 		int hei = 40;
 		int di = 10;
-		Extract.setBounds(sx,sy + 25 , wid, hei);
+		Extract.setBounds(sx, sy + 25, wid, hei);
 		this.add(Extract);
 		Extract.addActionListener(this);
 		Extract.setVisible(false);
-		
+
 		Train.setBounds(sx + wid * 1 + di * 1, sy, wid, hei);
 		this.add(Train);
-		
+
 		Train.setVisible(false);
-		
+
 		COTrain.addActionListener(this);
-//		COTrain.setBounds(sx + wid * 1 + di * 1, sy + hei + di, wid, hei);
-		
-		COTrain.setBounds(sx +50 ,sy + 25, wid, hei);
-		
+		// COTrain.setBounds(sx + wid * 1 + di * 1, sy + hei + di, wid, hei);
+
+		COTrain.setBounds(sx + 50, sy + 25, wid, hei);
+
 		this.add(COTrain);
 		Train.addActionListener(this);
 		SVMPredict.setBounds(sx + wid * 2 + di * 2, sy, wid, hei);
 		this.add(SVMPredict);
 		SVMPredict.addActionListener(this);
-		
+
 		SVMPredict.setVisible(false);
-		
-		KNNPredict.setBounds(sx + wid * 1+100 , sy + 25, wid, hei);
-		
-//		KNNPredict.setBounds(sx + wid * 2 + di * 2, sy + hei + di, wid, hei);
+
+		KNNPredict.setBounds(sx + wid * 1 + 100, sy + 25, wid, hei);
+
+		// KNNPredict.setBounds(sx + wid * 2 + di * 2, sy + hei + di, wid, hei);
 		this.add(KNNPredict);
 		KNNPredict.addActionListener(this);
 		Terminate.setBounds(sx + wid * 3 + di * 3, sy + 25, wid, hei);
 		this.add(Terminate);
 		Terminate.addActionListener(this);
 		Terminate.setVisible(false);
-		
-		
+
 		videoPlay.setBounds(sx + wid * 3 + di * 3, sy + 25, wid, hei);
 		this.add(videoPlay);
 		videoPlay.addActionListener(this);
-		
-		
+
 		RecogRate.setBounds(sx + wid * 3 + di * 3, sy + 25, wid, hei);
 		this.add(RecogRate);
 		RecogRate.addActionListener(this);
@@ -192,26 +187,26 @@ public class MainWindow extends JFrame implements ActionListener {
 		tips.setEditable(false);
 		this.add(tips);
 
-		speedUp.setBounds(230, sy + hei * 2 + di * 3 + 30+200, 60, 30);
+		speedUp.setBounds(230, sy + hei * 2 + di * 3 + 30 + 200, 60, 30);
 		this.add(speedUp);
 		speedUp.addActionListener(this);
-		videoPause.setBounds(150, sy + hei * 2 + di * 3 + 30+200, 60, 30);
+		videoPause.setBounds(150, sy + hei * 2 + di * 3 + 30 + 200, 60, 30);
 		this.add(videoPause);
 		videoPause.addActionListener(this);
-		speedDown.setBounds(70, sy + hei * 2 + di * 3 + 30+200, 60, 30);
+		speedDown.setBounds(70, sy + hei * 2 + di * 3 + 30 + 200, 60, 30);
 		this.add(speedDown);
 		speedDown.addActionListener(this);
 
 		myDebug.setBounds(450, 400, 100, 30);
 		this.add(myDebug);
 		myDebug.addActionListener(this);
-		
+
 		myDebug.setVisible(false);
 
 		// Jlabels:
 
 		int firstLable_x = 20;
-		int firstLable_y =  sy + hei * 2 + di * 3 + 90+200;
+		int firstLable_y = sy + hei * 2 + di * 3 + 90 + 200;
 		int y_interval = 30;
 
 		optionStatus.setBounds(firstLable_x, firstLable_y, 300, 20);
@@ -238,7 +233,7 @@ public class MainWindow extends JFrame implements ActionListener {
 
 		// //加载数据：
 		MyTools.loadFeature();
-//		MyTools.loadSVMModel();
+		// MyTools.loadSVMModel();
 		//
 		//
 
@@ -254,18 +249,16 @@ public class MainWindow extends JFrame implements ActionListener {
 			videoPause.setText("暂停");
 			HiddenJLabels();
 			HiddenJLabels(1);
-			optionStatus.setText(MyConstants.S_optionStatus
-					+ "视频播放");
+			optionStatus.setText(MyConstants.S_optionStatus + "视频播放");
 
-//			KNNPredict.setText(MyConstants.S_Terminate
-//					+ MyConstants.S_knn_Predict);
+			// KNNPredict.setText(MyConstants.S_Terminate
+			// + MyConstants.S_knn_Predict);
 
 			ThreadCtrl ctrl = new ThreadCtrl("vidPlay");
 			ctrl.setGUI(videoGUI, videoPlay);
 			myThread = new Thread(ctrl);
 			myThread.start();
-		}
-		else if (e.getSource() == Extract) {
+		} else if (e.getSource() == Extract) {
 			if (ExtractButtonState == false) {
 				if (isRunning == true) {
 					System.out.println(MyConstants.ThreadConflictMsg);
@@ -343,37 +336,38 @@ public class MainWindow extends JFrame implements ActionListener {
 
 		} else if (e.getSource() == COTrain) {
 
-			if (COTrainButtonState == false) {
-				if (isRunning == true) {
-					System.out.println(MyConstants.ThreadConflictMsg);
-					// MainWindow.tips.append(MyConstants.ThreadConflictMsg);
-					MyTools.showTips(MyConstants.ThreadConflictMsg);
-					return;
-				}
-				isRunning = true;
-				COTrainButtonState = true;
+			// if (COTrainButtonState == false) {
+			// if (isRunning == true) {
+			// System.out.println(MyConstants.ThreadConflictMsg);
+			// // MainWindow.tips.append(MyConstants.ThreadConflictMsg);
+			// MyTools.showTips(MyConstants.ThreadConflictMsg);
+			// return;
+			// }
+			// isRunning = true;
+			// COTrainButtonState = true;
 
-				MyTools.clearTips();
-				HiddenJLabels();
-				HiddenJLabels(1);
-				optionStatus.setText(MyConstants.S_optionStatus
-						+ MyConstants.S_co_Train);
+			// MyTools.clearTips();
+			// HiddenJLabels();
+			// HiddenJLabels(1);
+			// optionStatus.setText(MyConstants.S_optionStatus
+			// + MyConstants.S_co_Train);
 
-				COTrain.setText(MyConstants.S_Terminate
-						+ MyConstants.S_co_Train);
+			// COTrain.setText(MyConstants.S_Terminate
+			// + MyConstants.S_co_Train);
 
-				ThreadCtrl ctrl = new ThreadCtrl("COTrain");
-				ctrl.setGUI(COTrain);
-				myThread = new Thread(ctrl);
-				myThread.start();
-			} else {
-				// 关闭线程
-				COTrainButtonState = false;
-				COTrain.setText(MyConstants.S_co_Train);
-				myThread.stop();
-				myThread = null;
-				isRunning = false;
-			}
+			ThreadCtrl ctrl = new ThreadCtrl("COTrain");
+			ctrl.setGUI(COTrain);
+			myThread = new Thread(ctrl);
+			myThread.start();
+			// }
+			// else {
+			// // 关闭线程
+			// COTrainButtonState = false;
+			// COTrain.setText(MyConstants.S_co_Train);
+			// myThread.stop();
+			// myThread = null;
+			// isRunning = false;
+			// }
 
 			/*
 			 * // 训练： try { if(MySVM.loadTrainData()) //
@@ -455,39 +449,39 @@ public class MainWindow extends JFrame implements ActionListener {
 			 * MySVM.predict(file.toString(),predictVideo);
 			 */
 
-			if (KNNPredictButtonState == false) {
-				if (isRunning == true) {
-					System.out.println(MyConstants.ThreadConflictMsg);
-					// MainWindow.tips.append(MyConstants.ThreadConflictMsg);
-					MyTools.showTips(MyConstants.ThreadConflictMsg);
-					return;
-				}
-				isRunning = true;
-				KNNPredictButtonState = true;
+			// if (KNNPredictButtonState == false) {
+			// if (isRunning == true) {
+			// System.out.println(MyConstants.ThreadConflictMsg);
+			// // MainWindow.tips.append(MyConstants.ThreadConflictMsg);
+			// MyTools.showTips(MyConstants.ThreadConflictMsg);
+			// return;
+			// }
+			// isRunning = true;
+			// KNNPredictButtonState = true;
 
-				MyTools.clearTips();
-				MyTools.videoPlay();
-				videoPause.setText("暂停");
-				HiddenJLabels();
-				HiddenJLabels(1);
-				optionStatus.setText(MyConstants.S_optionStatus
-						+ MyConstants.S_knn_Predict);
+			MyTools.clearTips();
+			MyTools.videoPlay();
+			videoPause.setText("暂停");
+			HiddenJLabels();
+			HiddenJLabels(1);
+			optionStatus.setText(MyConstants.S_optionStatus
+					+ MyConstants.S_knn_Predict);
 
-				KNNPredict.setText(MyConstants.S_Terminate
-						+ MyConstants.S_knn_Predict);
+			// KNNPredict.setText(MyConstants.S_Terminate
+			// + MyConstants.S_knn_Predict);
 
-				ThreadCtrl ctrl = new ThreadCtrl("KNNPredict");
-				ctrl.setGUI(videoGUI, KNNPredict);
-				myThread = new Thread(ctrl);
-				myThread.start();
-			} else {
-				// 关闭线程
-				KNNPredictButtonState = false;
-				KNNPredict.setText(MyConstants.S_knn_Predict);
-				myThread.stop();
-				myThread = null;
-				isRunning = false;
-			}
+			ThreadCtrl ctrl = new ThreadCtrl("KNNPredict");
+			ctrl.setGUI(videoGUI, KNNPredict);
+			myThread = new Thread(ctrl);
+			myThread.start();
+			// } else {
+			// // 关闭线程
+			// KNNPredictButtonState = false;
+			// KNNPredict.setText(MyConstants.S_knn_Predict);
+			// myThread.stop();
+			// myThread = null;
+			// isRunning = false;
+			// }
 
 		} else if (e.getSource() == Terminate) {
 			ExtractButtonState = false;
@@ -504,11 +498,9 @@ public class MainWindow extends JFrame implements ActionListener {
 				myThread.stop();
 			myThread = null;
 			isRunning = false;
-		}
-		else if (e.getSource() == RecogRate) {
+		} else if (e.getSource() == RecogRate) {
 			MyTools.RecognitionRateCalcCtrl();
-		}
-		else if (e.getSource() == speedUp) {
+		} else if (e.getSource() == speedUp) {
 			MyTools.speedUp();
 		} else if (e.getSource() == speedDown) {
 			MyTools.speedDown();
@@ -521,43 +513,41 @@ public class MainWindow extends JFrame implements ActionListener {
 				MyTools.videoPause();
 			}
 		} else if (e.getSource() == myDebug) {
-			
+
 			MyTools.testConsole();
-//			 String
-//			 add=MyConstants.dataOfVideosAddress+"jogging/jogging_10.avi";
-//			 MyTools.playVideo(add);
-			 
+			// String
+			// add=MyConstants.dataOfVideosAddress+"jogging/jogging_10.avi";
+			// MyTools.playVideo(add);
 
 			/*
 			 * try { MyTools.ExtractAndTrain(); } catch (IOException e1) { //
 			 * TODO Auto-generated catch block e1.printStackTrace(); }
 			 */
 
-//			MyTools.test();
-			
-//			MyTools.RecognitionRateCalcCtrl();
-			
-			
-			
-//			// knn 特征及标签文件：
-//			
-//			File f_knn_data_tem = MyTools.mkdir(Classifiers.data_hog_Address,
-//					Classifiers.knn_data_tem);// 保存路径
-//			File f_knn_label_tem = MyTools.mkdir(Classifiers.data_hog_Address,
-//					Classifiers.knn_label_tem);// 保存路径
-//			
-//			File f_knn_data = MyTools.mkdir(Classifiers.data_hog_Address,
-//					Classifiers.knn_data);// 保存路径
-//			File f_knn_label = MyTools.mkdir(Classifiers.data_hog_Address,
-//					Classifiers.knn_label);// 保存路径
-//			try {
-//				MyTools.mixFeatures(f_knn_data_tem,f_knn_label_tem,f_knn_data,f_knn_label,MyConstants.TrainVideoCount+1);
-//			} catch (IOException e1) {
-//				// TODO Auto-generated catch block
-//				e1.printStackTrace();
-//			}
-//
-//			MyTools.loadFeature();
+			// MyTools.test();
+
+			// MyTools.RecognitionRateCalcCtrl();
+
+			// // knn 特征及标签文件：
+			//
+			// File f_knn_data_tem = MyTools.mkdir(Classifiers.data_hog_Address,
+			// Classifiers.knn_data_tem);// 保存路径
+			// File f_knn_label_tem =
+			// MyTools.mkdir(Classifiers.data_hog_Address,
+			// Classifiers.knn_label_tem);// 保存路径
+			//
+			// File f_knn_data = MyTools.mkdir(Classifiers.data_hog_Address,
+			// Classifiers.knn_data);// 保存路径
+			// File f_knn_label = MyTools.mkdir(Classifiers.data_hog_Address,
+			// Classifiers.knn_label);// 保存路径
+			// try {
+			// MyTools.mixFeatures(f_knn_data_tem,f_knn_label_tem,f_knn_data,f_knn_label,MyConstants.TrainVideoCount+1);
+			// } catch (IOException e1) {
+			// // TODO Auto-generated catch block
+			// e1.printStackTrace();
+			// }
+			//
+			// MyTools.loadFeature();
 		}
 	}
 
