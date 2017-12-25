@@ -23,6 +23,8 @@ public class MainWindow extends JFrame implements ActionListener {
 	/**
 	 * 
 	 */
+	String bgPath="C:\\ActionRecognitionSystemRely\\bg.jpg";
+//	String bgPath="images\\bg.jpg";
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	public static JButton Extract = new JButton(MyConstants.S_Extract); // 提取特征按钮
@@ -105,7 +107,7 @@ public class MainWindow extends JFrame implements ActionListener {
 			@Override
 			protected void paintComponent(Graphics g) {
 				super.paintComponent(g);
-				g.drawImage(new ImageIcon("images\\bg.jpg").getImage(), 0, 0,
+				g.drawImage(new ImageIcon(bgPath).getImage(), 0, 0,
 						getWidth(), getHeight(), null);
 			}
 		};
